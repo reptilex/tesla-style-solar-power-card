@@ -1,0 +1,1 @@
+../homeassistant/config/www/tesla-style-solar-power-card.js
