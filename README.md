@@ -17,7 +17,7 @@ This is my first version and there might be some hidden bugs and some issues so 
 2) Add a resource under lovelace (you have to enable advanced M.ode in your user profile to see the resource tab)
 [see here for this card](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/add-card-resource.png)
 3)restart home assistant
-4)add the card and configure as seen below.
+4)add a manual card with the lovelace gui and configure as seen below.
 
 ## Usage
 This is the minimum required to make it work. Remember you can create
