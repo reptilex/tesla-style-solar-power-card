@@ -8,7 +8,7 @@ This card is based on the card from [bessarabov animated consumption card](https
 
 ![tesla-style-card-animated-gif](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/tesla-style-card-animation.gif)
 
-This is my first version and there might be some hidden bugs and some issues so use with care ;). If you find a bug just raise an issue I'll get at it as soon as I can. If you have any code refactoring hints also raise an issue or create a pull request. Thanks in advance.
+This is my first version and there might be some hidden bugs and some issues so use with care ;). If you find a bug just raise an issue I'll get at it as soon as I can. If you have any code refactoring hints also raise an issue or create a pull request. This is MY VERY FIRST CONTRIBUTION, so please have patience with me. Thanks in advance.
 
 
 ## Installation
