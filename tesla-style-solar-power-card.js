@@ -132,7 +132,14 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
       this.carIcon = 'mdi:car-sports';
     }
 
+    this.addEventListener("ios.became_active",this.reactToIosActive);
+
     this.contentIsCreated = false
+  }
+
+  reactToIosActive(){
+    this.changeStylesDependingOnWidth();
+    console.log("ios became active");
   }
 
   createContent(hass) {
@@ -217,6 +224,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   }
   .acc_text {
       text-align: center;
+      white-space: nowrap;
   }
   .acc_td {
       vertical-align: top;
@@ -388,7 +396,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.oldWidth = newWidth;
     this.pxRate = newWidth / 100;
     var pxRate = this.pxRate;
-
+  
     try {
       this.cardRoot = document.querySelector('home-assistant').shadowRoot.querySelector('home-assistant-main').shadowRoot.querySelector('ha-panel-lovelace').shadowRoot.querySelector('hui-root').shadowRoot.querySelector('hui-view').shadowRoot.querySelector('tesla-style-solar-power-card ha-card');  
     } catch (error) {
@@ -491,6 +499,9 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   updateOneCircle(timestamp, entity) {
     if(entity.line == undefined) return;
 
+    let lineLength = entity.line.getTotalLength();
+    if(isNaN(lineLength)) return;
+
     if(entity.speed == 0){
       entity.circle.setAttribute('visibility', 'hidden');
       return;
@@ -498,21 +509,19 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
       entity.circle.setAttribute('visibility', 'visible');
     }
 
-    let LineLength = entity.line.getTotalLength();
-    
     if (entity.prevTimestamp === undefined) {
       entity.prevTimestamp = timestamp;
     }
     var timePassed = timestamp - entity.prevTimestamp;
     var delta = entity.speed * timePassed;
     entity.currentDelta += delta;
-    let percentageDelta = entity.currentDelta / LineLength;
+    let percentageDelta = entity.currentDelta / lineLength;
     if (percentageDelta >= 1) {
       entity.currentDelta = 0;
       percentageDelta = 0.01;
     }
 
-    let point = entity.line.getPointAtLength(LineLength * percentageDelta);
+    let point = entity.line.getPointAtLength(lineLength * percentageDelta);
     entity.circle.setAttributeNS(null, "cx", point.x);
     entity.circle.setAttributeNS(null, "cy", point.y);
 
@@ -535,10 +544,10 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
           value = valueStr;
         }
 
-        if (value > 0.2) {
+        if (value > 0.1) {
           value = Math.round(value * 10) / 10
         } else {
-          value = Math.round(value * 1000) / 1000
+          value = Math.round(value * 100) / 100
         }
     }
     return value;
