@@ -524,7 +524,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     var delta = entity.speed * timePassed;
     entity.currentDelta += delta;
     let percentageDelta = entity.currentDelta / lineLength;
-    if (percentageDelta >= 1) {
+    if (percentageDelta >= 1 || isNaN(percentageDelta)) {
       entity.currentDelta = 0;
       percentageDelta = 0.01;
     }
