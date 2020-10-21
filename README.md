@@ -46,6 +46,9 @@ solar_yield_entity: sensor.solar_yield
 type: 'custom:tesla-style-solar-power-card'
 ```
 
+## Releases
+v0.9 Hacs version number one, with still a few vector flaws and unorganised html/css
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
