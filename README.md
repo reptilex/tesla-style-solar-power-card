@@ -31,18 +31,20 @@ solar_yield_entity: sensor.solar_yield
 type: 'custom:tesla-style-solar-power-card'
 ```
 
-This is the full feature set when you have battery and an EV
+This is the full feature set when you have battery and an EVs (battery, car and car2 entities are all optional)
 ```javascript
-car_charging_entity: sensor.marvin_current_charging
-battery_charge_entity: sensor.battery_charge
-battery_charging_entity: sensor.battery_charging
-battery_consumption_entity: sensor.battery_consumption
-car_battery_entity: sensor.marvin_battery_sensor
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
 house_consumption_entity: sensor.house_consumption
 solar_consumption_entity: sensor.solar_consumption
 solar_yield_entity: sensor.solar_yield
+battery_charge_entity: sensor.battery_charge
+battery_charging_entity: sensor.battery_charging
+battery_consumption_entity: sensor.battery_consumption
+car_battery_entity: sensor.marvin_battery_sensor
+car_charging_entity: sensor.marvin_current_charging
+car2_battery_entity: sensor.igor_battery_sensor
+car2_charging_entity: sensor.igor_current_charging
 type: 'custom:tesla-style-solar-power-card'
 ```
 
