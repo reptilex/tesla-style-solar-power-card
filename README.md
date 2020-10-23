@@ -21,7 +21,7 @@ This is my first version and there might be some hidden bugs and some issues so 
 ## Usage
 This is the minimum required to make it work. Remember you can create
 template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. 
-
+The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt. 
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
@@ -31,7 +31,8 @@ solar_yield_entity: sensor.solar_yield
 type: 'custom:tesla-style-solar-power-card'
 ```
 
-This is the full feature set when you have battery and an EVs (battery, car and car2 entities are all optional)
+This is the full feature set when you have battery and an EVs (battery, car and car2 entities are all optional) 
+The battery sensors (for cars too) need to be the percentage numbers. The left part of the equation can have any name.
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
