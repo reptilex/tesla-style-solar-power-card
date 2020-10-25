@@ -32,11 +32,12 @@ solar_yield_entity: sensor.solar_yield
 type: 'custom:tesla-style-solar-power-card'
 ```
 
-This is the full feature set when you have battery and an EVs (battery, car and car2 entities are all optional) 
+This is the full feature set when you have battery and an EVs (grid_to_battery, battery, car and car2 entities are all optional) 
 The battery sensors (for cars too) need to be the percentage numbers (1-100). The left part of the equation can have any name.
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
+grid_to_battery_entity: sensor.grid_to_battery
 house_consumption_entity: sensor.house_consumption
 solar_consumption_entity: sensor.solar_consumption
 solar_yield_entity: sensor.solar_yield
