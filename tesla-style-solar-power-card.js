@@ -525,7 +525,11 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
     //car charge
     if(this.carCharge != undefined){
-      this.cardRoot.querySelector('.car_icon_container').style['top'] = -62 * pxRate + 'px';
+      if(this.solarCardElements.batteryCharge != undefined){
+        this.cardRoot.querySelector('.car_icon_container').style['top'] = -62 * pxRate + 'px';
+      }else{
+        this.cardRoot.querySelector('.car_icon_container').style['top'] = -39 * pxRate + 'px';
+      }
       this.cardRoot.querySelector('.car_icon_container').style['right'] = 5 * pxRate + 'px';
       this.cardRoot.querySelector('.car_consumption').style['height'] = 10 * pxRate + 'px';
       this.cardRoot.querySelector('.car_consumption').style['width'] = 3 * pxRate + 'px';
