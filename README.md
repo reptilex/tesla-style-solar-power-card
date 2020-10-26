@@ -1,4 +1,7 @@
 # tesla-style-solar-power-card
+| :warning: **The newest version only works with the newest version (0.116.4) of home assistant!!** |
+| --- |
+
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the current
 solar yield, solar consumption, home consumption and grid feed in or grid consumption.
 If you have a battery you can monitor the battery charge, battery state and battery consumption as well.
@@ -15,7 +18,7 @@ This is my first version and there might be some hidden bugs and some issues so 
 !The newest version only works with the newest version of home assistant!!
 
 1. Add the card js file from the repo under your home assistant config in the www folder (create one if you don't have it yet).
-2. Add a resource under lovelace (you have to enable advanced Mode in your user profile to see the resource tab)[see here for this card](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/add-card-resource.png).
+2. Add a resource under lovelace (you have to enable advanced Mode in your user profile to see the resource tab([see here for this card](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/add-card-resource.png)).
 3. restart home assistant.
 4. add a manual card with the lovelace gui and configure as seen below.
 
@@ -32,11 +35,16 @@ solar_yield_entity: sensor.solar_yield
 type: 'custom:tesla-style-solar-power-card'
 ```
 
+<<<<<<< HEAD
 This is the full feature set when you have battery and an EVs (battery, car and car2 entities are all optional) 
+=======
+This is the full feature set when you have battery and an EVs (grid_to_battery, battery, car and car2 entities are all optional) 
+>>>>>>> master
 The battery sensors (for cars too) need to be the percentage numbers (1-100). The left part of the equation can have any name.
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
+grid_to_battery_entity: sensor.grid_to_battery
 house_consumption_entity: sensor.house_consumption
 solar_consumption_entity: sensor.solar_consumption
 solar_yield_entity: sensor.solar_yield
