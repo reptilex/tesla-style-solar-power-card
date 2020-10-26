@@ -374,9 +374,6 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     if(this.car2Charge != undefined){
       this.createCircleAndLine(this.car2Charge, "car2_consumption", "M10,10 C10,10 105,10 105,10", "car2_consumption");
     }
-    if(this.car2Charge != undefined){
-      this.createCircleAndLine(this.car2Charge, "car2_consumption", "M10,105 C10,105 10,10 10,10", "car2_consumption");
-    }
     
     this.contentIsCreated = true;
   }
