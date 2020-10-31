@@ -633,7 +633,6 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     }else{
       if(normalizedValue == '-100') normalizedValue = '';
     }
-    console.log('mdi:battery'+chargingIcon+normalizedValue);
     this.querySelector(".battery_icon_container ha-icon").setAttribute('icon','mdi:battery'+chargingIcon+normalizedValue);
   }
 
