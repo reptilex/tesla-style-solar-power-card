@@ -25,7 +25,7 @@ This is my first version and there might be some hidden bugs and some issues so 
 ## Usage
 This is the minimum required to make it work. Remember you can create
 template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. 
-The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt. 
+The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt (choose the same for all, it will create kw from it). 
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
@@ -39,7 +39,7 @@ This is the full feature set when you have battery and an EVs (grid_to_battery, 
 
 The battery sensors (for cars too) need to be the percentage numbers (1-100). The left part of the equation can have any name.
 ```javascript
-grid_consumption_entity: sensor.grid_consumption
+grid_consumption_entity: sensor.grid_consumption //(k)W for the power being fed from the grid to the house
 grid_feed_in_entity: sensor.grid_feed_in
 grid_to_battery_entity: sensor.grid_to_battery
 house_consumption_entity: sensor.house_consumption
@@ -54,6 +54,20 @@ car2_battery_entity: sensor.igor_battery_sensor
 car2_charging_entity: sensor.igor_current_charging
 type: 'custom:tesla-style-solar-power-card'
 ```
+So what are the sensors expected current values.
+grid_consumption_entity: (k)W for the power being fed from the grid to the house
+grid_feed_in_entity: expects (k)W for the power being fed from the panels to the grid (selling)
+grid_to_battery_entity: expects (k)W for the power being fed from the grid to the battery (low cost grid prices)
+house_consumption_entity: expects (k)W for the power being consumed in the house (can be a template sensor summing up (grid_consumption, solar_consumptio and battery_consumption)
+solar_consumption_entity: expects (k)W for the power being fed from the panels to the house
+solar_yield_entity: expects (k)W for the power being produced currently from the panels
+battery_charge_entity: expects % of charge of battery
+battery_charging_entity: expects (k)W for the power being fed from the solar panels to the battery
+battery_consumption_entity: expects (k)W for the power being consumed by the house from the battery
+car_battery_entity: expects % of battery charge
+car_charging_entity: expects (k)W for the power being fed into the car 
+car2_battery_entity: expects % of battery charge
+car2_charging_entity: expects (k)W for the power being fed into the car 
 
 ## Releases
 v0.9 Hacs version number one, with still a few vector flaws and unorganised html/css
