@@ -25,7 +25,7 @@ This is my first version and there might be some hidden bugs and some issues so 
 ## Usage
 This is the minimum required to make it work. Remember you can create
 template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. 
-The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt (choose the same for all, it will create kw from it). 
+The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt (choose the same for all, it will create kw from it). Look to the next part to see what is expected. Beware we the sensors are expected to only be positive, so in case you have a negative value sensor you need to probably create a template sensor and divide it. 
 ```javascript
 grid_consumption_entity: sensor.grid_consumption
 grid_feed_in_entity: sensor.grid_feed_in
