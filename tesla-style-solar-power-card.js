@@ -31,6 +31,11 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.pxRate = 3;
     var pxRate = this.pxRate;
     this.oldWidth = 0;
+    this.w_or_kw = 'kW';
+
+    if(config.show_w_not_kw != undefined){
+      this.w_or_kw = 'W';
+    }
 
     class sensorCardData {
       constructor(){
@@ -397,14 +402,14 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
         if(this.solarCardIcons[icon].accTextElement == null) continue;
 
         this.solarCardIcons[icon].setValue();
-        this.solarCardIcons[icon].accTextElement.textContent = this.solarCardIcons[icon].value + ' kW';
+        this.solarCardIcons[icon].accTextElement.textContent = this.solarCardIcons[icon].value + ' ' + this.w_or_kw;
       }
     }
 
     if(this.carCharge != undefined){
       this.carCharge.value = this.getStateValue(hass, this.carCharge.entity);
       this.carCharge.speed = this.getSpeed(this.carCharge.value)/4;
-      this.querySelector(".car_charging_text").textContent = this.carCharge.value + " kW";
+      this.querySelector(".car_charging_text").textContent = this.carCharge.value + " " + this.w_or_kw;
       if(this.carBatteryState.entity != undefined){
         this.querySelector(".car_battery_state_text").textContent = this.getStateValue(hass, this.carBatteryState.entity)+ " %";
       }
@@ -412,7 +417,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     if(this.car2Charge != undefined){
       this.car2Charge.value = this.getStateValue(hass, this.car2Charge.entity);
       this.car2Charge.speed = this.getSpeed(this.car2Charge.value)/4;
-      this.querySelector(".car2_charging_text").textContent = this.car2Charge.value + " kW";
+      this.querySelector(".car2_charging_text").textContent = this.car2Charge.value + " " + this.w_or_kw;
       if(this.car2BatteryState.entity != undefined){
         this.querySelector(".car2_battery_state_text").textContent = this.getStateValue(hass, this.car2BatteryState.entity)+ " %";
       }
@@ -626,14 +631,12 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   updateBatteryIcon(batteryChargeValue, batteryChargingValue){
     let normalizedValue = batteryChargeValue / 100;
     normalizedValue = normalizedValue.toFixed(1) * 100;
-    normalizedValue = '-' + normalizedValue.toString();
+    let normalizedString = '-' + normalizedValue.toString();
     let chargingIcon = '';
-    if(batteryChargingValue > 0){
-      chargingIcon = '-charging';
-    }else{
-      if(normalizedValue == '-100') normalizedValue = '';
-    }
-    this.querySelector(".battery_icon_container ha-icon").setAttribute('icon','mdi:battery'+chargingIcon+normalizedValue);
+    if(batteryChargingValue > 0) chargingIcon = '-charging';
+    if(normalizedValue == 100) normalizedString = '';
+    if(normalizedValue <= 4) normalizedString = '-outline';
+    this.querySelector(".battery_icon_container ha-icon").setAttribute('icon','mdi:battery'+chargingIcon+normalizedString);
   }
 
   getStateValue(hass, entityId){
@@ -646,8 +649,11 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
         var value;
         if (unit_of_measurement === 'kW') {
           value = valueStr * 1;
-        } else if (unit_of_measurement === 'W') {
+        } else if (unit_of_measurement === 'W' && this.w_or_kw !== 'W') {
           value = valueStr / 1000;
+        } else if (unit_of_measurement === 'W' && this.w_or_kw === 'W') {
+          value = valueStr;
+          console.log(this.show_w_not_kw);
         } else if (unit_of_measurement === '%') {
           value = valueStr;
         }
