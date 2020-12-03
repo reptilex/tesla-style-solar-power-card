@@ -33,7 +33,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.oldWidth = 0;
     this.w_or_kw = 'kW';
 
-    if(config.show_w_not_kw != undefined){
+    if(config.show_w_not_kw){
       this.w_or_kw = 'W';
     }
 

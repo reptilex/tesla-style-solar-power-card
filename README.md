@@ -64,6 +64,11 @@ car2_charging_entity: sensor.igor_current_charging //expects (k)W for the power 
 type: 'custom:tesla-style-solar-power-card'
 ```
 
+There is one extra variable now to force W (Watt) instead of kW, set it to 1 to use it:
+```javascript
+show_w_not_kw: 1
+```
+
 ## Releases
 v0.9 Hacs version number one, with still a few vector flaws and unorganised html/css
 
