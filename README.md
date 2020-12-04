@@ -1,6 +1,4 @@
 # tesla-style-solar-power-card
-| :warning: **The newest version only works with the newest version (>0.116.4) of home assistant!!** |
-| --- |
 
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the current
 solar yield, solar consumption, home consumption and grid feed in or grid consumption.
