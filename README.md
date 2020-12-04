@@ -12,7 +12,7 @@ This card is based on the card from [bessarabov animated consumption card](https
 This is my first version and there might be some hidden bugs and some issues so use with care ;). If you find a bug just raise an issue I'll get at it as soon as I can. If you have any code refactoring hints also raise an issue or create a pull request. This is MY VERY FIRST CONTRIBUTION, so please have patience with me. Thanks in advance.
 
 
-## Installation
+## Manual Installation (hacs will do all this for you)
 
 1. Add the card js file from the repo under your home assistant config in the www folder (create one if you don't have it yet).
 2. Add a resource under lovelace (you have to enable advanced Mode in your user profile to see the resource tab([see here for this card](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/add-card-resource.png)).
@@ -21,7 +21,18 @@ This is my first version and there might be some hidden bugs and some issues so 
 
 ## Usage
 Underneath is the minimum required to make it work. Remember you can create
-template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. 
+template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. Some inverters have positive and negative values, here all sensors need to be positive values, so create template sensors like:
+```yml
+    battery_consumption:
+        value_template: '{% set batter_cons = sensor.powerwall_battery_now | int %}
+                        {% if batter_cons > 0 %}
+                            {{ batter_cons | int }}
+                        {% else %}
+                            0
+                        {% endif %}'
+        device_class: power
+        unit_of_measurement: W
+``` 
 The sensor can be called whatever you want, they are powermeter sensors in Watt or Kilowatt (choose the same for all, it will create kw from it). Look to the next part to see what is expected. Beware we the sensors are expected to only be positive, so in case you have a negative value sensor you need to probably create a template sensor and divide it. 
 ```javascript
 //general
