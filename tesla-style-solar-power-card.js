@@ -151,14 +151,6 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.contentIsCreated = false
   }
 
-  /*connectedCallback() {
-    //checking hook 8.1
-    if(!this.contentIsCreated) return;
-
-    console.log("testing callback");
-    //this.changeStylesDependingOnWidth();
-  }*/
-
   createContent(hass) {
     const card = document.createElement('ha-card');
     var content = document.createElement('div');
@@ -385,7 +377,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   }
 
   updateProperties(hass) { 
-    console.log('updating properties');   
+    //console.log('updating properties');   
     for (var element in this.solarCardElements) {
       if (Object.prototype.hasOwnProperty.call(this.solarCardElements, element)) {
         if(this.solarCardElements[element].entity == undefined) continue;
@@ -463,7 +455,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.oldWidth = newWidth;
     this.pxRate = newWidth / 100;
     var pxRate = this.pxRate;
-    console.log('pxrate:'+ this.pxRate)
+    //console.log('pxrate:'+ this.pxRate)
 
 
     
@@ -582,7 +574,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     if(this.batteryCharge != undefined) this.updateBatteryIcon(this.batteryCharge);
 
     if(this.oldWidth != this.clientWidth && document.readyState === "complete") {
-      console.log('changing style');
+      //console.log('changing style');
       this.changeStylesDependingOnWidth(this.clientWidth);
     }
 
@@ -650,7 +642,6 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
           value = valueStr / 1000;
         } else if (unit_of_measurement === 'W' && this.w_or_kw === 'W') {
           value = valueStr;
-          console.log(this.show_w_not_kw);
         } else if (unit_of_measurement === '%') {
           value = valueStr;
         }
