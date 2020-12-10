@@ -32,9 +32,14 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     var pxRate = this.pxRate;
     this.oldWidth = 0;
     this.w_or_kw = 'kW';
+    this.hide_inactive_lines = false;
 
     if(config.show_w_not_kw != undefined){
       this.w_or_kw = 'W';
+    }
+
+    if(config.hide_inactive_lines != undefined){
+      this.hide_inactive_lines = true;
     }
 
     class sensorCardData {
@@ -592,9 +597,14 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
     if(entity.speed == 0){
       entity.circle.setAttribute('visibility', 'hidden');
+      if(this.hide_inactive_lines){
+        entity.line.setAttribute('visibility', 'hidden');
+      }
       return;
     } else{
       entity.circle.setAttribute('visibility', 'visible');
+      if(this.hide_inactive_lines)
+        entity.line.setAttribute('visibility', 'visible');
     }
 
     if (entity.prevTimestamp === undefined) {
@@ -657,13 +667,9 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
   getSpeed(value) {
     var speed = 0;
-    
-    if (value > 0 && this.w_or_kw !== 'W') {
+    if (value > 0) {
       speed = 0.07 * value;
-    } else if (value > 0 && this.w_or_kw === 'W') {
-      speed = 0.00007 * value;
     }
-    
     return speed;
   }
 }
