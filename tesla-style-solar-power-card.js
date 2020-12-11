@@ -667,9 +667,13 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
   getSpeed(value) {
     var speed = 0;
-    if (value > 0) {
+    
+    if (value > 0 && this.w_or_kw !== 'W') {
       speed = 0.07 * value;
+    } else if (value > 0 && this.w_or_kw === 'W') {
+      speed = 0.00007 * value;
     }
+    
     return speed;
   }
 }
