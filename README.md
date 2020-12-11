@@ -77,7 +77,7 @@ One to force W (Watt) instead of kW, set it to 1 to use it:
 ```javascript
 show_w_not_kw: 1
 ```
-One to hide the lines not active to use it:
+One to hide the lines not active to use it, please make sure everything is working before you hide the lines:
 ```javascript
 hide_inactive_lines: 1
 ```
