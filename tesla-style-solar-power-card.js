@@ -102,7 +102,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.solarCardElements.gridFeedIn.entity = config.grid_feed_in_entity;
     this.solarCardElements.gridFeedIn.circleColor = "var(--warning-color)";
     
-    this.solarCardIcons.panel.icon = 'mdi:solar-power';
+    this.solarCardIcons.panel.icon = 'mdi:solar-panel-large';
     this.solarCardIcons.panel.className = 'panel_text';
     this.solarCardIcons.panel.color = 'var(--warning-color)';
     this.solarCardElements.solarConsumption.entity = config.solar_consumption_entity;
