@@ -639,6 +639,11 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   }
 
   getStateValue(hass, entityId){
+    
+    if (entityId instanceof Array) {
+      return entityId.reduce((sum, entity) => sum + this.getStateValue(hass, entity), 0);
+    }
+    
     const state = hass.states[entityId];
 
     if (state) {
