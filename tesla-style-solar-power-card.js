@@ -638,10 +638,23 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.querySelector(".battery_icon_container ha-icon").setAttribute('icon','mdi:battery'+chargingIcon+normalizedString);
   }
 
+  roundValue(value) {
+    if (value > 0.1) {
+      value = Math.round(value * 10) / 10
+    } else {
+      value = Math.round(value * 100) / 100
+    }
+    return value;
+  }
+
   getStateValue(hass, entityId){
     
     if (entityId instanceof Array) {
-      return entityId.reduce((sum, entity) => sum + this.getStateValue(hass, entity), 0);
+      var value;
+
+      value = entityId.reduce((sum, entity) => sum + this.getStateValue(hass, entity), 0);
+
+      return this.roundValue(value);
     }
     
     const state = hass.states[entityId];
@@ -661,11 +674,8 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
           value = valueStr;
         }
 
-        if (value > 0.1) {
-          value = Math.round(value * 10) / 10
-        } else {
-          value = Math.round(value * 100) / 100
-        }
+        value = this.roundValue(value);
+
     }
     return value;
   }
