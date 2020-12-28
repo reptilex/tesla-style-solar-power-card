@@ -612,14 +612,22 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
       entity.currentDelta = 0;
     }
     var timePassed = timestamp - entity.prevTimestamp;
-    var delta = entity.speed * timePassed;
+    var delta = Math.abs(entity.speed) * timePassed;
     entity.currentDelta += delta;
     let percentageDelta = entity.currentDelta / lineLength;
-    if (percentageDelta >= 1 || isNaN(percentageDelta)) {
-      entity.currentDelta = 0;
-      percentageDelta = 0.01;
-    }
 
+    if (entity.speed > 0) {
+      if (percentageDelta >= 1 || isNaN(percentageDelta)) {
+        entity.currentDelta = 0;
+        percentageDelta = 0.01;
+      }
+    } else {
+      percentageDelta = 1 - percentageDelta;
+      if (percentageDelta <= 0 || isNaN(percentageDelta)) {
+        entity.currentDelta = 0;
+        percentageDelta = 1;
+      }
+    }
     let point = entity.line.getPointAtLength(lineLength * percentageDelta);
     entity.circle.setAttributeNS(null, "cx", point.x);
     entity.circle.setAttributeNS(null, "cy", point.y);
@@ -668,9 +676,9 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
   getSpeed(value) {
     var speed = 0;
     
-    if (value > 0 && this.w_or_kw !== 'W') {
+    if (this.w_or_kw !== 'W') {
       speed = 0.07 * value;
-    } else if (value > 0 && this.w_or_kw === 'W') {
+    } else if (this.w_or_kw === 'W') {
       speed = 0.00007 * value;
     }
     
