@@ -646,7 +646,26 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     this.querySelector(".battery_icon_container ha-icon").setAttribute('icon','mdi:battery'+chargingIcon+normalizedString);
   }
 
+  roundValue(value) {
+    // https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary
+    if (value > 0.1) {
+      value = Math.round((value + Number.EPSILON) * 10) / 10
+    } else {
+      value = Math.round((value + Number.EPSILON) * 100) / 100
+    }
+    return value;
+  }
+
   getStateValue(hass, entityId){
+    
+    if (entityId instanceof Array) {
+      var value;
+
+      value = entityId.reduce((sum, entity) => sum + this.getStateValue(hass, entity), 0);
+
+      return this.roundValue(value);
+    }
+    
     const state = hass.states[entityId];
 
     if (state) {
@@ -664,11 +683,8 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
           value = valueStr;
         }
 
-        if (value > 0.1) {
-          value = Math.round(value * 10) / 10
-        } else {
-          value = Math.round(value * 100) / 100
-        }
+        value = this.roundValue(value);
+
     }
     return value;
   }
