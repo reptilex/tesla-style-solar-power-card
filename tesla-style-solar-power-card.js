@@ -90,6 +90,9 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
             }
           }
         }
+        // fix for rounding error with float calculations
+        value = Math.round(value * 100) / 100
+        
         this.value = Math.abs(value);
       }
     }
