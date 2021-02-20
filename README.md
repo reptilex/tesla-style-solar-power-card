@@ -82,6 +82,57 @@ One to hide the lines not active to use it, please make sure everything is worki
 hide_inactive_lines: 1
 ```
 
+### Tesla Powerwall Usage
+In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter. 
+
+Fortunately this can be easily fixed with the addition of a few template sensors. Here's the sensors you would need to add. Note that these sensors assume the default names for each entity created Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:
+```yaml
+- platform: template
+  sensors:
+    tesla_card_grid_consumption:
+      unique_id: 'tesla_card_5fee6ddd5c1f42a099067ce9dd44e6d1'
+      value_template: "{{ states('sensor.powerwall_site_now') | float | max(0) }}"
+      device_class: power
+      unit_of_measurement: kW
+    tesla_card_grid_feed_in:
+      unique_id: 'tesla_card_52d22b847ade42c5b4526b2ff15f5aef'
+      value_template: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs }}"
+      device_class: power
+      unit_of_measurement: kW
+
+    tesla_card_solar_consumption:
+      unique_id: 'tesla_card_2bb67bd5264f4ec39f141f1722fea085'
+      value_template: >-
+        {% set solar = states('sensor.powerwall_solar_now') | float %}
+        {% set house = states('sensor.powerwall_load_now') | float %}
+        {{ solar if house > solar else house }}
+      device_class: power
+      unit_of_measurement: kW
+
+    tesla_card_battery_consumption:
+      unique_id: 'tesla_card_2b7aaa2588e8480aaba586815a84fcd7'
+      value_template: "{{ states('sensor.powerwall_battery_now') | float | max(0) }}"
+      device_class: power
+      unit_of_measurement: kW
+    tesla_card_battery_charging:
+      unique_id: 'tesla_card_9c46447cf75942ba9ac4bcaca85ba6c5'
+      value_template: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs }}"
+      device_class: power
+      unit_of_measurement: kW
+```
+After you've included these sensors then you can configure the card like this:
+```yaml
+type: 'custom:tesla-style-solar-power-card'
+house_consumption_entity: sensor.powerwall_load_now
+grid_consumption_entity: sensor.tesla_card_grid_consumption
+grid_feed_in_entity: sensor.tesla_card_grid_feed_in
+solar_consumption_entity: sensor.tesla_card_solar_consumption
+solar_yield_entity: sensor.powerwall_solar_now
+battery_charge_entity: sensor.powerwall_charge
+battery_charging_entity: sensor.tesla_card_battery_charging
+battery_consumption_entity: sensor.tesla_card_battery_consumption
+```
+
 ## Releases
 v0.9 Hacs version number one, with still a few vector flaws and unorganised html/css
 
