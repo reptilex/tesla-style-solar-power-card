@@ -80,12 +80,20 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
         this.cardElements = [];
       }
       setValue(){
-        this.value = 0;
+        let value = 0;
         for (var element in this.cardElements) {
           if (Object.prototype.hasOwnProperty.call(this.cardElements, element)) {
-            this.value += this.cardElements[element].value; 
+            if (element[0] === '-') {
+              value -= this.cardElements[element].value;
+            } else {
+              value += this.cardElements[element].value;
+            }
           }
         }
+        // fix for rounding error with float calculations
+        value = Math.round(value * 100) / 100
+        
+        this.value = Math.abs(value);
       }
     }
 
@@ -354,7 +362,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
     this.createIconTextElement(['houseConsumption'], 'house');
     this.createIconTextElement(['solarYield'], 'panel');
-    this.createIconTextElement(['gridFeedIn','gridConsumption'],'grid');
+    this.createIconTextElement(['gridFeedIn','gridConsumption','gridToBattery'],'grid');
 
     this.createCircleAndLine(this.solarCardElements.solarConsumption, "solar_consumption", "M5,5 C5,109 5,105 105,105");
     this.createCircleAndLine(this.solarCardElements.gridConsumption, "grid_consumption", "M100,10 C10,109 10,105 105,105");
@@ -365,7 +373,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     }
 
     if(this.solarCardElements.batteryCharge != undefined){
-      this.createIconTextElement(['batteryCharging','batteryConsumption'], 'battery');
+      this.createIconTextElement(['batteryCharging','-batteryConsumption','gridToBattery'], 'battery');
       this.createCircleAndLine(this.solarCardElements.batteryCharging, "battery_charging", "M10,10 C10,10 105,10 105,10");
       this.createCircleAndLine(this.solarCardElements.batteryConsumption, "battery_consumption", "M100,10 C10,109 10,105 105,105");
     }
@@ -424,8 +432,12 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     if(this.houseBatteryState != undefined){
       let batteryChargeValue = this.getStateValue(hass, this.houseBatteryState.entity);
       let batteryChargingValue = this.getStateValue(hass, this.solarCardElements.batteryCharging.entity);
+      let batteryConsumptionValue = this.getStateValue(hass, this.solarCardElements.batteryConsumption.entity);
+      if (this.solarCardElements.gridToBattery != undefined) {
+        batteryChargingValue += this.getStateValue(hass, this.solarCardElements.gridToBattery.entity);
+      }
       this.querySelector(".battery_charge_state_text").textContent = batteryChargeValue+" %";
-      this.updateBatteryIcon(batteryChargeValue, batteryChargingValue);
+      this.updateBatteryIcon(batteryChargeValue, batteryChargingValue - batteryConsumptionValue);
     }
   }
 
@@ -435,8 +447,11 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
     newTextElement.value = 0;
     this.querySelector("." + cardIconName +"_icon_container").appendChild(newTextElement);
     this.solarCardIcons[cardIconName].accTextElement = newTextElement;
-    cardElements.forEach(element => {
-      this.solarCardIcons[cardIconName].cardElements[element] = this.solarCardElements[element];
+    cardElements.forEach(key => {
+      const element = key[0] === '-' ? key.substring(1) : key;
+      if (this.solarCardElements[element]) {
+        this.solarCardIcons[cardIconName].cardElements[key] = this.solarCardElements[element];
+      }
     });
   }
 
@@ -628,7 +643,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
         percentageDelta = 1;
       }
     }
-    let point = entity.line.getPointAtLength(lineLength * percentageDelta);
+    let point = entity.line.getPointAtLength(lineLength * percentageDelta);    
     entity.circle.setAttributeNS(null, "cx", point.x);
     entity.circle.setAttributeNS(null, "cy", point.y);
 
@@ -665,7 +680,7 @@ class TeslaStyleSolarPowerCard extends HTMLElement {
 
       return this.roundValue(value);
     }
-    
+
     const state = hass.states[entityId];
 
     if (state) {
