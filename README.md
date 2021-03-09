@@ -103,7 +103,13 @@ appliance2_extra_entity: sensor.heating_operation
 ```
 
 
-There two a few configuration variables that change the behaviour:
+There a few configuration variables that change the behaviour:
+Heading:
+```yml
+name: 'My Tesla Power Card!'
+```
+
+
 One to force W (Watt) instead of kW, set it to 1 to use it:
 ```yml
 show_w_not_kw: 1
