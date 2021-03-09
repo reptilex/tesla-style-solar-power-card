@@ -227,6 +227,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_house_entity',
                     'M0,' +
@@ -244,6 +245,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_grid_entity',
                     'M' +
@@ -259,6 +261,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ' 0,' +
                       half
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_battery_entity',
                     'M0,' +
@@ -276,6 +279,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half * 2
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_grid_entity',
                     'M' +
@@ -293,6 +297,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ' 0,' +
                       half
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_battery_entity',
                     'M' +
@@ -308,6 +313,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half * 2
                   )}
+                  // eslint-disable-line prefer-template
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_house_entity',
                     'M' +
@@ -327,6 +333,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half
                   )}
+                  // eslint-disable-line prefer-template
                 </svg>
               </div>
 
