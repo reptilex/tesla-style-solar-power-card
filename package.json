@@ -1,52 +1,92 @@
 {
   "name": "tesla-style-solar-power-card",
-  "version": "1.3.2",
-  "description": "Lovelace tesla-style-solar-power-card",
-  "keywords": [
-    "home-assistant",
-    "homeassistant",
-    "hass",
-    "automation",
-    "lovelace",
-    "custom-cards"
-  ],
-  "module": "tesla-style-solar-power-card.js",
-  "repository": "git@github.com:reptilex/tesla-style-solar-power-card.git",
-  "author": "reptilex <reptilex@gmail.com>",
+  "version": "0.0.0",
+  "description": "Webcomponent tesla-style-solar-power-card following open-wc recommendations",
+  "author": "tesla-style-solar-power-card",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js",
+    "prepublish": "tsc",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "test": "tsc && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
+  },
   "dependencies": {
-    "custom-card-helpers": "^1.6.6",
-    "home-assistant-js-websocket": "^5.5.0",
+    "custom-card-helpers": "^1.6.8",
+    "home-assistant-js-websocket": "^5.7.0",
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-decorators": "^7.12.1",
-    "@rollup/plugin-json": "^4.1.0",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^4.0.0",
-    "eslint": "^7.0.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.0.1",
-    "rollup": "^2.0.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-serve": "^1.1.0",
-    "rollup-plugin-terser": "^7.0.0",
-    "rollup-plugin-typescript2": "^0.29.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "typescript": "^4.0.0"
+    "@babel/eslint-plugin": "^7.12.13",
+    "@open-wc/building-rollup": "^1.9.4",
+    "@open-wc/eslint-config": "^4.2.0",
+    "@open-wc/testing": "^2.5.32",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/convert-source-map": "^1.5.1",
+    "@types/istanbul-reports": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "@web/dev-server": "^0.1.5",
+    "@web/dev-server-storybook": "^0.1.3",
+    "@web/test-runner": "^0.12.7",
+    "@web/test-runner-commands": "^0.4.1",
+    "concurrently": "^5.3.0",
+    "deepmerge": "^4.2.2",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.39.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "sinon": "^9.2.4",
+    "tslib": "^2.1.0",
+    "typescript": "^4.1.3"
   },
-  "scripts": {
-    "start": "rollup -c rollup.config.js --watch",
-    "build": "npm run lint && npm run rollup",
-    "lint": "eslint src/*.ts",
-    "rollup": "rollup -c"
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
