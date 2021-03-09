@@ -16,7 +16,7 @@ export default {
       format: 'es',
     },
     {
-      file: 'tesla-style-solar-power-card.min.js',
+      file: 'tesla-style-solar-power-card.js',
       format: 'iife',
       name: 'version',
       plugins: [terser()]
