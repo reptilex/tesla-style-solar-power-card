@@ -228,55 +228,46 @@ const Z=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?Object
         id="${t+"_circle"}">
       </circle>
       <path d="${e}" id="${t+"_line"}"></path></svg>`}_handleClick(t){const e=new Event("hass-more-info",{bubbles:!0,cancelable:!0,composed:!0});e.detail={entityId:t.entity_id},null!=this.teslaCard.shadowRoot&&this.teslaCard.shadowRoot.dispatchEvent(e)}}class at{static changeStylesDependingOnWidth(t,e,i,s){if("complete"!==document.readyState||s===i)return s;if(null==t.shadowRoot)return s;const n=t.shadowRoot.querySelector("#tesla-style-solar-power-card");if(null==n)return s;const r=i/100,o=function(t,e,i){const s=n.querySelector(t);null!==s&&(s.style[e]=i)};o(".acc_left","top",12*r+"px"),o(".acc_right","top",12*r+"px"),void 0===e.get("battery_consumption_entity")&&void 0!==e.get("appliance2_consumption_entity")&&o(".acc_center_container","margin-bottom",15*r+"px"),n.querySelectorAll(".acc_container").forEach(((t,e,i)=>{const s=i[e];s.style.height=9*r+"px",s.style.width=9*r+"px",s.style.padding=5*r+"px"})),n.querySelectorAll("ha-icon").forEach(((t,e,i)=>{var s;const n=null===(s=i[e].shadowRoot)||void 0===s?void 0:s.querySelector("ha-svg-icon");null!=n&&(n.style.height=9*r+"px",n.style.width=9*r+"px")})),n.querySelectorAll(".acc_text").forEach((t=>{t.style["font-size"]=3*r+"px",t.style["margin-top"]=-1*r+"px"})),n.querySelectorAll(".acc_text_extra").forEach((t=>{t.style["font-size"]=3*r+"px",t.style.top=1*r+"px",t.style.width=10*r+"px"})),o(".power_lines","height",42*r+"px"),o(".power_lines","width",42*r+"px"),o(".power_lines","top",21*r+"px"),o(".power_lines","left",21*r+"px"),o(".power_lines svg","width",42*r+"px"),o(".power_lines svg","height",42*r+"px"),o(".power_lines svg","viewBox","0 0 "+42*r+" "+42*r);let a=n.querySelector(".power_lines svg");null!==a&&a.setAttribute("viewBox","0 0 "+42*r+" "+42*r);const l=22*r;return o("#generation_to_house_entity_line","d","M"+l+",0 C"+l+","+l+" "+l+","+l+" "+2*l+","+l),o("#grid_feed_in_entity_line","d","M"+l+",0 C"+l+","+l+" "+l+","+l+" 0,"+l),o("#grid_to_house_entity_line","d","M0,"+l+" C"+l+","+l+" "+l+","+l+" "+2*l+","+l),o("#grid_to_battery_entity_line","d","M0,"+l+" C"+l+","+l+" "+l+","+l+" "+l+","+2*l),o("#battery_to_house_entity_line","d","M"+l+","+2*l+" C"+l+","+l+" "+l+","+l+" "+2*l+","+l),o("#generation_to_battery_entity_line","d","M"+l+",0 C"+l+",0 "+l+","+2*l+" "+l+","+2*l),[1,2].forEach((t=>{o(".acc_appliance"+t+"_line svg","viewBox","0 0 "+26*r+" "+26*r),o(".acc_appliance"+t+"_line","right",10*r+"px"),o(".acc_appliance"+t+"_line","width",4*r+"px"),o(".acc_appliance"+t+"_line","height",18*r+"px"),o(".acc_appliance"+t+"_line svg","width",4*r+"px"),o(".acc_appliance"+t+"_line svg","height",18*r+"px"),a=n.querySelector(".acc_appliance"+t+"_line_svg"),null!==a&&a.setAttribute("viewBox","0 0 "+26*r+" "+26*r)})),o(".acc_appliance1","top","10px"),o(".acc_appliance1_line","top",23*r+"px"),o(".acc_appliance2","bottom","10px"),o(".acc_appliance2_line","bottom",15*r+"px"),i}}window.customCards=window.customCards||[],window.customCards.push({type:"tesla-style-solar-power-card",name:"Tesla Style Solar Power Card",description:"A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2"});class lt extends nt{constructor(){super(...arguments),this.solarCardElements=new Map,this.oldWidth=100,this.pxRate=30,this.htmlWriter=new ot(this,this.hass),this.title="Hey there",this.counter=5}__increment(){this.counter+=1}setConfig(t){let e;t.test_gui,this.config={...t},null==this.config.grid_icon&&(this.config.grid_icon="mdi:transmission-tower"),null==this.config.generation_icon&&(this.config.generation_icon="mdi:solar-panel-large"),null==this.config.house_icon&&(this.config.house_icon="mdi:home"),null==this.config.appliance1_icon&&(this.config.appliance1_icon="mdi:car-sports"),null==this.config.appliance2_icon&&(this.config.appliance2_icon="mdi:air-filter"),this.createSolarCardElements(),e=this,setInterval(this.animateCircles,15,e),e=this}createSolarCardElements(){Object.keys(this.config).forEach((t=>{if(null!=this.config[t]&&t.indexOf("_entity")>5){const e=this.config[t].toString();this.solarCardElements.set(t,new rt(e,t))}}))}getCardSize(){return 5}static getStubConfig(){return{}}async firstUpdated(){await new Promise((t=>setTimeout(t,0))),this.oldWidth=at.changeStylesDependingOnWidth(this,this.solarCardElements,this.clientWidth,this.oldWidth)}connectedCallback(){super.connectedCallback(),this.redraw=this.redraw.bind(this),window.addEventListener("resize",this.redraw)}shouldUpdate(t){let e;e=this,requestAnimationFrame((t=>{e.updateAllCircles(t)})),e=this;let i=!0;return Array.from(t.keys()).some((e=>{const s=t.get(e);return"hass"===e&&s&&(i=i&&this.sensorChangeDetected(s)),!i})),i}sensorChangeDetected(t){let e=!1;return this.solarCardElements.forEach(((i,s)=>{void 0!==this.hass.states[this.config[s]]&&this.hass.states[this.config[s]].state!==t.states[this.config[s]].state&&(e=!0)})),e}async performUpdate(){this.solarCardElements.forEach((t=>{t.setValueAndUnitOfMeasurement(this.hass.states[t.entity].state,this.config.w_not_kw,this.hass.states[t.entity].attributes.unit_of_measurement),t.setSpeed(this.config.w_not_kw)})),super.performUpdate()}render(){this.pxRate=this.clientWidth/100;const t=22*this.pxRate;return I`
-    <ha-card
-      .header=${this.config.name}
-      tabindex="0"
-    >
-      <div id="tesla-style-solar-power-card">
-        ${this.writeGenerationIconBubble()}
-        <div class="acc_center">
-          <div class="acc_center_container">
-            ${this.writeGridIconBubble()}
-            <div class="acc_line power_lines"
-              style="
+      <ha-card .header=${this.config.name} tabindex="0">
+        <div id="tesla-style-solar-power-card">
+          ${this.writeGenerationIconBubble()}
+          <div class="acc_center">
+            <div class="acc_center_container">
+              ${this.writeGridIconBubble()}
+              <div
+                class="acc_line power_lines"
+                style="
                 height:${42*this.pxRate+"px"};
                 width:${42*this.pxRate+"px"};
                 top:${0*this.pxRate+"px"};
                 left:${28*this.pxRate+"px"}"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="${"0 0 "+42*this.pxRate+" "+42*this.pxRate}"
-                preserveAspectRatio="xMinYMax slice"
-                style="height:${42*this.pxRate+"px"};width:${42*this.pxRate+"px"}"
               >
-                ${this.htmlWriter.writeCircleAndLine("generation_to_house_entity","M"+t+",0 C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
-                ${this.htmlWriter.writeCircleAndLine("grid_to_house_entity","M0,"+t+" C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
-                ${this.htmlWriter.writeCircleAndLine("generation_to_grid_entity","M"+t+",0 C"+t+","+t+" "+t+","+t+" 0,"+t)}
-                ${this.htmlWriter.writeCircleAndLine("grid_to_battery_entity","M0,"+t+" C"+t+","+t+" "+t+","+t+" "+t+","+2*t)}
-                ${this.htmlWriter.writeCircleAndLine("battery_to_grid_entity","M"+t+","+2*t+" C"+t+","+t+" "+t+","+t+" 0,"+t)}
-                ${this.htmlWriter.writeCircleAndLine("generation_to_battery_entity","M"+t+",0 C"+t+",0 "+t+","+2*t+" "+t+","+2*t)}
-                ${this.htmlWriter.writeCircleAndLine("battery_to_house_entity","M"+t+","+2*t+" C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
-              </svg>
-            </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="${"0 0 "+42*this.pxRate+" "+42*this.pxRate}"
+                  preserveAspectRatio="xMinYMax slice"
+                  style="height:${42*this.pxRate+"px"};width:${42*this.pxRate+"px"}"
+                >
+                  ${this.htmlWriter.writeCircleAndLine("generation_to_house_entity","M"+t+",0 C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
+                  ${this.htmlWriter.writeCircleAndLine("grid_to_house_entity","M0,"+t+" C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
+                  ${this.htmlWriter.writeCircleAndLine("generation_to_grid_entity","M"+t+",0 C"+t+","+t+" "+t+","+t+" 0,"+t)}
+                  ${this.htmlWriter.writeCircleAndLine("grid_to_battery_entity","M0,"+t+" C"+t+","+t+" "+t+","+t+" "+t+","+2*t)}
+                  ${this.htmlWriter.writeCircleAndLine("battery_to_grid_entity","M"+t+","+2*t+" C"+t+","+t+" "+t+","+t+" 0,"+t)}
+                  ${this.htmlWriter.writeCircleAndLine("generation_to_battery_entity","M"+t+",0 C"+t+",0 "+t+","+2*t+" "+t+","+2*t)}
+                  ${this.htmlWriter.writeCircleAndLine("battery_to_house_entity","M"+t+","+2*t+" C"+t+","+t+" "+t+","+t+" "+2*t+","+t)}
+                </svg>
+              </div>
 
-            ${this.writeHouseIconBubble()}
-            ${this.writeApplianceIconBubble(1)}
-            ${this.htmlWriter.writeAppliancePowerLineAndCircle(1,"M4,"+16*this.pxRate+" C4,"+16*this.pxRate+" 4,0 4,0")}
-            ${this.writeApplianceIconBubble(2)}
-            ${this.htmlWriter.writeAppliancePowerLineAndCircle(2,"M4,0 C4,0 4,"+16*this.pxRate+" 4,"+16*this.pxRate)}
+              ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1,"M4,"+16*this.pxRate+" C4,"+16*this.pxRate+" 4,0 4,0")}
+              ${this.writeApplianceIconBubble(2)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2,"M4,0 C4,0 4,"+16*this.pxRate+" 4,"+16*this.pxRate)}
+            </div>
           </div>
+          <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
         </div>
-        <div class="acc_bottom">
-          ${this.writeBatteryIconBubble()}
-        </div>
-      </div>
-    </ha-card>
-    `}writeGenerationIconBubble(){return this.writeIconBubble("generation_yield_entity",["generation_to_grid_entity","generation_to_house_entity","generation_to_battery_entity"],"acc_top","generation_icon")}writeGridIconBubble(){return this.writeIconBubble("grid_consumption_entity",["-generation_to_grid_entity","grid_to_house_entity","-battery_to_grid_entity"],"acc_left","grid_icon")}writeHouseIconBubble(){return this.writeIconBubble("house_consumption_entity",["generation_to_house_entity","grid_to_house_entity","battery_to_house_entity"],"acc_right","house_icon")}writeBatteryIconBubble(){return this.writeIconBubble("battery_consumption_entity",["generation_to_battery_entity","grid_to_battery_entity","-battery_to_house_entity","-battery_to_grid_entity"],"acc_bottom","battery_icon","battery_soc_entity",!0)}writeApplianceIconBubble(t){const e=["appliance"+t+"_consumption_entity"];return this.writeIconBubble("appliance"+t+"_consumption_entity",e,"acc_appliance"+t,"appliance"+t+"_icon","appliance"+t+"_state_entity")}writeIconBubble(t,e,i,s,n=null,r=!1){if(void 0===this.config[t])return I``;let o,a,l,c=0,h=!1;if(null!==n){const t=this.solarCardElements.get(n);a=null==t?void 0:t.value,l=null==t?void 0:t.unitOfMeasurement}return e.forEach((t=>{"-"===t.substring(0,1)&&(t=t.substring(1),h=!0);const e=this.solarCardElements.get(t);null!==e&&void 0!==(null==e?void 0:e.value)&&(h?c-=null==e?void 0:e.value:c+=null==e?void 0:e.value,c=(100*c|0)/100,o=null==e?void 0:e.unitOfMeasurement),h=!1})),r?this.htmlWriter.writeBatteryBubbleDiv(t,this.hass.states[this.config[t]],c,o,i,this.config[s],a,l):this.htmlWriter.writeBubbleDiv(t,this.hass.states[this.config[t]],c,o,i,this.config[s],a,l)}animateCircles(t){requestAnimationFrame((e=>{t.updateAllCircles(e)}))}updateAllCircles(t){this.solarCardElements.forEach(((e,i)=>{const s=this.solarCardElements.get(i);void 0!==s&&this.updateOneCircle(t,s)}))}updateOneCircle(t,e){if(null==this.shadowRoot)return;const i=this.shadowRoot.querySelector("#tesla-style-solar-power-card");if(null==i)return;if(e.line=i.querySelector("#"+e.entitySlot+"_line"),null===e.line)return;const s=e.line.getTotalLength();if(isNaN(s))return;if(e.circle=i.querySelector("#"+e.entitySlot+"_circle"),0===e.speed)return e.circle.setAttribute("visibility","hidden"),void(this.config.hide_inactive_lines&&e.line.setAttribute("visibility","hidden"));e.circle.setAttribute("visibility","visible"),this.config.hide_inactive_lines&&e.line.setAttribute("visibility","visible"),0===e.prevTimestamp&&(e.prevTimestamp=t,e.currentDelta=0),e.currentDelta+=Math.abs(e.speed)*(t-e.prevTimestamp);let n=e.currentDelta/s;e.speed>0?(n>=1||isNaN(n))&&(e.currentDelta=0,n=.01):(n=1-n,(n<=0||isNaN(n))&&(e.currentDelta=0,n=1));const r=e.line.getPointAtLength(s*n);e.circle.setAttributeNS(null,"cx",r.x.toString()),e.circle.setAttributeNS(null,"cy",r.y.toString()),e.prevTimestamp=t}redraw(t){this.hass&&this.config&&"resize"===t.type&&(this.oldWidth=at.changeStylesDependingOnWidth(this,this.solarCardElements,this.clientWidth,this.oldWidth))}_showWarning(t){return I`
-      <hui-warning>${t}</hui-warning>
-    `}_showError(t){const e=document.createElement("hui-error-card");return e.setConfig({type:"error",error:t,origConfig:this.config}),I`
-      ${e}
-    `}static get styles(){return it`
+      </ha-card>
+    `}writeGenerationIconBubble(){return this.writeIconBubble("generation_yield_entity",["generation_to_grid_entity","generation_to_house_entity","generation_to_battery_entity"],"acc_top","generation_icon","generation_extra_entity")}writeGridIconBubble(){return this.writeIconBubble("grid_consumption_entity",["-generation_to_grid_entity","grid_to_house_entity","-battery_to_grid_entity"],"acc_left","grid_icon","grid_extra_entity")}writeHouseIconBubble(){return this.writeIconBubble("house_consumption_entity",["generation_to_house_entity","grid_to_house_entity","battery_to_house_entity"],"acc_right","house_icon")}writeBatteryIconBubble(){return this.writeIconBubble("battery_consumption_entity",["generation_to_battery_entity","grid_to_battery_entity","-battery_to_house_entity","-battery_to_grid_entity"],"acc_bottom","battery_icon","battery_extra_entity",!0)}writeApplianceIconBubble(t){const e=["appliance"+t+"_consumption_entity"];return this.writeIconBubble("appliance"+t+"_consumption_entity",e,"acc_appliance"+t,"appliance"+t+"_icon","appliance"+t+"_extra_entity")}writeIconBubble(t,e,i,s,n=null,r=!1){if(void 0===this.config[t])return I``;let o,a,l,c=0,h=!1;if(null!==n){const t=this.solarCardElements.get(n);a=null==t?void 0:t.value,l=null==t?void 0:t.unitOfMeasurement}return e.forEach((t=>{"-"===t.substring(0,1)&&(t=t.substring(1),h=!0);const e=this.solarCardElements.get(t);null!==e&&void 0!==(null==e?void 0:e.value)&&(h?c-=null==e?void 0:e.value:c+=null==e?void 0:e.value,c=(100*c|0)/100,o=null==e?void 0:e.unitOfMeasurement),h=!1})),r?this.htmlWriter.writeBatteryBubbleDiv(t,this.hass.states[this.config[t]],c,o,i,this.config[s],a,l):this.htmlWriter.writeBubbleDiv(t,this.hass.states[this.config[t]],c,o,i,this.config[s],a,l)}animateCircles(t){requestAnimationFrame((e=>{t.updateAllCircles(e)}))}updateAllCircles(t){this.solarCardElements.forEach(((e,i)=>{const s=this.solarCardElements.get(i);void 0!==s&&this.updateOneCircle(t,s)}))}updateOneCircle(t,e){if(null==this.shadowRoot)return;const i=this.shadowRoot.querySelector("#tesla-style-solar-power-card");if(null==i)return;if(e.line=i.querySelector("#"+e.entitySlot+"_line"),null===e.line)return;const s=e.line.getTotalLength();if(isNaN(s))return;if(e.circle=i.querySelector("#"+e.entitySlot+"_circle"),0===e.speed)return e.circle.setAttribute("visibility","hidden"),void(this.config.hide_inactive_lines&&e.line.setAttribute("visibility","hidden"));e.circle.setAttribute("visibility","visible"),this.config.hide_inactive_lines&&e.line.setAttribute("visibility","visible"),0===e.prevTimestamp&&(e.prevTimestamp=t,e.currentDelta=0),e.currentDelta+=Math.abs(e.speed)*(t-e.prevTimestamp);let n=e.currentDelta/s;e.speed>0?(n>=1||isNaN(n))&&(e.currentDelta=0,n=.01):(n=1-n,(n<=0||isNaN(n))&&(e.currentDelta=0,n=1));const r=e.line.getPointAtLength(s*n);e.circle.setAttributeNS(null,"cx",r.x.toString()),e.circle.setAttributeNS(null,"cy",r.y.toString()),e.prevTimestamp=t}redraw(t){this.hass&&this.config&&"resize"===t.type&&(this.oldWidth=at.changeStylesDependingOnWidth(this,this.solarCardElements,this.clientWidth,this.oldWidth))}_showWarning(t){return I` <hui-warning>${t}</hui-warning> `}_showError(t){const e=document.createElement("hui-error-card");return e.setConfig({type:"error",error:t,origConfig:this.config}),I` ${e} `}static get styles(){return it`
     #tesla-style-solar-power-card{
       margin:auto;
       display:table;
@@ -392,12 +383,12 @@ const Z=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?Object
     #battery_to_grid_entity_circle{
       fill:var(--success-color);
     }
-    .battery_soc_entity,
+    .battery_extra_entity,
     .battery_consumption_entity{
       border: 1px solid var(--success-color);
       color: var(--success-color);
     }
-    .battery_charge_state_text{
+    .battery_extra_text{
       position:absolute;
       top:8px;
     }
