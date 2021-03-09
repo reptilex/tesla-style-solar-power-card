@@ -210,7 +210,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       </div>
     </ha-card>
     `; 
-         //   ${this.htmlWriter.writeCardDiv('appliance1_consumption_entity', 'acc_appliance1', this.config.appliance1_icon, 'appliance1_state_entity')}
   } 
 
   private writeGenerationIconBubble():TemplateResult{
@@ -224,7 +223,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       'generation_yield_entity', 
       generationEntities,
       'acc_top',
-      'generation_icon');
+      'generation_icon',
+      'generation_extra_entity');
   }
 
   private writeGridIconBubble():TemplateResult{
@@ -238,7 +238,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       'grid_consumption_entity', 
       gridEntities,
       'acc_left',
-      'grid_icon');
+      'grid_icon',
+      'grid_extra_entity');
   }
 
   private writeHouseIconBubble():TemplateResult{
@@ -267,7 +268,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       batteryEntities,
       'acc_bottom',
       'battery_icon',
-      'battery_soc_entity',
+      'battery_extra_entity',
       true);
   }
 
@@ -280,7 +281,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       applianceEntities,
       'acc_appliance'+applianceNumber,
       'appliance'+applianceNumber+'_icon',
-      'appliance'+applianceNumber+'_state_entity');
+      'appliance'+applianceNumber+'_extra_entity');
   }
 
   private writeIconBubble(
@@ -553,12 +554,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     #battery_to_grid_entity_circle{
       fill:var(--success-color);
     }
-    .battery_soc_entity,
+    .battery_extra_entity,
     .battery_consumption_entity{
       border: 1px solid var(--success-color);
       color: var(--success-color);
     }
-    .battery_charge_state_text{
+    .battery_extra_text{
       position:absolute;
       top:8px;
     }

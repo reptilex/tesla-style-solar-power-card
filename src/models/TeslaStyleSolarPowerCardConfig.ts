@@ -30,12 +30,17 @@ export interface TeslaStyleSolarPowerCardConfig extends LovelaceCardConfig {
     generation_yield_entity?: string;
     generation_consumption_entity?: string;
     generation_to_battery_entity?: string;
-    battery_soc_entity?: string;
     battery_consumption_entity?: string;
+
+    grid_extra_entity?: string;
+    generation_extra_entity?: string;
+    house_extra_entity?: string;
+    battery_extra_entity?: string;
+
     appliance1_consumption_entity?: string;
-    appliance1_state_entity?: string;
+    appliance1_extra_entity?: string;
     appliance2_consumption_entity?: string;
-    appliance2_state_entity?: string;
+    appliance2_extra_entity?: string;
   
     tap_action?: ActionConfig;
     hold_action?: ActionConfig;
