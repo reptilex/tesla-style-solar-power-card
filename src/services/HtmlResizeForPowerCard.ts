@@ -81,6 +81,15 @@ export class HtmlResizeForPowerCard
           changeSelectorStyle(".acc_appliance"+value+"_line svg", 'height', 18 * pxRate + 'px')
           selectorElement = <HTMLElement > teslaCardElement.querySelector(".acc_appliance"+value+"_line_svg")
           if (selectorElement !== null) selectorElement.setAttribute('viewBox','0 0 ' + 26 * pxRate + ' ' + 26 * pxRate);
+          
+          const topElement = <HTMLElement > teslaCardElement.querySelector(".acc_top")
+          if (topElement === null && value === 1) {
+            changeSelectorStyle(".acc_center", 'padding-top', 19 * pxRate + 'px')
+          }
+          const bottomElement = <HTMLElement > teslaCardElement.querySelector(".acc_bottom")
+          if (bottomElement === null && value === 2) {
+            changeSelectorStyle(".acc_center", 'padding-bottom', 19 * pxRate + 'px')
+          }
         });
         changeSelectorStyle(".acc_appliance1",'top', 10 + 'px');
         changeSelectorStyle(".acc_appliance1_line", 'top', 23 * pxRate + 'px');
