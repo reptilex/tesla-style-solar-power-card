@@ -83,11 +83,11 @@ export class HtmlResizeForPowerCard
           if (selectorElement !== null) selectorElement.setAttribute('viewBox','0 0 ' + 26 * pxRate + ' ' + 26 * pxRate);
           
           const topElement = <HTMLElement > teslaCardElement.querySelector(".acc_top")
-          if (topElement === null && value === 1) {
+          if (topElement === null && value === 1 && selectorElement !== null) {
             changeSelectorStyle(".acc_center", 'padding-top', 21 * pxRate + 'px')
           }
           const bottomElement = <HTMLElement > teslaCardElement.querySelector(".acc_bottom")
-          if (bottomElement === null && value === 2) {
+          if (bottomElement === null && value === 2 && selectorElement !== null) {
             changeSelectorStyle(".acc_center", 'padding-bottom', 21 * pxRate + 'px')
           }
         });
