@@ -118,7 +118,18 @@ One to hide the lines not active to use it, please make sure everything is worki
 ```yml
 hide_inactive_lines: 1
 ```
+Then there are four 5 icon configuration variables:
+```yml
+grid_icon: 'mdi:transmission-tower';
+generation_icon: 'mdi:solar-panel-large';
+house_icon: 'mdi:home';
+appliance1_icon: 'mdi:car-sports';
+appliance2_icon: 'mdi:car-sports';
+```
+The battery does not have one because the icon changes with the charge and overwriting it has not been implemented.
 
+
+### templates for missing sensors or for negative sensors
 
 Remember you can create
 template sensors if you are missing one like solar yield out of solar_consumption and grid_feed_in or if you are missing another one like home_consumption. Some inverters have positive and negative values, here all sensors need to be positive values, so create template sensors like:
@@ -134,27 +145,6 @@ template sensors if you are missing one like solar yield out of solar_consumptio
         unit_of_measurement: W
 ``` 
 
-
-
-
-There two extra variable now:
-One to force W (Watt) instead of kW, set it to 1 to use it:
-```javascript
-show_w_not_kw: 1
-```
-One to hide the lines not active to use it, please make sure everything is working before you hide the lines:
-```javascript
-hide_inactive_lines: 1
-```
-Then there are four 5 icon configuration variables:
-```yml
-grid_icon: 'mdi:transmission-tower';
-generation_icon: 'mdi:solar-panel-large';
-house_icon: 'mdi:home';
-appliance1_icon: 'mdi:car-sports';
-appliance2_icon: 'mdi:car-sports';
-```
-The battery does not have one because the icon changes with the charge and overwriting it has not been implemented.
 
 
 
