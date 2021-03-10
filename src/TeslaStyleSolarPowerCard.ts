@@ -210,14 +210,124 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                     this.pxRate +
                   'px'}"
                 >
-                ${this.htmlWriter.writeCircleAndLine('generation_to_house_entity', 'M'+ half +',0 C'+ half +','+ half +' '+ half +','+ half +' '+half*2+','+half)} 
-                ${this.htmlWriter.writeCircleAndLine('grid_to_house_entity', 'M0,'+half+' C'+half+','+ half + ' '+half +','+half+' '+half * 2+','+half) } 
-                ${this.htmlWriter.writeCircleAndLine('generation_to_grid_entity', 'M'+ half +',0 C'+ half +','+ half +' '+ half +','+ half +' 0,'+ half)} 
-                ${this.htmlWriter.writeCircleAndLine('grid_to_battery_entity',  'M0,'+half+' C'+half+','+ half + ' '+half +','+half+' '+half+','+half * 2)} 
-                ${this.htmlWriter.writeCircleAndLine('battery_to_grid_entity',  'M'+half+','+half * 2+' C'+half+','+ half + ' '+half +','+half+' 0,'+half)} 
-                ${this.htmlWriter.writeCircleAndLine('generation_to_battery_entity', 'M'+half+',0 C'+half+',0 '+half+','+ half * 2 +' '+half+','+ half*2)} 
-                ${this.htmlWriter.writeCircleAndLine('battery_to_house_entity', 'M'+ half +','+ half * 2 +' C'+ half +','+ half +' '+ half +','+ half +' '+ half * 2 +','+ half)}
-               </svg>
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_house_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'grid_to_house_entity',
+                    'M0,' +
+                      half +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_grid_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' 0,' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'grid_to_battery_entity',
+                    'M0,' +
+                      half +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half * 2
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'battery_to_grid_entity',
+                    'M' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' 0,' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_battery_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',0 ' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' ' +
+                      half +
+                      ',' +
+                      half * 2
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'battery_to_house_entity',
+                    'M' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
+                </svg>
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
