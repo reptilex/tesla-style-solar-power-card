@@ -211,10 +211,23 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                     this.pxRate +
                   'px'}"
                 >
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('generation_to_house_entity', 'M'+ half +',0 C'+ half +','+ half +' '+ half +','+ half +' '+half*2+','+half)
-                  }
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_house_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
                   ${
                     // prettier-ignore
                     this.htmlWriter.writeCircleAndLine('grid_to_house_entity', 'M0,'+half+' C'+half+','+ half + ' '+half +','+half+' '+half * 2+','+half)
@@ -598,7 +611,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .generation_yield_entity{
       color: var(--warning-color);
     }
-    .house_consumption_entity,
+    .house_consumption_entity{
+      border: 1px solid var(--info-color);
+    }
     .appliance1_consumption_entity,
     .appliance2_consumption_entity {
       border: 1px solid var(--info-color);

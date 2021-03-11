@@ -15,12 +15,12 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 
 ## Concept
 I have tried to make it as generic as possible, for now there are 6 bubbles with icons that show entities:
-* grid
-* generation (solar/wind ...)
-* battery
-* house
-* appliance1 (car/heater ...)
-* appliance2 (car2/oven ...)
+* grid_consumption_entity
+* generation_yield_entity (consumption made no sense, and now any generation shoudl be clear solar/wind ...)
+* battery_consumption_entity
+* house_consumption_entity
+* appliance1_consumption_entity (car/heater ...)
+* appliance2_consumption_entity (car2/oven ...)
 
 The bubbles/icons can be configured to have an entity when clicked, but the numbers are calculated from the flows. You can show an extra entity text/value on the top part of the bubble.
 
@@ -33,7 +33,7 @@ There are 7 main flows and 2 appliance flows.  The main flows are:
 * battery_to_grid_entity
 * battery_to_house_entity
 
-Some will substract the value from one bubbles and will add value to another bubble. For example:
+Some will substract the value from one bubble and will add value to another bubble. For example:
 
 battery_to_house will substract from the battery bubble/icon and add to house bubble/icon.
 
@@ -101,6 +101,7 @@ appliance1_extra_entity: sensor.car_battery_state_of_charge
 appliance2_consumption_entity: sensor.heating_consumption
 appliance2_extra_entity: sensor.heating_operation
 ```
+If you define an extra entity for the battery bubble with the state of charge then the icon will be dynamically replaced with the value of that entity and will override the icon definition above.
 
 
 There a few configuration variables that change the behaviour:
@@ -109,15 +110,16 @@ Heading:
 name: 'My Tesla Power Card!'
 ```
 
-
 One to force W (Watt) instead of kW, set it to 1 to use it:
 ```yml
 show_w_not_kw: 1
 ```
+
 One to hide the lines not active to use it, please make sure everything is working before you hide the lines:
 ```yml
 hide_inactive_lines: 1
 ```
+
 Then there are four 5 icon configuration variables:
 ```yml
 grid_icon: 'mdi:transmission-tower';
@@ -127,8 +129,6 @@ battery_icon: 'mdi:battery';
 appliance1_icon: 'mdi:car-sports';
 appliance2_icon: 'mdi:car-sports';
 ```
-If you define an extra entity for the battery bubble with the state of charge then the icon will be dynamically replaced with the value of that entity and will override the icon definition above.
-
 
 ### templates for missing sensors or for negative sensors
 
@@ -146,10 +146,7 @@ template sensors if you are missing one like solar yield out of solar_consumptio
         unit_of_measurement: W
 ``` 
 
-
-
-
-### Tesla-Powerwall-Usage
+### Tesla-Powerwall-Usage (untested if someone can confirm it would be great, I lack the hardware)
 In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter. 
 
 Fortunately this can be easily fixed with the addition of a few template sensors, the ones you would need to add are shown below. Note that these sensors assume the default names for each entity created by the Tesla Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:
