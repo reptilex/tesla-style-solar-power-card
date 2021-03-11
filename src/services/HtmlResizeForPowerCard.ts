@@ -1,4 +1,4 @@
-/* eslint-disable prefer-template, import/extensions, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events */
+/* eslint-disable func-names, prefer-template, import/extensions, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events */
 import { SensorElement } from '../models/SensorElement';
 import { TeslaStyleSolarPowerCard } from '../TeslaStyleSolarPowerCard';
 
@@ -68,7 +68,7 @@ export class HtmlResizeForPowerCard {
       .querySelectorAll<HTMLElement>('.acc_text')
       .forEach(icontext => {
         icontext.style['font-size'] = 3 * pxRate + 'px';
-        icontext.style['margin-top'] = -1 * pxRate + 'px';
+        icontext.style['margin-top'] = -0.5 * pxRate + 'px';
       });
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text_extra')
@@ -248,19 +248,23 @@ export class HtmlResizeForPowerCard {
         );
 
       const topElement = <HTMLElement>(
-        teslaCardElement.querySelector('.acc_top')
+        teslaCardElement.querySelector('.generation_yield_entity')
       );
       if (topElement === null && value === 1 && selectorElement !== null) {
-        changeSelectorStyle('.acc_center', 'padding-top', 21 * pxRate + 'px');
+        changeSelectorStyle(
+          '.acc_center_container',
+          'margin-top',
+          19 * pxRate + 'px'
+        );
       }
       const bottomElement = <HTMLElement>(
-        teslaCardElement.querySelector('.acc_bottom')
+        teslaCardElement.querySelector('.battery_consumption_entity')
       );
       if (bottomElement === null && value === 2 && selectorElement !== null) {
         changeSelectorStyle(
-          '.acc_center',
-          'padding-bottom',
-          21 * pxRate + 'px'
+          '.acc_center_container',
+          'margin-bottom',
+          19 * pxRate + 'px'
         );
       }
     });

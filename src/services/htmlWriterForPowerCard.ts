@@ -56,7 +56,7 @@ export class HtmlWriterForPowerCard {
         <ha-icon class="acc_icon" icon="${icon}"></ha-icon>
         <div
           class="acc_text"
-          style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.8 *
+          style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 *
             this.pxRate +
           'px'}"
         >
@@ -95,7 +95,6 @@ export class HtmlWriterForPowerCard {
     batteryValue: number,
     batteryChargeDischargeValue: number
   ) {
-    // called as dynamic function in this.writeCardDiv()
     let TempSocValue = batteryValue;
     if (batteryValue <= 5) TempSocValue = 0;
 

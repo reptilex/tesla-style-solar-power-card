@@ -75,6 +75,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.config.generation_icon == null)
       this.config.generation_icon = 'mdi:solar-panel-large';
     if (this.config.house_icon == null) this.config.house_icon = 'mdi:home';
+    if (this.config.battery_icon == null)
+      this.config.battery_icon = 'mdi:battery-medium';
     if (this.config.appliance1_icon == null)
       this.config.appliance1_icon = 'mdi:car-sports';
     if (this.config.appliance2_icon == null)
@@ -165,10 +167,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     this.solarCardElements.forEach(solarSensor => {
       solarSensor.setValueAndUnitOfMeasurement(
         this.hass.states[solarSensor.entity].state,
-        this.config.w_not_kw,
+        this.config.show_w_not_kw,
         this.hass.states[solarSensor.entity].attributes.unit_of_measurement
       );
-      solarSensor.setSpeed(this.config.w_not_kw);
+      solarSensor.setSpeed(this.config.show_w_not_kw);
     });
 
     super.performUpdate();
@@ -178,12 +180,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   protected render(): TemplateResult | void {
     // TODO Check for stateObj or other necessary things and render a warning if missing
     // if (this.config.show_warning) return this._showWarning(localize('common.show_warning'));
-    // if (this.config.show_error) return this._showError(localize('common.show_error'));
+    if (this.config.show_error) return this._showError('common.show_error');
 
     this.pxRate = this.clientWidth / 100;
     const half = 22 * this.pxRate;
     // .label=${`TeslaStyleSolarPowerCard: ${this.config.entity || 'No Entity Defined'}`}
-
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">
@@ -399,6 +400,18 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       extraValue,
       extraUnitOfMeasurement
     );
+  }
+
+  private getHassState(entityName: string) {
+    const stateValue = this.hass.states[entityName];
+    if (stateValue === undefined) {
+      this._showError(
+        "Configuration Error: Entity '" +
+          entityName +
+          "' not found in HomeAssistant sensors."
+      );
+    }
+    return stateValue;
   }
 
   private animateCircles(obj: any) {

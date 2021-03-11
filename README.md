@@ -123,10 +123,11 @@ Then there are four 5 icon configuration variables:
 grid_icon: 'mdi:transmission-tower';
 generation_icon: 'mdi:solar-panel-large';
 house_icon: 'mdi:home';
+battery_icon: 'mdi:battery';
 appliance1_icon: 'mdi:car-sports';
 appliance2_icon: 'mdi:car-sports';
 ```
-The battery does not have one because the icon changes with the charge and overwriting it has not been implemented.
+If you define an extra entity for the battery bubble with the state of charge then the icon will be dynamically replaced with the value of that entity and will override the icon definition above.
 
 
 ### templates for missing sensors or for negative sensors
