@@ -8,11 +8,7 @@ import {
   css,
   internalProperty,
 } from 'lit-element';
-import {
-  HomeAssistant,
-  LovelaceCard,
-  LovelaceCardConfig,
-} from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardConfig } from 'custom-card-helpers';
 // import { TeslaStyleSolarPowerCardConfig } from './TeslaStyleSolarPowerCardConfig';
 import { SensorElement } from './models/SensorElement';
 import { HtmlWriterForPowerCard } from './services/HtmlWriterForPowerCard';
@@ -56,6 +52,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   __increment() {
     this.counter += 1;
   }
+
+  private error: string = '';
 
   public setConfig(config: LovelaceCardConfig): void {
     if (!config) {
@@ -164,15 +162,20 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   public async performUpdate(): Promise<void> {
+    this.error = '';
     this.solarCardElements.forEach(solarSensor => {
-      solarSensor.setValueAndUnitOfMeasurement(
-        this.hass.states[solarSensor.entity].state,
-        this.config.show_w_not_kw,
-        this.hass.states[solarSensor.entity].attributes.unit_of_measurement
-      );
-      solarSensor.setSpeed(this.config.show_w_not_kw);
+      try {
+        solarSensor.setValueAndUnitOfMeasurement(
+          this.hass.states[solarSensor.entity].state,
+          this.config.show_w_not_kw,
+          this.hass.states[solarSensor.entity].attributes.unit_of_measurement
+        );
+        solarSensor.setSpeed(this.config.show_w_not_kw);
+      } catch (err) {
+        this.error +=
+          "Configured '" + solarSensor.entity + "' entity was not found. ";
+      }
     });
-
     super.performUpdate();
   }
 
@@ -180,7 +183,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   protected render(): TemplateResult | void {
     // TODO Check for stateObj or other necessary things and render a warning if missing
     // if (this.config.show_warning) return this._showWarning(localize('common.show_warning'));
-    if (this.config.show_error) return this._showError('common.show_error');
+    if (this.error !== '') return this._showError();
 
     this.pxRate = this.clientWidth / 100;
     const half = 22 * this.pxRate;
@@ -415,18 +418,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     );
   }
 
-  private getHassState(entityName: string) {
-    const stateValue = this.hass.states[entityName];
-    if (stateValue === undefined) {
-      this._showError(
-        "Configuration Error: Entity '" +
-          entityName +
-          "' not found in HomeAssistant sensors."
-      );
-    }
-    return stateValue;
-  }
-
   private animateCircles(obj: any) {
     requestAnimationFrame(timestamp => {
       obj.updateAllCircles(timestamp);
@@ -512,15 +503,17 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     return html` <hui-warning>${warning}</hui-warning> `;
   }
 
-  private _showError(error: string): TemplateResult {
-    const errorCard = <LovelaceCard>document.createElement('hui-error-card');
-    errorCard.setConfig({
-      type: 'error',
-      error,
-      origConfig: this.config,
-    });
-
-    return html` ${errorCard} `;
+  private _showError(): TemplateResult {
+    // const errorCard = <LovelaceCard>document.createElement('hui-error-card');
+    console.log(this.error);
+    return html`
+      <hui-warning
+        ><div>
+          ERROR:<br />
+          ${this.error}
+        </div></hui-warning
+      >
+    `;
   }
 
   /* ******* style ******** */
