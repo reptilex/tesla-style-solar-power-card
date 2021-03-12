@@ -8,7 +8,7 @@
   "module": "dist/index.js",
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js && cp tesla-style-solar-power-card.js ../homeassistant/config/www",
     "prepublish": "tsc",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",

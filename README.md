@@ -1,5 +1,10 @@
 # tesla-style-solar-power-card
 
+> **⚠ WARNING: BREAKING CONFIG CHANGE**
+
+> **You have to define the bubbles/icons AND the FLOWS!!**  
+> Without defining each flow no line will show, read the usage part carefully
+
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
 ### Table of contents

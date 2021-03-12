@@ -268,6 +268,23 @@ export class HtmlResizeForPowerCard {
         );
       }
     });
+    const gridElement = <HTMLElement>(
+      teslaCardElement.querySelector('.grid_consumption_entity')
+    );
+    if (gridElement === null) {
+      changeSelectorStyle('.generation_yield_entity', 'margin', '0px');
+      changeSelectorStyle('.battery_consumption_entity', 'margin', '0px');
+      changeSelectorStyle('.power_lines', 'width', 30 * pxRate + 'px');
+      selectorElement = <HTMLElement>(
+        teslaCardElement.querySelector('.power_lines svg')
+      );
+      if (selectorElement !== null)
+        selectorElement.setAttribute(
+          'viewBox',
+          12 * pxRate + ' 0 ' + 42 * pxRate + ' ' + 42 * pxRate
+        );
+    }
+
     changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');
     changeSelectorStyle('.acc_appliance1_line', 'top', 23 * pxRate + 'px');
     changeSelectorStyle('.acc_appliance2', 'bottom', 10 + 'px');
