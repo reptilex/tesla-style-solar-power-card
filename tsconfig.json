@@ -16,6 +16,7 @@
     "rootDir": "./",
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts"]
 }

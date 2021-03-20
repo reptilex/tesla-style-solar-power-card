@@ -8,11 +8,16 @@ import {
   css,
   internalProperty,
 } from 'lit-element';
-import { HomeAssistant, LovelaceCardConfig } from 'custom-card-helpers';
-// import { TeslaStyleSolarPowerCardConfig } from './TeslaStyleSolarPowerCardConfig';
+import {
+  HomeAssistant,
+  LovelaceCardConfig /* , LovelaceCardEditor */,
+} from 'custom-card-helpers';
+import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
+
 import { SensorElement } from './models/SensorElement';
 import { HtmlWriterForPowerCard } from './services/HtmlWriterForPowerCard';
 import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
+// import { TeslaStyleSolarPowerCardEditor } from './components/editor';
 // import { localize } from './localize/localize';
 
 // This puts your card into the UI card picker dialog
@@ -27,7 +32,7 @@ import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
 export class TeslaStyleSolarPowerCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
 
-  @internalProperty() private config!: LovelaceCardConfig;
+  @internalProperty() private config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<
     string,
@@ -181,13 +186,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   /* ****  render functions ****** */
   protected render(): TemplateResult | void {
-    // TODO Check for stateObj or other necessary things and render a warning if missing
-    // if (this.config.show_warning) return this._showWarning(localize('common.show_warning'));
     if (this.error !== '') return this._showError();
 
     this.pxRate = this.clientWidth / 100;
     const half = 22 * this.pxRate;
-    // .label=${`TeslaStyleSolarPowerCard: ${this.config.entity || 'No Entity Defined'}`}
+
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">
@@ -231,43 +234,123 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       ',' +
                       half
                   )}
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('grid_to_house_entity', 'M0,'+half+' C'+half+','+ half + ' '+half +','+half+' '+half * 2+','+half)
-                  }
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('generation_to_grid_entity', 'M'+ half +',0 C'+ half +','+ half +' '+ half +','+ half +' 0,'+ half)
-                  }
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('grid_to_battery_entity',  'M0,'+half+' C'+half+','+ half + ' '+half +','+half+' '+half+','+half * 2)
-                  }
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('battery_to_grid_entity',  'M'+half+','+half * 2+' C'+half+','+ half + ' '+half +','+half+' 0,'+half)
-                  }
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('generation_to_battery_entity', 'M'+half+',0 C'+half+',0 '+half+','+ half * 2 +' '+half+','+ half*2)
-                  }
-                  ${
-                    // prettier-ignore
-                    this.htmlWriter.writeCircleAndLine('battery_to_house_entity', 'M'+ half +','+ half * 2 +' C'+ half +','+ half +' '+ half +','+ half +' '+ half * 2 +','+ half)
-                  }
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'grid_to_house_entity',
+                    'M0,' +
+                      half +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_grid_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' 0,' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'grid_to_battery_entity',
+                    'M0,' +
+                      half +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half * 2
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'battery_to_grid_entity',
+                    'M' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' 0,' +
+                      half
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'generation_to_battery_entity',
+                    'M' +
+                      half +
+                      ',0 C' +
+                      half +
+                      ',0 ' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' ' +
+                      half +
+                      ',' +
+                      half * 2
+                  )}
+                  ${this.htmlWriter.writeCircleAndLine(
+                    'battery_to_house_entity',
+                    'M' +
+                      half +
+                      ',' +
+                      half * 2 +
+                      ' C' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half +
+                      ',' +
+                      half +
+                      ' ' +
+                      half * 2 +
+                      ',' +
+                      half
+                  )}
                 </svg>
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${
-                // prettier-ignore
-                this.htmlWriter.writeAppliancePowerLineAndCircle(1,'M4,'+16*this.pxRate+' C4,'+16*this.pxRate+' 4,0 4,0')
-              }
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(
+                1,
+                'M4,' +
+                  16 * this.pxRate +
+                  ' C4,' +
+                  16 * this.pxRate +
+                  ' 4,0 4,0'
+              )}
               ${this.writeApplianceIconBubble(2)}
-              ${
-                // prettier-ignore
-                this.htmlWriter.writeAppliancePowerLineAndCircle(2,'M4,0 C4,0 4,' + 16 * this.pxRate + ' 4,' + 16 * this.pxRate)
-              }
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(
+                2,
+                'M4,0 C4,0 4,' + 16 * this.pxRate + ' 4,' + 16 * this.pxRate
+              )}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
@@ -584,6 +667,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     #battery_to_house_entity_line,
     #generation_to_house_entity_line,
+    #generation_to_house_entity_circle,
     #grid_to_house_entity_line,
     #generation_to_battery_entity_line,
     #grid_feed_in_entity_line,

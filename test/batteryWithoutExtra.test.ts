@@ -149,6 +149,6 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.querySelector('.acc_icon')
         ?.getAttribute('icon')
         ?.toString()
-    ).to.equal('mdi:battery');
+    ).to.equal('mdi:battery-medium');
   });
 });
