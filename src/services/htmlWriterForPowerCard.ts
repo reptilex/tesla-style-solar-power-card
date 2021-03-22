@@ -22,18 +22,18 @@ export class HtmlWriterForPowerCard {
   }
 
   public writeBubbleDiv(
-    mainEntityName: string,
-    mainHassEntityState: HassEntity,
     mainValue: number,
     mainUnitOfMeasurement: string | undefined,
     cssSelector: string,
     icon: string,
+    bubblClickEntitySlot: string | null = null,
+    bubblClickEntitySlotHassState: HassEntity | null = null,
     extraValue: string | null = null,
     extraUnitOfMeasurement: string | null = null
   ): TemplateResult {
     return html` <div class="acc_td ${cssSelector}">
       <div
-        class="acc_container ${mainEntityName}"
+        class="acc_container ${bubblClickEntitySlot}"
         style="${'width:' +
         9 * this.pxRate +
         'px; height: ' +
@@ -41,7 +41,7 @@ export class HtmlWriterForPowerCard {
         'px; padding:' +
         5 * this.pxRate +
         'px'}"
-        @click="${() => this._handleClick(mainHassEntityState)}"
+        @click="${() => this._handleClick(bubblClickEntitySlotHassState)}"
       >
         ${extraValue !== null
           ? html` <div
@@ -67,12 +67,12 @@ export class HtmlWriterForPowerCard {
   }
 
   public writeBatteryBubbleDiv(
-    mainEntityName: string,
-    mainHassEntityState: HassEntity,
     mainValue: number,
     mainUnitOfMeasurement: string | undefined,
     cssSelector: string,
     icon: string,
+    bubblClickEntitySlot: string | null,
+    bubblClickEntitySlotHassState: HassEntity | null,
     extraValue: string | undefined = undefined,
     extraUnitOfMeasurement: string | undefined = undefined
   ): TemplateResult {
@@ -80,12 +80,12 @@ export class HtmlWriterForPowerCard {
       icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
     }
     return this.writeBubbleDiv(
-      mainEntityName,
-      mainHassEntityState,
       mainValue,
       mainUnitOfMeasurement,
       cssSelector,
       icon,
+      bubblClickEntitySlot,
+      bubblClickEntitySlotHassState,
       extraValue,
       extraUnitOfMeasurement
     );
@@ -169,7 +169,8 @@ export class HtmlWriterForPowerCard {
     </svg>`;
   }
 
-  private _handleClick(stateObj: HassEntity) {
+  private _handleClick(stateObj: HassEntity | null) {
+    if (stateObj == null) return;
     const event = <any>new Event('hass-more-info', {
       bubbles: true,
       cancelable: true,

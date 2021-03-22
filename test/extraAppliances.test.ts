@@ -19,7 +19,7 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
     config = {
       type: 'custom:tesla-style-solar-power-card',
       name: 'Powerhouse',
-      house_consumption_entity: 'sensor.house_consumption',
+      house_entity: 'sensor.house_consumption',
       grid_to_house_entity: 'sensor.grid_to_house',
       appliance1_consumption_entity: 'sensor.car_consumption',
       appliance1_extra_entity: 'sensor.car_soc',
@@ -86,10 +86,10 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
       assert.fail('No tesla-style-card');
   });
 
-  it('has house_consumption_entity, text and icon', async () => {
-    const gridEntity = teslaCard?.querySelector('.house_consumption_entity');
+  it('has house_entity, text and icon', async () => {
+    const gridEntity = teslaCard?.querySelector('.house_entity');
     if (gridEntity === null || gridEntity === undefined)
-      assert.fail('No house_consumption_entity element found');
+      assert.fail('No house_entity element found');
     expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('4 kW');
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()

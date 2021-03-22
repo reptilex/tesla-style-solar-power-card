@@ -19,8 +19,8 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     config = {
       type: 'custom:tesla-style-solar-power-card',
       name: 'Powerhouse',
-      house_consumption_entity: 'sensor.house_consumption',
-      battery_consumption_entity: 'sensor.battery_consumption',
+      house_entity: 'sensor.house_consumption',
+      // battery_entity: 'sensor.battery_consumption',
       battery_to_house_entity: 'sensor.battery_consumption',
     };
     hass = {
@@ -67,10 +67,11 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
       assert.fail('No tesla-style-card');
   });
 
-  it('has house_consumption_entity, text and icon', async () => {
-    const houseEntity = teslaCard?.querySelector('.house_consumption_entity');
+  it('has house_entity, text and icon', async () => {
+    const houseEntity = teslaCard?.querySelector('.house_entity');
+
     if (houseEntity === null || houseEntity === undefined)
-      assert.fail('No house_consumption_entity element found');
+      assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML).contains(
       '1.3 kW'
     );
@@ -79,12 +80,10 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     ).to.equal('mdi:home');
   });
 
-  it('has battery_consumption_entity, text and icon', async () => {
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+  it('has battery_entity, text and icon', async () => {
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(batteryEntity?.querySelector('.acc_text')?.innerHTML).contains(
       '1.3 kW'
     );
@@ -116,13 +115,11 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
   });
 
   it('has no pv, grid or appliance icons', async () => {
-    const pvEntity = teslaCard?.querySelector('.pv_consumption_entity');
-    if (pvEntity !== null)
-      assert.fail('No pv_consumption_entity element found');
+    const pvEntity = teslaCard?.querySelector('.generation_entity');
+    if (pvEntity !== null) assert.fail('No generation_entity element found');
 
     const gridEntity = teslaCard?.querySelector('.grid_consumption_entity');
-    if (gridEntity !== null)
-      assert.fail('No battery_consumption_entity element found');
+    if (gridEntity !== null) assert.fail('No battery_entity element found');
 
     const appliance1Entity = teslaCard?.querySelector(
       '.appliance1_consumption_entity'
@@ -139,11 +136,9 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
 
   it('has battery icon', async () => {
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')

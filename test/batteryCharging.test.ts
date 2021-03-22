@@ -22,7 +22,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
       generation_to_battery_entity: 'sensor.battery_charging',
       grid_to_battery_entity: 'sensor.grid_to_battery',
       battery_extra_entity: 'sensor.battery_charge',
-      battery_consumption_entity: 'sensor.battery_consumption',
+      battery_entity: 'sensor.battery_consumption',
     };
     hass = {
       states: {
@@ -76,12 +76,10 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     await card.setConfig(config);
   };
 
-  it('has battery_consumption_entity, text and icon', async () => {
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+  it('has battery_entity, text and icon', async () => {
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity?.querySelector('.acc_text')?.innerHTML,
       'No sum of battery charging flows in acc_text of battery_entity'
@@ -137,8 +135,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
       assert.fail('No pv_consumption_entity element found');
 
     const gridEntity = teslaCard?.querySelector('.grid_consumption_entity');
-    if (gridEntity !== null)
-      assert.fail('No battery_consumption_entity element found');
+    if (gridEntity !== null) assert.fail('No battery_entity element found');
 
     const appliance1Entity = teslaCard?.querySelector(
       '.appliance1_consumption_entity'
@@ -155,11 +152,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
 
   it('has battery at 100%', async () => {
     await setBatteryState('100');
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -174,11 +169,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 83%', async () => {
     await setBatteryState('83');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -193,11 +186,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 73%', async () => {
     await setBatteryState('73');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -212,11 +203,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 65%', async () => {
     await setBatteryState('65');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -231,11 +220,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 15%', async () => {
     await setBatteryState('15');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -250,11 +237,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 6%', async () => {
     await setBatteryState('6');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')
@@ -269,11 +254,9 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
   it('has battery at 5%', async () => {
     await setBatteryState('5');
     card.requestUpdate();
-    const batteryEntity = teslaCard?.querySelector(
-      '.battery_consumption_entity'
-    );
+    const batteryEntity = teslaCard?.querySelector('.battery_entity');
     if (batteryEntity === null || batteryEntity === undefined)
-      assert.fail('No battery_consumption_entity element found');
+      assert.fail('No battery_entity element found');
     expect(
       batteryEntity
         ?.querySelector('.acc_icon')

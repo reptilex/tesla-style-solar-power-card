@@ -344,6 +344,7 @@ const Z=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?Object
     }
     #battery_to_house_entity_line,
     #generation_to_house_entity_line,
+    #generation_to_house_entity_circle,
     #grid_to_house_entity_line,
     #generation_to_battery_entity_line,
     #grid_feed_in_entity_line,
