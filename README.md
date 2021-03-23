@@ -2,8 +2,8 @@
 
 > **⚠ WARNING: BREAKING CONFIG CHANGE**
 
-> **You have to define the bubbles/icons AND the FLOWS!!**  
-> Without defining each flow no line will show, read the usage part carefully
+> **You have to define the FLOWS!!**  
+> Without defining each flow no line will show, read the usage part carefully (the bubbles can be clickable but this is optional)
 
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
@@ -19,11 +19,14 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 
 
 ## Concept
-I have tried to make it as generic as possible, for now there are 6 bubbles with icons that show entities:
-* grid_consumption_entity
-* generation_yield_entity (consumption made no sense, and now any generation shoudl be clear solar/wind ...)
-* battery_consumption_entity
-* house_consumption_entity
+I have tried to make it as generic as possible, for now there are 6 bubbles with 4 main icons and 2 extra appliances. The Four main icon values are controlled by the sum of the flows from and to them:
+1. Grid
+2. Generation (usually solar)
+3. House 
+4. Battery
+
+The two optional appliances can be any consumer in the house, they are attached to the house. These two are controlled directly by their consumption. Meaning no flow sum is done.
+
 * appliance1_consumption_entity (car/heater ...)
 * appliance2_consumption_entity (car2/oven ...)
 
@@ -41,6 +44,13 @@ There are 7 main flows and 2 appliance flows.  The main flows are:
 Some will substract the value from one bubble and will add value to another bubble. For example:
 
 battery_to_house will substract from the battery bubble/icon and add to house bubble/icon.
+
+The clickable entities can be configured through these entities but are optional:
+
+* grid_entity
+* generation_entity (solar/wind ...)
+* battery_entity
+* house_entity
 
 
 This card started based on the card from [bessarabov animated consumption card](https://github.com/bessarabov/animated-consumption-card), thanks again for that work. Then was rewritten completely taking [boilerplate card](https://github.com/custom-cards/boilerplate-card) as a starting point but with typescript. I also borrowed a few ideas from [power-wheel-card](https://github.com/gurbyz/power-wheel-card) sadly not yet as many as I would like ;)

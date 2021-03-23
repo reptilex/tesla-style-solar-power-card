@@ -578,7 +578,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private redraw(ev: UIEvent) {
-    // console.log('redraw + '+ev.type)
+    // console.log('redraw+'+ev.type)
     if (this.hass && this.config && ev.type === 'resize') {
       // this.changeStylesDependingOnWidth(this.clientWidth)
       this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(
