@@ -402,7 +402,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       houseEntities,
       'acc_right',
       'house_icon',
-      'house_entity'
+      'house_entity',
+      'house_extra_entity'
     );
   }
 
@@ -547,9 +548,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
 
     entity.circle.setAttribute('visibility', 'visible');
-    if (this.config.hide_inactive_lines)
+    if (this.config.hide_inactive_lines) {
       entity.line.setAttribute('visibility', 'visible');
-
+    }
     if (entity.prevTimestamp === 0) {
       entity.prevTimestamp = timestamp;
       entity.currentDelta = 0;
@@ -690,21 +691,21 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       stroke-width:1;
     }
 
-    .generation_yield_entity {
+    .generation_entity {
       border: 1px solid var(--warning-color);
     }
-    .generation_yield_entity .acc_icon,
-    .generation_yield_entity{
+    .generation_entity .acc_icon,
+    .generation_entity{
       color: var(--warning-color);
     }
-    .house_consumption_entity{
+    .house_entity{
       border: 1px solid var(--info-color);
     }
     .appliance1_consumption_entity,
     .appliance2_consumption_entity {
       border: 1px solid var(--info-color);
     }
-    .house_consumption_entity,
+    .house_entity,
     .appliance1_consumption_entity,
     .appliance2_consumption_entity{
       color: var(--info-color);
@@ -731,7 +732,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       fill:var(--success-color);
     }
     .battery_extra_entity,
-    .battery_consumption_entity{
+    .battery_entity{
       border: 1px solid var(--success-color);
       color: var(--success-color);
     }

@@ -34,7 +34,7 @@ export class HtmlResizeForPowerCard {
     changeSelectorStyle('.acc_left', 'top', 12 * pxRate + 'px');
     changeSelectorStyle('.acc_right', 'top', 12 * pxRate + 'px');
     if (
-      solarCardElements.get('battery_consumption_entity') === undefined &&
+      solarCardElements.get('battery_entity') === undefined &&
       solarCardElements.get('appliance2_consumption_entity') !== undefined
     ) {
       changeSelectorStyle(
@@ -248,7 +248,7 @@ export class HtmlResizeForPowerCard {
         );
 
       const topElement = <HTMLElement>(
-        teslaCardElement.querySelector('.generation_yield_entity')
+        teslaCardElement.querySelector('.generation_entity')
       );
       if (topElement === null && value === 1 && selectorElement !== null) {
         changeSelectorStyle(
@@ -258,7 +258,7 @@ export class HtmlResizeForPowerCard {
         );
       }
       const bottomElement = <HTMLElement>(
-        teslaCardElement.querySelector('.battery_consumption_entity')
+        teslaCardElement.querySelector('.battery_entity')
       );
       if (bottomElement === null && value === 2 && selectorElement !== null) {
         changeSelectorStyle(
@@ -269,11 +269,11 @@ export class HtmlResizeForPowerCard {
       }
     });
     const gridElement = <HTMLElement>(
-      teslaCardElement.querySelector('.grid_consumption_entity')
+      teslaCardElement.querySelector('.grid_entity')
     );
     if (gridElement === null) {
-      changeSelectorStyle('.generation_yield_entity', 'margin', '0px');
-      changeSelectorStyle('.battery_consumption_entity', 'margin', '0px');
+      changeSelectorStyle('.generation_entity', 'margin', '0px');
+      changeSelectorStyle('.battery_entity', 'margin', '0px');
       changeSelectorStyle('.power_lines', 'width', 30 * pxRate + 'px');
       selectorElement = <HTMLElement>(
         teslaCardElement.querySelector('.power_lines svg')
