@@ -677,9 +677,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     #battery_to_house_entity_line,
     #generation_to_house_entity_line,
-    #generation_to_house_entity_circle,
     #grid_to_house_entity_line,
-    #grid_to_house_entity_circle,
     #generation_to_battery_entity_line,
     #grid_feed_in_entity_line,
     #generation_to_grid_entity_line,
@@ -711,13 +709,16 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .appliance2_consumption_entity{
       color: var(--info-color);
     }
-    #grid_to_house_entity_line{
-      stroke-width:1;
-    }
     #generation_to_house_entity_line,
     #generation_to_grid_entity_line,
     #generation_to_battery_entity_line{
       stroke:var(--warning-color);
+    }
+    #grid_to_battery_entity_circle,
+    #grid_to_house_entity_circle,
+    #appliance1_consumption_entity_circle,
+    #appliance2_consumption_entity_circle{
+      fill:var(--info-color);
     }
     #generation_to_house_entity_circle,
     #generation_to_grid_entity_circle,

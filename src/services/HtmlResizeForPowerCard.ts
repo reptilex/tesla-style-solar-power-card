@@ -33,16 +33,6 @@ export class HtmlResizeForPowerCard {
 
     changeSelectorStyle('.acc_left', 'top', 12 * pxRate + 'px');
     changeSelectorStyle('.acc_right', 'top', 12 * pxRate + 'px');
-    if (
-      solarCardElements.get('battery_entity') === undefined &&
-      solarCardElements.get('appliance2_consumption_entity') !== undefined
-    ) {
-      changeSelectorStyle(
-        '.acc_center_container',
-        'margin-bottom',
-        15 * pxRate + 'px'
-      );
-    }
 
     // icons
     teslaCardElement
