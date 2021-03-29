@@ -145,7 +145,7 @@ One to hide the lines not active to use it, please make sure everything is worki
 hide_inactive_lines: 1
 ```
 
-Then there are four 5 icon configuration variables:
+Then there are 6 icon configuration variables:
 ```yml
 grid_icon: 'mdi:transmission-tower';
 generation_icon: 'mdi:solar-panel-large';
