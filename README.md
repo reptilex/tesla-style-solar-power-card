@@ -41,10 +41,11 @@ There are 7 main flows and 2 appliance flows.  The main flows are:
 * battery_to_grid_entity
 * battery_to_house_entity
 
-Some will substract the value from one bubble and will add value to another bubble. For example:
+You need at least one, the placement of the main bubbles is fixed for now. Some will substract the value from one bubble and will add value to another bubble. For example:
 
 battery_to_house will substract from the battery bubble/icon and add to house bubble/icon.
 
+## Optional clickable entities
 The clickable entities can be configured through these entities but are optional:
 
 * grid_entity
@@ -55,9 +56,18 @@ The clickable entities can be configured through these entities but are optional
 
 This card started based on the card from [bessarabov animated consumption card](https://github.com/bessarabov/animated-consumption-card), thanks again for that work. Then was rewritten completely taking [boilerplate card](https://github.com/custom-cards/boilerplate-card) as a starting point but with typescript. I also borrowed a few ideas from [power-wheel-card](https://github.com/gurbyz/power-wheel-card) sadly not yet as many as I would like ;)
 
+## Optional extra entities
 
+On top of the flows and clickable entity every bubble can have an extra value on top. To define those you need to add a sensor to any of theses entities:
 
-## HACS-Installation 
+* battery_extra_entity
+* house_extra_entity
+* generation_extra_entity
+* grid_extra_entity
+
+I always have the battery current charge as the battery_extra_entity. In this case the battery icon will also change with the charge.
+
+# HACS-Installation 
 1. [install HACS](https://hacs.xyz/docs/installation/installation) if you don't have it yet
 2. When installed go to HACS->Frontend->Explore & add repositories
 3. search for "tesla style"
@@ -71,7 +81,7 @@ This card started based on the card from [bessarabov animated consumption card](
 3. restart home assistant.
 4. add a manual card with the lovelace gui and configure as seen below.
 
-## Usage
+# Usage
 
 
 ### Just a grid a house and a line
