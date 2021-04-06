@@ -212,10 +212,10 @@ Fortunately this can be easily fixed with the addition of a few template sensors
 After you've included these sensors then you can configure the card like this:
 ```yaml
 type: 'custom:tesla-style-solar-power-card'
-house_consumption_entity: sensor.powerwall_load_now
-grid_consumption_entity: sensor.tesla_card_grid_consumption
-battery_consumption_entity: sensor.tesla_card_battery_consumption
-generation_yield_entity: sensor.powerwall_solar_now
+house_entity: sensor.powerwall_load_now
+grid_entity: sensor.tesla_card_grid_consumption
+battery_entity: sensor.tesla_card_battery_consumption
+generation_entity: sensor.powerwall_solar_now
 
 generation_to_grid: sensor.tesla_card_grid_feed_in
 generation_to_house_entity: sensor.tesla_card_solar_consumption
