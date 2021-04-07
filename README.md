@@ -140,6 +140,12 @@ One to force W (Watt) instead of kW, set it to 1 to use it:
 show_w_not_kw: 1
 ```
 
+One for the threshold from which W is converted to kW (the example below will change W into kilowatt from 5001 W onwards):
+```yml
+threshold_in_k: 5
+```
+threshold_in_k is not compatible with show_w_not_kw, the latter will overrule the threshold_in_k
+
 One to hide the lines not active to use it, please make sure everything is working before you hide the lines:
 ```yml
 hide_inactive_lines: 1
