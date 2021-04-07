@@ -135,9 +135,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   public shouldUpdate(changedProperties: any): boolean {
     let obj: any;
     obj = this;
-    requestAnimationFrame(timestamp => {
-      obj.updateAllCircles(timestamp);
-    });
+    if (!this.config.fat_lines_not_circles) {
+      requestAnimationFrame(timestamp => {
+        obj.updateAllCircles(timestamp);
+      });
+    }
     obj = this;
 
     // Update only when our values in hass changed
@@ -177,6 +179,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
           this.config.threshold_in_k
         );
         solarSensor.setSpeed(this.config.show_w_not_kw);
+        if (this.config.fat_lines_not_circles) {
+          this.setFatLinesDependingOnElementsValue();
+        }
       } catch (err) {
         this.error +=
           "Configured '" + solarSensor.entity + "' entity was not found. ";
@@ -616,6 +621,34 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         break;
       default:
     }
+  }
+
+  private setFatLinesDependingOnElementsValue() {
+    if (this.shadowRoot == null) return;
+    const teslaCardElement = <HTMLElement>(
+      this.shadowRoot.querySelector('#tesla-style-solar-power-card')
+    );
+
+    if (teslaCardElement == null) return;
+
+    this.solarCardElements.forEach((_solarSensor, key) => {
+      const element = this.solarCardElements.get(key);
+
+      let width = 1;
+      if (teslaCardElement == null) return;
+      const entityLine = <SVGPathElement>(
+        teslaCardElement.querySelector('#' + key + '_line')
+      );
+      if (element?.unitOfMeasurement === 'W') {
+        width = Math.floor(element?.value / 1000);
+      } else {
+        width = Math.floor(element?.value);
+      }
+      if (element?.value <= 0) {
+        entityLine.style.strokeWidth = width + 'px';
+      }
+      console.log(key + ' has width: ' + width);
+    });
   }
 
   private redraw(ev: UIEvent) {
