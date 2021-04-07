@@ -86,7 +86,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       this.config.appliance2_icon = 'mdi:air-filter';
 
     this.createSolarCardElements();
-    if (!this.config.fat_lines_not_circles) {
+    if (!this.config.energy_flow_diagramm) {
       const obj = this;
       setInterval(this.animateCircles, 15, obj);
     }
@@ -135,7 +135,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   public shouldUpdate(changedProperties: any): boolean {
     let obj: any;
     obj = this;
-    if (!this.config.fat_lines_not_circles) {
+    if (!this.config.energy_flow_diagramm) {
       requestAnimationFrame(timestamp => {
         obj.updateAllCircles(timestamp);
       });
@@ -179,7 +179,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
           this.config.threshold_in_k
         );
         solarSensor.setSpeed(this.config.show_w_not_kw);
-        if (this.config.fat_lines_not_circles) {
+        if (this.config.energy_flow_diagramm) {
           this.setFatLinesDependingOnElementsValue();
         }
       } catch (err) {
@@ -644,17 +644,20 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         const entityCircle = <SVGPathElement>(
           teslaCardElement.querySelector('#' + key + '_circle')
         );
-        entityCircle.style.visibility = '0';
-        console.log(element?.value);
+        entityCircle.style.visibility = 'hidden';
+        if (this.config.energy_flow_diagramm_lines_factor === undefined)
+          this.config.energy_flow_diagramm_lines_factor = 2;
         if (element?.unitOfMeasurement === 'W') {
-          width = Math.floor(element?.value / 100) / 10;
+          width =
+            (Math.floor(element?.value / 100) / 10) *
+            this.config.energy_flow_diagramm_lines_factor;
         } else {
-          width = Math.floor(element?.value * 10) / 10;
+          width =
+            (Math.floor(element?.value * 10) / 10) *
+            this.config.energy_flow_diagramm_lines_factor;
         }
-        console.log(element.value);
         if (width <= 0.1 && width !== 0) width = 0.1;
         entityLine.style.strokeWidth = width + 'px';
-        console.log(key + ' has width: ' + width);
       }
     });
   }
