@@ -86,10 +86,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       this.config.appliance2_icon = 'mdi:air-filter';
 
     this.createSolarCardElements();
-    let obj;
-    obj = this;
-    setInterval(this.animateCircles, 15, obj);
-    obj = this;
+    if (!this.config.fat_lines_not_circles) {
+      const obj = this;
+      setInterval(this.animateCircles, 15, obj);
+    }
   }
 
   private createSolarCardElements(): void {
@@ -624,6 +624,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private setFatLinesDependingOnElementsValue() {
+    console.log('setting fat lines');
     if (this.shadowRoot == null) return;
     const teslaCardElement = <HTMLElement>(
       this.shadowRoot.querySelector('#tesla-style-solar-power-card')
@@ -639,15 +640,22 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       const entityLine = <SVGPathElement>(
         teslaCardElement.querySelector('#' + key + '_line')
       );
-      if (element?.unitOfMeasurement === 'W') {
-        width = Math.floor(element?.value / 1000);
-      } else {
-        width = Math.floor(element?.value);
-      }
-      if (element?.value <= 0) {
+      if (entityLine != null && element !== undefined) {
+        const entityCircle = <SVGPathElement>(
+          teslaCardElement.querySelector('#' + key + '_circle')
+        );
+        entityCircle.style.visibility = '0';
+        console.log(element?.value);
+        if (element?.unitOfMeasurement === 'W') {
+          width = Math.floor(element?.value / 100) / 10;
+        } else {
+          width = Math.floor(element?.value * 10) / 10;
+        }
+        console.log(element.value);
+        if (width <= 0.1 && width !== 0) width = 0.1;
         entityLine.style.strokeWidth = width + 'px';
+        console.log(key + ' has width: ' + width);
       }
-      console.log(key + ' has width: ' + width);
     });
   }
 

@@ -11,6 +11,8 @@ export interface TeslaStyleSolarPowerCardConfig extends LovelaceCardConfig {
   test_gui?: boolean;
   show_w_not_kw?: any;
   hide_inactive_lines?: boolean;
+  threshold_in_k?: number;
+  fat_lines_not_circles?: boolean;
 
   grid_icon?: string;
   generation_icon?: string;
