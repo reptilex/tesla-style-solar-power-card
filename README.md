@@ -151,6 +151,15 @@ One to hide the lines not active to use it, please make sure everything is worki
 hide_inactive_lines: 1
 ```
 
+One to not show moving circles but an energy flow diagramm (thicker lines when flow is higher):
+```yml
+energy_flow_diagramm: 1
+```
+There is a factor to make the lines thicker depending on your flow normaly it's 2:
+```yml
+energy_flow_diagramm_line_factor: 2
+```
+
 Then there are 6 icon configuration variables:
 ```yml
 grid_icon: 'mdi:transmission-tower';
