@@ -172,8 +172,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       try {
         solarSensor.setValueAndUnitOfMeasurement(
           this.hass.states[solarSensor.entity].state,
+          this.hass.states[solarSensor.entity].attributes.unit_of_measurement,
           this.config.show_w_not_kw,
-          this.hass.states[solarSensor.entity].attributes.unit_of_measurement
+          this.config.threshold_in_k
         );
         solarSensor.setSpeed(this.config.show_w_not_kw);
       } catch (err) {
@@ -578,10 +579,47 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     entity.prevTimestamp = timestamp;
   }
 
+  private colourHouseBubbleDependingOnHighestInput() {
+    if (this.shadowRoot == null) return;
+    const teslaCardElement = <HTMLElement>(
+      this.shadowRoot.querySelector('#tesla-style-solar-power-card')
+    );
+    if (teslaCardElement == null) return;
+
+    const houseEntities = [
+      'generation_to_house_entity',
+      'grid_to_house_entity',
+      'battery_to_house_entity',
+    ];
+    let oldEntity: SensorElement | null = null;
+    let highestEntityHolder = '';
+    houseEntities.forEach(entityHolder => {
+      const divEntity = this.solarCardElements.get(entityHolder);
+      if (divEntity !== null && divEntity?.value !== undefined) {
+        if (oldEntity == null || divEntity?.value > oldEntity.value) {
+          highestEntityHolder = entityHolder;
+        }
+        oldEntity = divEntity;
+      }
+    });
+    const element = <HTMLElement>(
+      teslaCardElement.querySelector('.house_entity')
+    );
+    switch (highestEntityHolder) {
+      case 'generation_to_house_entity':
+        element.style.color = 'var(--info-color)';
+        element.style.border = 'var(--info-color)';
+        break;
+      case 'battery_to_house_entity':
+        element.style.color = 'var(--success-color)';
+        element.style.border = 'var(--success-color)';
+        break;
+      default:
+    }
+  }
+
   private redraw(ev: UIEvent) {
-    // console.log('redraw+'+ev.type)
     if (this.hass && this.config && ev.type === 'resize') {
-      // this.changeStylesDependingOnWidth(this.clientWidth)
       this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(
         this,
         this.solarCardElements,
