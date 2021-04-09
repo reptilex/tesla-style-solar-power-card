@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, import/extensions, prefer-template, class-methods-use-this, lit-a11y/click-events-have-key-events, lines-between-class-members */
+/* eslint-disable no-param-reassign,  import/extensions, prefer-template, class-methods-use-this, lit-a11y/click-events-have-key-events, lines-between-class-members */
 import { html, TemplateResult } from 'lit-element';
 import { HomeAssistant } from 'custom-card-helpers';
 import { HassEntity } from 'home-assistant-js-websocket';
@@ -34,13 +34,7 @@ export class HtmlWriterForPowerCard {
     return html` <div class="acc_td ${cssSelector}">
       <div
         class="acc_container ${bubblClickEntitySlot}"
-        style="${'width:' +
-        9 * this.pxRate +
-        'px; height: ' +
-        9 * this.pxRate +
-        'px; padding:' +
-        5 * this.pxRate +
-        'px'}"
+        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px;'}"
         @click="${() => this._handleClick(bubblClickEntitySlotHassState)}"
       >
         ${extraValue !== null
@@ -54,12 +48,7 @@ export class HtmlWriterForPowerCard {
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${icon}"></ha-icon>
-        <div
-          class="acc_text"
-          style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 *
-            this.pxRate +
-          'px'}"
-        >
+        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 * this.pxRate + 'px'}">
           ${mainValue} ${mainUnitOfMeasurement}
         </div>
       </div>
@@ -91,10 +80,7 @@ export class HtmlWriterForPowerCard {
     );
   }
 
-  private getBatteryIcon(
-    batteryValue: number,
-    batteryChargeDischargeValue: number
-  ) {
+  private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number) {
     let TempSocValue = batteryValue;
     if (batteryValue <= 5) TempSocValue = 0;
 
@@ -112,13 +98,8 @@ export class HtmlWriterForPowerCard {
     return 'mdi:battery' + batteryCharging + batteryStateIconString;
   }
 
-  public writeAppliancePowerLineAndCircle(
-    applianceNumber: number,
-    pathDAttribute: string
-  ) {
-    const divEntity = this.solarCardElements.get(
-      'appliance' + applianceNumber + '_consumption_entity'
-    );
+  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string) {
+    const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
     const height = 18;
     const width = 4;
@@ -141,15 +122,10 @@ export class HtmlWriterForPowerCard {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="${'0 0 ' + 26 * this.pxRate + ' ' + 26 * this.pxRate}"
         preserveAspectRatio="xMinYMax slice"
-        style="height:${height * this.pxRate + 'px'};width:${width *
-          this.pxRate +
-        'px'}"
+        style="height:${height * this.pxRate + 'px'};width:${width * this.pxRate + 'px'}"
         class="acc_appliance${applianceNumber}_line_svg"
       >
-        ${this.writeCircleAndLine(
-          'appliance' + applianceNumber + '_consumption_entity',
-          pathDAttribute
-        )}
+        ${this.writeCircleAndLine('appliance' + applianceNumber + '_consumption_entity', pathDAttribute)}
       </svg>
     </div>`;
   }
@@ -158,13 +134,7 @@ export class HtmlWriterForPowerCard {
     const entity = this.solarCardElements.get(sensorName);
     if (entity == null) return html``;
     return html`<svg>
-      <circle
-        r="4"
-        cx="${entity.startPosition.toString()}"
-        cy="4"
-        fill="${entity.color}"
-        id="${sensorName + '_circle'}"
-      ></circle>
+      <circle r="4" cx="${entity.startPosition.toString()}" cy="4" fill="${entity.color}" id="${sensorName + '_circle'}"></circle>
       <path d="${pathDAttribute}" id="${sensorName + '_line'}"></path>
     </svg>`;
   }

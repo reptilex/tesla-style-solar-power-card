@@ -102,11 +102,6 @@ This will allow you to have two bubbles that are clickable and the flow from gri
 ```yml
 type: 'custom:tesla-style-solar-power-card'
 name: My Flows
-# 4 main bubble icons for clickable entities
-grid_consumption_entity: sensor.grid_consumption
-house_consumption_entity: sensor.house_consumption
-generation_yield_entity: sensor.solar_yield
-battery_consumption_entity: sensor.battery_consumption
 # 7 flows between bubbles
 grid_to_house_entity: sensor.grid_consumption
 grid_to_battery_entity: sensor.grid_battery_charge
@@ -120,11 +115,16 @@ battery_extra_entity: sensor.battery_charge
 house_extra_entity: sensor.current_temperature
 generation_extra_entity: sensor.percent_cloud_coverage
 grid_extra_entity: sensor.monthly_feed_in
-# appliances with consumption and extra values
+# optional appliances with consumption and extra values
 appliance1_consumption_entity: sensor.car_consumption
 appliance1_extra_entity: sensor.car_battery_state_of_charge 
 appliance2_consumption_entity: sensor.heating_consumption
 appliance2_extra_entity: sensor.heating_operation
+# optional 4 main bubble icons for clickable entities
+grid_entity: sensor.grid_consumption
+house_entity: sensor.house_consumption
+generation_entity: sensor.solar_yield
+battery_entity: sensor.battery_consumption
 ```
 If you define an extra entity for the battery bubble with the state of charge then the icon will be dynamically replaced with the value of that entity and will override the icon definition above.
 
@@ -140,7 +140,7 @@ One to force W (Watt) instead of kW, set it to 1 to use it:
 show_w_not_kw: 1
 ```
 
-One for the threshold from which W is converted to kW (the example below will change W into kilowatt from 5001 W onwards):
+One for the threshold from which W is converted to kW (the example below will change W into kilowatt from 5000 W onwards):
 ```yml
 threshold_in_k: 5
 ```
@@ -149,6 +149,11 @@ threshold_in_k is not compatible with show_w_not_kw, the latter will overrule th
 One to hide the lines not active to use it, please make sure everything is working before you hide the lines:
 ```yml
 hide_inactive_lines: 1
+```
+
+One to colour the house bubble depending on the highest flow:
+```yml
+change_house_bubble_color_with_flow: 1
 ```
 
 One to not show moving circles but an energy flow diagramm (thicker lines when flow is higher):

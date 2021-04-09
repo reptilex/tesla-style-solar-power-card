@@ -1,17 +1,6 @@
 /* eslint-disable no-restricted-globals, prefer-template, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events, no-bitwise, import/extensions */
-import {
-  LitElement,
-  html,
-  property,
-  TemplateResult,
-  CSSResult,
-  css,
-  internalProperty,
-} from 'lit-element';
-import {
-  HomeAssistant,
-  LovelaceCardConfig /* , LovelaceCardEditor */,
-} from 'custom-card-helpers';
+import { LitElement, html, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
+import { HomeAssistant, LovelaceCardConfig /* , LovelaceCardEditor */ } from 'custom-card-helpers';
 import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
 
 import { SensorElement } from './models/SensorElement';
@@ -25,8 +14,7 @@ import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
 (window as any).customCards.push({
   type: 'tesla-style-solar-power-card',
   name: 'Tesla Style Solar Power Card',
-  description:
-    'A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2',
+  description: 'A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2',
 });
 
 export class TeslaStyleSolarPowerCard extends LitElement {
@@ -34,10 +22,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   @internalProperty() private config!: TeslaStyleSolarPowerCardConfig;
 
-  @property({ attribute: false }) public solarCardElements: Map<
-    string,
-    SensorElement
-  > = new Map();
+  @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
 
   @internalProperty() private oldWidth = 100;
 
@@ -45,10 +30,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private teslaCardElement?: HTMLElement;
 
-  private htmlWriter: HtmlWriterForPowerCard = new HtmlWriterForPowerCard(
-    this,
-    this.hass
-  );
+  private htmlWriter: HtmlWriterForPowerCard = new HtmlWriterForPowerCard(this, this.hass);
 
   @property({ type: String }) title = 'Hey there';
 
@@ -73,17 +55,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       ...config,
     };
 
-    if (this.config.grid_icon == null)
-      this.config.grid_icon = 'mdi:transmission-tower';
-    if (this.config.generation_icon == null)
-      this.config.generation_icon = 'mdi:solar-panel-large';
+    if (this.config.grid_icon == null) this.config.grid_icon = 'mdi:transmission-tower';
+    if (this.config.generation_icon == null) this.config.generation_icon = 'mdi:solar-panel-large';
     if (this.config.house_icon == null) this.config.house_icon = 'mdi:home';
-    if (this.config.battery_icon == null)
-      this.config.battery_icon = 'mdi:battery-medium';
-    if (this.config.appliance1_icon == null)
-      this.config.appliance1_icon = 'mdi:car-sports';
-    if (this.config.appliance2_icon == null)
-      this.config.appliance2_icon = 'mdi:air-filter';
+    if (this.config.battery_icon == null) this.config.battery_icon = 'mdi:battery-medium';
+    if (this.config.appliance1_icon == null) this.config.appliance1_icon = 'mdi:car-sports';
+    if (this.config.appliance2_icon == null) this.config.appliance2_icon = 'mdi:air-filter';
 
     this.createSolarCardElements();
     if (!this.config.energy_flow_diagramm) {
@@ -118,12 +95,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   async firstUpdated(): Promise<void> {
     // Give the browser a chance to paint
     await new Promise(r => setTimeout(r, 0));
-    this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(
-      this,
-      this.solarCardElements,
-      this.clientWidth,
-      this.oldWidth
-    );
+    this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.solarCardElements, this.clientWidth, this.oldWidth);
   }
 
   public connectedCallback(): void {
@@ -159,8 +131,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     this.solarCardElements.forEach((_solarSensor, key) => {
       if (
         this.hass.states[this.config[key]] !== undefined &&
-        this.hass.states[this.config[key]].state !==
-          oldValue.states[this.config[key]].state
+        this.hass.states[this.config[key]].state !== oldValue.states[this.config[key]].state
       ) {
         change = true;
       }
@@ -179,14 +150,16 @@ export class TeslaStyleSolarPowerCard extends LitElement {
           this.config.threshold_in_k
         );
         solarSensor.setSpeed(this.config.show_w_not_kw);
-        if (this.config.energy_flow_diagramm) {
-          this.setFatLinesDependingOnElementsValue();
-        }
       } catch (err) {
-        this.error +=
-          "Configured '" + solarSensor.entity + "' entity was not found. ";
+        this.error += " Configured '" + solarSensor.entity + "' entity was not found. ";
       }
     });
+    if (this.config.energy_flow_diagramm) {
+      this.setEnergyFlowDiagramm();
+    }
+    if (this.config.change_house_bubble_color_with_flow) {
+      this.colourHouseBubbleDependingOnHighestInput();
+    }
     super.performUpdate();
   }
 
@@ -196,7 +169,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
     this.pxRate = this.clientWidth / 100;
     const half = 22 * this.pxRate;
-
+    //
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">
@@ -214,149 +187,45 @@ export class TeslaStyleSolarPowerCard extends LitElement {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="${'0 0 ' +
-                  42 * this.pxRate +
-                  ' ' +
-                  42 * this.pxRate}"
+                  viewBox="${'0 0 ' + 42 * this.pxRate + ' ' + 42 * this.pxRate}"
                   preserveAspectRatio="xMinYMax slice"
-                  style="height:${42 * this.pxRate + 'px'};width:${42 *
-                    this.pxRate +
-                  'px'}"
+                  style="height:${42 * this.pxRate + 'px'};width:${42 * this.pxRate + 'px'}"
                 >
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_house_entity',
-                    'M' +
-                      half +
-                      ',0 C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half * 2 +
-                      ',' +
-                      half
+                    'M' + half + ',0 C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_house_entity',
-                    'M0,' +
-                      half +
-                      ' C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half * 2 +
-                      ',' +
-                      half
+                    'M0,' + half + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_grid_entity',
-                    'M' +
-                      half +
-                      ',0 C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' 0,' +
-                      half
+                    'M' + half + ',0 C' + half + ',' + half + ' ' + half + ',' + half + ' 0,' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_battery_entity',
-                    'M0,' +
-                      half +
-                      ' C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half * 2
+                    'M0,' + half + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half + ',' + half * 2
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_grid_entity',
-                    'M' +
-                      half +
-                      ',' +
-                      half * 2 +
-                      ' C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' 0,' +
-                      half
+                    'M' + half + ',' + half * 2 + ' C' + half + ',' + half + ' ' + half + ',' + half + ' 0,' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_battery_entity',
-                    'M' +
-                      half +
-                      ',0 C' +
-                      half +
-                      ',0 ' +
-                      half +
-                      ',' +
-                      half * 2 +
-                      ' ' +
-                      half +
-                      ',' +
-                      half * 2
+                    'M' + half + ',0 C' + half + ',0 ' + half + ',' + half * 2 + ' ' + half + ',' + half * 2
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_house_entity',
-                    'M' +
-                      half +
-                      ',' +
-                      half * 2 +
-                      ' C' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half +
-                      ',' +
-                      half +
-                      ' ' +
-                      half * 2 +
-                      ',' +
-                      half
+                    'M' + half + ',' + half * 2 + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
                   )}
                 </svg>
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(
-                1,
-                'M4,' +
-                  16 * this.pxRate +
-                  ' C4,' +
-                  16 * this.pxRate +
-                  ' 4,0 4,0'
-              )}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M4,' + 16 * this.pxRate + ' C4,' + 16 * this.pxRate + ' 4,0 4,0')}
               ${this.writeApplianceIconBubble(2)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(
-                2,
-                'M4,0 C4,0 4,' + 16 * this.pxRate + ' 4,' + 16 * this.pxRate
-              )}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M4,0 C4,0 4,' + 16 * this.pxRate + ' 4,' + 16 * this.pxRate)}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
@@ -366,51 +235,21 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private writeGenerationIconBubble(): TemplateResult {
-    const generationEntities = [
-      'generation_to_grid_entity',
-      'generation_to_house_entity',
-      'generation_to_battery_entity',
-    ];
+    const generationEntities = ['generation_to_grid_entity', 'generation_to_house_entity', 'generation_to_battery_entity'];
 
-    return this.writeIconBubble(
-      generationEntities,
-      'acc_top',
-      'generation_icon',
-      'generation_entity',
-      'generation_extra_entity'
-    );
+    return this.writeIconBubble(generationEntities, 'acc_top', 'generation_icon', 'generation_entity', 'generation_extra_entity');
   }
 
   private writeGridIconBubble(): TemplateResult {
-    const gridEntities = [
-      '-generation_to_grid_entity',
-      'grid_to_house_entity',
-      '-battery_to_grid_entity',
-    ];
+    const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity'];
 
-    return this.writeIconBubble(
-      gridEntities,
-      'acc_left',
-      'grid_icon',
-      'grid_entity',
-      'grid_extra_entity'
-    );
+    return this.writeIconBubble(gridEntities, 'acc_left', 'grid_icon', 'grid_entity', 'grid_extra_entity');
   }
 
   private writeHouseIconBubble(): TemplateResult {
-    const houseEntities = [
-      'generation_to_house_entity',
-      'grid_to_house_entity',
-      'battery_to_house_entity',
-    ];
+    const houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
 
-    return this.writeIconBubble(
-      houseEntities,
-      'acc_right',
-      'house_icon',
-      'house_entity',
-      'house_extra_entity'
-    );
+    return this.writeIconBubble(houseEntities, 'acc_right', 'house_icon', 'house_entity', 'house_extra_entity');
   }
 
   private writeBatteryIconBubble(): TemplateResult {
@@ -420,20 +259,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       '-battery_to_house_entity',
       '-battery_to_grid_entity',
     ];
-    return this.writeIconBubble(
-      batteryEntities,
-      'acc_bottom',
-      'battery_icon',
-      'battery_entity',
-      'battery_extra_entity',
-      true
-    );
+    return this.writeIconBubble(batteryEntities, 'acc_bottom', 'battery_icon', 'battery_entity', 'battery_extra_entity', true);
   }
 
   private writeApplianceIconBubble(applianceNumber: number): TemplateResult {
-    const applianceEntities = [
-      'appliance' + applianceNumber + '_consumption_entity',
-    ];
+    const applianceEntities = ['appliance' + applianceNumber + '_consumption_entity'];
     return this.writeIconBubble(
       applianceEntities,
       'acc_appliance' + applianceNumber,
@@ -487,9 +317,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
 
     if (bubblClickEntitySlot !== null) {
-      clickEntityHassState = this.hass.states[
-        this.config[bubblClickEntitySlot]
-      ];
+      clickEntityHassState = this.hass.states[this.config[bubblClickEntitySlot]];
     }
 
     if (isBatteryBubble) {
@@ -533,23 +361,16 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private updateOneCircle(timestamp: number, entity: SensorElement) {
     if (this.shadowRoot == null) return;
-    const teslaCardElement = <HTMLElement>(
-      this.shadowRoot.querySelector('#tesla-style-solar-power-card')
-    );
+    const teslaCardElement = <HTMLElement>this.shadowRoot.querySelector('#tesla-style-solar-power-card');
     if (teslaCardElement == null) return;
-    entity.line = <SVGPathElement>(
-      teslaCardElement.querySelector('#' + entity.entitySlot + '_line')
-    );
+    entity.line = <SVGPathElement>teslaCardElement.querySelector('#' + entity.entitySlot + '_line');
     if (entity.line === null) return;
     const lineLength = entity.line.getTotalLength();
     if (isNaN(lineLength)) return;
-    entity.circle = <SVGPathElement>(
-      teslaCardElement.querySelector('#' + entity.entitySlot + '_circle')
-    );
+    entity.circle = <SVGPathElement>teslaCardElement.querySelector('#' + entity.entitySlot + '_circle');
     if (entity.speed === 0) {
       entity.circle.setAttribute('visibility', 'hidden');
-      if (this.config.hide_inactive_lines)
-        entity.line.setAttribute('visibility', 'hidden');
+      if (this.config.hide_inactive_lines) entity.line.setAttribute('visibility', 'hidden');
       return;
     }
 
@@ -562,8 +383,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       entity.currentDelta = 0;
     }
 
-    entity.currentDelta +=
-      Math.abs(entity.speed) * (timestamp - entity.prevTimestamp);
+    entity.currentDelta += Math.abs(entity.speed) * (timestamp - entity.prevTimestamp);
     let percentageDelta = entity.currentDelta / lineLength;
     if (entity.speed > 0) {
       if (percentageDelta >= 1 || isNaN(percentageDelta)) {
@@ -586,16 +406,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private colourHouseBubbleDependingOnHighestInput() {
     if (this.shadowRoot == null) return;
-    const teslaCardElement = <HTMLElement>(
-      this.shadowRoot.querySelector('#tesla-style-solar-power-card')
-    );
+    const teslaCardElement = <HTMLElement>this.shadowRoot.querySelector('#tesla-style-solar-power-card');
     if (teslaCardElement == null) return;
 
-    const houseEntities = [
-      'generation_to_house_entity',
-      'grid_to_house_entity',
-      'battery_to_house_entity',
-    ];
+    const houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
     let oldEntity: SensorElement | null = null;
     let highestEntityHolder = '';
     houseEntities.forEach(entityHolder => {
@@ -607,28 +421,47 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         oldEntity = divEntity;
       }
     });
-    const element = <HTMLElement>(
-      teslaCardElement.querySelector('.house_entity')
-    );
+
     switch (highestEntityHolder) {
       case 'generation_to_house_entity':
-        element.style.color = 'var(--info-color)';
-        element.style.border = 'var(--info-color)';
+        this.colourBubble('.house_entity', teslaCardElement, 'warning');
+        this.colourBubble('.appliance1_consumption_entity', teslaCardElement, 'warning');
+        this.colourBubble('.appliance2_consumption_entity', teslaCardElement, 'warning');
+        this.colourLineAndCircle('#appliance1_consumption_entity', teslaCardElement, 'warning');
+        this.colourLineAndCircle('#appliance2_consumption_entity', teslaCardElement, 'warning');
         break;
       case 'battery_to_house_entity':
-        element.style.color = 'var(--success-color)';
-        element.style.border = 'var(--success-color)';
+        this.colourBubble('.house_entity', teslaCardElement, 'success');
+        this.colourBubble('.appliance1_consumption_entity', teslaCardElement, 'success');
+        this.colourBubble('.appliance2_consumption_entity', teslaCardElement, 'success');
+        this.colourLineAndCircle('#appliance1_consumption_entity', teslaCardElement, 'success');
+        this.colourLineAndCircle('#appliance2_consumption_entity', teslaCardElement, 'success');
         break;
       default:
     }
   }
 
-  private setFatLinesDependingOnElementsValue() {
-    console.log('setting fat lines');
+  private colourBubble(elementName: string, teslaCardElement: HTMLElement, colour: string) {
+    const element = <HTMLElement>teslaCardElement.querySelector(elementName);
+
+    if (element === null) return;
+
+    element.style.color = 'var(--' + colour + '-color)';
+    element.style.border = '1px solid var(--' + colour + '-color)';
+  }
+
+  private colourLineAndCircle(elementName: string, teslaCardElement: HTMLElement, colour: string) {
+    const elementLine = <HTMLElement>teslaCardElement.querySelector(elementName + '_line');
+    const elementCircle = <HTMLElement>teslaCardElement.querySelector(elementName + '_circle');
+
+    if (elementLine === null) return;
+    elementLine.style.stroke = 'var(--' + colour + '-color)';
+    elementCircle.style.fill = 'var(--' + colour + '-color)';
+  }
+
+  private setEnergyFlowDiagramm() {
     if (this.shadowRoot == null) return;
-    const teslaCardElement = <HTMLElement>(
-      this.shadowRoot.querySelector('#tesla-style-solar-power-card')
-    );
+    const teslaCardElement = <HTMLElement>this.shadowRoot.querySelector('#tesla-style-solar-power-card');
 
     if (teslaCardElement == null) return;
 
@@ -637,24 +470,15 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
       let width = 1;
       if (teslaCardElement == null) return;
-      const entityLine = <SVGPathElement>(
-        teslaCardElement.querySelector('#' + key + '_line')
-      );
+      const entityLine = <SVGPathElement>teslaCardElement.querySelector('#' + key + '_line');
       if (entityLine != null && element !== undefined) {
-        const entityCircle = <SVGPathElement>(
-          teslaCardElement.querySelector('#' + key + '_circle')
-        );
+        const entityCircle = <SVGPathElement>teslaCardElement.querySelector('#' + key + '_circle');
         entityCircle.style.visibility = 'hidden';
-        if (this.config.energy_flow_diagramm_lines_factor === undefined)
-          this.config.energy_flow_diagramm_lines_factor = 2;
+        if (this.config.energy_flow_diagramm_lines_factor === undefined) this.config.energy_flow_diagramm_lines_factor = 2;
         if (element?.unitOfMeasurement === 'W') {
-          width =
-            (Math.floor(element?.value / 100) / 10) *
-            this.config.energy_flow_diagramm_lines_factor;
+          width = (Math.floor(element?.value / 100) / 10) * this.config.energy_flow_diagramm_lines_factor;
         } else {
-          width =
-            (Math.floor(element?.value * 10) / 10) *
-            this.config.energy_flow_diagramm_lines_factor;
+          width = (Math.floor(element?.value * 10) / 10) * this.config.energy_flow_diagramm_lines_factor;
         }
         if (width <= 0.1 && width !== 0) width = 0.1;
         entityLine.style.strokeWidth = width + 'px';
@@ -664,12 +488,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private redraw(ev: UIEvent) {
     if (this.hass && this.config && ev.type === 'resize') {
-      this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(
-        this,
-        this.solarCardElements,
-        this.clientWidth,
-        this.oldWidth
-      );
+      this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.solarCardElements, this.clientWidth, this.oldWidth);
     }
   }
 

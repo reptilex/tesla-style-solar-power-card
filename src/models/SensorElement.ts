@@ -46,7 +46,7 @@ export class SensorElement {
     entityState: string | undefined,
     unitOfMeasurement: string | undefined,
     useWnotkW = false,
-    threshold = 1
+    thresholdInK = 1
   ): void {
     if (entityState === undefined) {
       this.value = 0;
@@ -62,12 +62,7 @@ export class SensorElement {
     switch (unitOfMeasurement) {
       case 'W':
       case 'kW':
-        this.setValueAndUnitDependingExtraOptions(
-          unitOfMeasurement,
-          valueFromState,
-          useWnotkW,
-          threshold
-        );
+        this.setValueAndUnitDependingOnExtraOptions(unitOfMeasurement, valueFromState, useWnotkW, thresholdInK);
         break;
       case '%':
         this.value = valueFromState;
@@ -82,7 +77,7 @@ export class SensorElement {
     this.value = this.roundValue(this.value);
   }
 
-  private setValueAndUnitDependingExtraOptions(
+  private setValueAndUnitDependingOnExtraOptions(
     unitOfMeasurement: string,
     valueFromState: number,
     useWnotkW: boolean,
@@ -98,22 +93,17 @@ export class SensorElement {
       return;
     }
 
-    if (
-      thresholdInK !== 1 &&
-      unitOfMeasurement === 'kW' &&
-      valueFromState < thresholdInK
-    ) {
-      this.value = valueFromState * 1000;
-      this.unitOfMeasurement = 'W';
-      return;
-    }
-
     if (unitOfMeasurement === 'kW') {
       this.value = valueFromState;
     } else if (unitOfMeasurement === 'W') {
       this.value = valueFromState / 1000;
     }
     this.unitOfMeasurement = 'kW';
+
+    if (thresholdInK !== 1 && this.unitOfMeasurement === 'kW' && this.value < thresholdInK) {
+      this.value *= 1000;
+      this.unitOfMeasurement = 'W';
+    }
   }
 
   private roundValue(value: number): number {
