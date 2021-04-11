@@ -1,7 +1,9 @@
 /* eslint-disable no-restricted-globals, prefer-template, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events, no-bitwise, import/extensions */
 import { LitElement, html, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
-import { HomeAssistant, LovelaceCardConfig /* , LovelaceCardEditor */ } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardConfig, LovelaceCardEditor } from 'custom-card-helpers';
 import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
+
+import './components/editor';
 
 import { SensorElement } from './models/SensorElement';
 import { HtmlWriterForPowerCard } from './services/HtmlWriterForPowerCard';
@@ -83,9 +85,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     return 5;
   }
 
-  /* public static async getConfigElement(): Promise<LovelaceCardEditor> {
+  public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('tesla-style-solar-power-card-editor');
-  } */
+  }
 
   public static getStubConfig(): Record<string, any> {
     return {};
@@ -410,15 +412,16 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (teslaCardElement == null) return;
 
     const houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
-    let oldEntity: SensorElement | null = null;
+    let highestEntity: SensorElement | null = null;
     let highestEntityHolder = '';
+
     houseEntities.forEach(entityHolder => {
       const divEntity = this.solarCardElements.get(entityHolder);
       if (divEntity !== null && divEntity?.value !== undefined) {
-        if (oldEntity == null || divEntity?.value > oldEntity.value) {
+        if (highestEntity == null || divEntity?.value > highestEntity.value) {
           highestEntityHolder = entityHolder;
+          highestEntity = divEntity;
         }
-        oldEntity = divEntity;
       }
     });
 
@@ -436,6 +439,13 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         this.colourBubble('.appliance2_consumption_entity', teslaCardElement, 'success');
         this.colourLineAndCircle('#appliance1_consumption_entity', teslaCardElement, 'success');
         this.colourLineAndCircle('#appliance2_consumption_entity', teslaCardElement, 'success');
+        break;
+      case 'grid_to_house_entity':
+        this.colourBubble('.house_entity', teslaCardElement, 'info');
+        this.colourBubble('.appliance1_consumption_entity', teslaCardElement, 'info');
+        this.colourBubble('.appliance2_consumption_entity', teslaCardElement, 'info');
+        this.colourLineAndCircle('#appliance1_consumption_entity', teslaCardElement, 'info');
+        this.colourLineAndCircle('#appliance2_consumption_entity', teslaCardElement, 'info');
         break;
       default:
     }

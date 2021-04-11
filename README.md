@@ -237,7 +237,7 @@ grid_entity: sensor.tesla_card_grid_consumption
 battery_entity: sensor.tesla_card_battery_consumption
 generation_entity: sensor.powerwall_solar_now
 
-generation_to_grid: sensor.tesla_card_grid_feed_in
+generation_to_grid_entity: sensor.tesla_card_grid_feed_in
 generation_to_house_entity: sensor.tesla_card_solar_consumption
 generation_to_battery_entity: sensor.tesla_card_battery_charging
 battery_to_house_entity: sensor.tesla_card_battery_consumption

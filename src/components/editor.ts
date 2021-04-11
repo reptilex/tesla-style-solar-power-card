@@ -1,21 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-param-reassign, camelcase, lit/no-useless-template-literals, lit-a11y/click-events-have-key-events */
-import {
-  LitElement,
-  html,
-  customElement,
-  property,
-  TemplateResult,
-  CSSResult,
-  css,
-  internalProperty,
-} from 'lit-element';
-import {
-  HomeAssistant,
-  fireEvent,
-  LovelaceCardEditor,
-  ActionConfig,
-  LovelaceCardConfig,
-} from 'custom-card-helpers';
+import { LitElement, html, customElement, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
+import { HomeAssistant, LovelaceCardEditor, ActionConfig, LovelaceCardConfig } from 'custom-card-helpers';
+import '../types.js';
 
 import { TeslaStyleSolarPowerCardConfig } from '../models/TeslaStyleSolarPowerCardConfig.js';
 
@@ -23,8 +9,7 @@ const options = {
   entities: {
     icon: 'tune',
     name: 'Entities',
-    secondary:
-      'Entities for card to make sense, none are required but you should have a few.',
+    secondary: 'Entities for card to make sense, none are required but you should have a few.',
     show: false,
   },
   actions: {
@@ -62,9 +47,7 @@ const options = {
 };
 
 @customElement('tesla-style-solar-power-card-editor')
-export class TeslaStyleSolarPowerCardEditor
-  extends LitElement
-  implements LovelaceCardEditor {
+export class TeslaStyleSolarPowerCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
   @internalProperty() private _config?: LovelaceCardConfig;
@@ -208,9 +191,7 @@ export class TeslaStyleSolarPowerCardEditor
     return html`
       <div class="card-config">
         <paper-input
-          .label="${this.hass.localize(
-            'ui.panel.lovelace.editor.card.generic.title'
-          )} (${this.hass.localize(
+          .label="${this.hass.localize('ui.panel.lovelace.editor.card.generic.title')} (${this.hass.localize(
             'ui.panel.lovelace.editor.card.config.optional'
           )})"
           .value=${this.name}
@@ -227,8 +208,7 @@ export class TeslaStyleSolarPowerCardEditor
         ${options.entities.show
           ? html`<div class="values">
               ${Array.from(this._entityMap).map(entityArr => {
-                const entityName: keyof TeslaStyleSolarPowerCardConfig =
-                  entityArr[0];
+                const entityName: keyof TeslaStyleSolarPowerCardConfig = entityArr[0];
                 const entityFunction = this[`_${entityName}`];
                 return html`
                   <ha-entity-picker
@@ -255,20 +235,12 @@ export class TeslaStyleSolarPowerCardEditor
         ${options.actions.show
           ? html`
               <div class="values">
-                <div
-                  class="option"
-                  @click=${this._toggleAction}
-                  .option=${'tap'}
-                >
+                <div class="option" @click=${this._toggleAction} .option=${'tap'}>
                   <div class="row">
-                    <ha-icon
-                      .icon=${`mdi:${options.actions.options.tap.icon}`}
-                    ></ha-icon>
+                    <ha-icon .icon=${`mdi:${options.actions.options.tap.icon}`}></ha-icon>
                     <div class="title">${options.actions.options.tap.name}</div>
                   </div>
-                  <div class="secondary">
-                    ${options.actions.options.tap.secondary}
-                  </div>
+                  <div class="secondary">${options.actions.options.tap.secondary}</div>
                 </div>
                 ${options.actions.options.tap.show
                   ? html`
@@ -277,22 +249,12 @@ export class TeslaStyleSolarPowerCardEditor
                       </div>
                     `
                   : ''}
-                <div
-                  class="option"
-                  @click=${this._toggleAction}
-                  .option=${'hold'}
-                >
+                <div class="option" @click=${this._toggleAction} .option=${'hold'}>
                   <div class="row">
-                    <ha-icon
-                      .icon=${`mdi:${options.actions.options.hold.icon}`}
-                    ></ha-icon>
-                    <div class="title">
-                      ${options.actions.options.hold.name}
-                    </div>
+                    <ha-icon .icon=${`mdi:${options.actions.options.hold.icon}`}></ha-icon>
+                    <div class="title">${options.actions.options.hold.name}</div>
                   </div>
-                  <div class="secondary">
-                    ${options.actions.options.hold.secondary}
-                  </div>
+                  <div class="secondary">${options.actions.options.hold.secondary}</div>
                 </div>
                 ${options.actions.options.hold.show
                   ? html`
@@ -301,22 +263,12 @@ export class TeslaStyleSolarPowerCardEditor
                       </div>
                     `
                   : ''}
-                <div
-                  class="option"
-                  @click=${this._toggleAction}
-                  .option=${'double_tap'}
-                >
+                <div class="option" @click=${this._toggleAction} .option=${'double_tap'}>
                   <div class="row">
-                    <ha-icon
-                      .icon=${`mdi:${options.actions.options.double_tap.icon}`}
-                    ></ha-icon>
-                    <div class="title">
-                      ${options.actions.options.double_tap.name}
-                    </div>
+                    <ha-icon .icon=${`mdi:${options.actions.options.double_tap.icon}`}></ha-icon>
+                    <div class="title">${options.actions.options.double_tap.name}</div>
                   </div>
-                  <div class="secondary">
-                    ${options.actions.options.double_tap.secondary}
-                  </div>
+                  <div class="secondary">${options.actions.options.double_tap.secondary}</div>
                 </div>
                 ${options.actions.options.double_tap.show
                   ? html`
@@ -328,11 +280,7 @@ export class TeslaStyleSolarPowerCardEditor
               </div>
             `
           : ''}
-        <div
-          class="option"
-          @click=${this._toggleOption}
-          .option=${'appearance'}
-        >
+        <div class="option" @click=${this._toggleOption} .option=${'appearance'}>
           <div class="row">
             <ha-icon .icon=${`mdi:${options.appearance.icon}`}></ha-icon>
             <div class="title">${options.appearance.name}</div>
@@ -343,40 +291,24 @@ export class TeslaStyleSolarPowerCardEditor
           ? html`
               <div class="values">
                 <br />
-                <ha-formfield
-                  .label=${`Toggle warning ${this.show_warning ? 'off' : 'on'}`}
-                >
+                <ha-formfield .label=${`Toggle warning ${this.show_warning ? 'off' : 'on'}`}>
                   <ha-switch
                     .checked=${this.show_warning !== false}
                     .configValue=${'show_warning'}
                     @change=${this._valueChanged}
                   ></ha-switch>
                 </ha-formfield>
-                <ha-formfield
-                  .label=${`Toggle error ${this.show_error ? 'off' : 'on'}`}
-                >
-                  <ha-switch
-                    .checked=${this.show_error !== false}
-                    .configValue=${'show_error'}
-                    @change=${this._valueChanged}
-                  ></ha-switch>
+                <ha-formfield .label=${`Toggle error ${this.show_error ? 'off' : 'on'}`}>
+                  <ha-switch .checked=${this.show_error !== false} .configValue=${'show_error'} @change=${this._valueChanged}></ha-switch>
                 </ha-formfield>
-                <ha-formfield
-                  .label=${`Toggle W instead of kW ${
-                    this.show_w_not_kw ? 'off' : 'on'
-                  }`}
-                >
+                <ha-formfield .label=${`Toggle W instead of kW ${this.show_w_not_kw ? 'off' : 'on'}`}>
                   <ha-switch
                     .checked=${this.show_w_not_kw !== false}
                     .configValue=${'show_w_not_kw'}
                     @change=${this._valueChanged}
                   ></ha-switch>
                 </ha-formfield>
-                <ha-formfield
-                  .label=${`Toggle hiding inactive power lines ${
-                    this.hide_inactive_lines ? 'off' : 'on'
-                  }`}
-                >
+                <ha-formfield .label=${`Toggle hiding inactive power lines ${this.hide_inactive_lines ? 'off' : 'on'}`}>
                   <ha-switch
                     .checked=${this.hide_inactive_lines !== false}
                     .configValue=${'hide_inactive_lines'}
@@ -432,12 +364,11 @@ export class TeslaStyleSolarPowerCardEditor
       } else {
         this._config = {
           ...this._config,
-          [target.configValue]:
-            target.checked !== undefined ? target.checked : target.value,
+          [target.configValue]: target.checked !== undefined ? target.checked : target.value,
         };
       }
     }
-    fireEvent(this, 'config-changed', { config: this._config });
+    // fireEvent(this, 'config-changed', { config: this._config });
   }
 
   private _fillLineEntityMap() {
@@ -447,54 +378,18 @@ export class TeslaStyleSolarPowerCardEditor
       this._entityMap.set('generation_entity', this._config.generation_entity);
       this._entityMap.set('battery_entity', this._config.battery_entity);
 
-      this._entityMap.set(
-        'grid_to_house_entity',
-        this._config.grid_to_battery_entity
-      );
-      this._entityMap.set(
-        'grid_to_battery_entity',
-        this._config.grid_to_battery_entity
-      );
-      this._entityMap.set(
-        'generation_to_grid_entity',
-        this._config.grid_feed_in_entity
-      );
-      this._entityMap.set(
-        'generation_to_house_entity',
-        this._config.generation_consumption_entity
-      );
-      this._entityMap.set(
-        'generation_to_battery_entity',
-        this._config.generation_to_battery_entity
-      );
-      this._entityMap.set(
-        'battery_to_grid_entity',
-        this._config.generation_consumption_entity
-      );
-      this._entityMap.set(
-        'battery_to_house_entity',
-        this._config.generation_to_battery_entity
-      );
-      this._entityMap.set(
-        'battery_extra_entity',
-        this._config.battery_extra_entity
-      );
-      this._entityMap.set(
-        'appliance1_consumption_entity',
-        this._config.appliance1_entity
-      );
-      this._entityMap.set(
-        'appliance1_state_entity',
-        this._config.appliance1_state_entity
-      );
-      this._entityMap.set(
-        'appliance2_consumption_entity',
-        this._config.appliance2_entity
-      );
-      this._entityMap.set(
-        'appliance2_state_entity',
-        this._config.appliance2_state_entity
-      );
+      this._entityMap.set('grid_to_house_entity', this._config.grid_to_battery_entity);
+      this._entityMap.set('grid_to_battery_entity', this._config.grid_to_battery_entity);
+      this._entityMap.set('generation_to_grid_entity', this._config.grid_feed_in_entity);
+      this._entityMap.set('generation_to_house_entity', this._config.generation_consumption_entity);
+      this._entityMap.set('generation_to_battery_entity', this._config.generation_to_battery_entity);
+      this._entityMap.set('battery_to_grid_entity', this._config.generation_consumption_entity);
+      this._entityMap.set('battery_to_house_entity', this._config.generation_to_battery_entity);
+      this._entityMap.set('battery_extra_entity', this._config.battery_extra_entity);
+      this._entityMap.set('appliance1_consumption_entity', this._config.appliance1_entity);
+      this._entityMap.set('appliance1_state_entity', this._config.appliance1_state_entity);
+      this._entityMap.set('appliance2_consumption_entity', this._config.appliance2_entity);
+      this._entityMap.set('appliance2_state_entity', this._config.appliance2_state_entity);
     }
   }
 
