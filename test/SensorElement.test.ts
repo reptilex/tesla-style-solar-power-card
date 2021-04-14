@@ -10,7 +10,7 @@ describe('SensorElements test', () => {
     selement.value = 1;
     selement.unitOfMeasurement = 'W';
     selement.setSpeed();
-    expect(selement.speed).to.equal(0.04);
+    expect(selement.speed).to.equal(0.00004);
   });
 
   it('should setSpeed with W', () => {
@@ -18,7 +18,7 @@ describe('SensorElements test', () => {
     selement.value = 1;
     selement.unitOfMeasurement = 'kW';
     selement.setSpeed();
-    expect(selement.speed).to.equal(0.00004);
+    expect(selement.speed).to.equal(0.04);
   });
 
   it('should setValueAndUnitOfMeasurement from kW rounded to 1 decimals', () => {
@@ -88,6 +88,8 @@ describe('SensorElements test', () => {
     selement.setValueAndUnitOfMeasurement('1', 'kW', false, 1);
     expect(selement.value).to.equal(1);
     expect(selement.unitOfMeasurement).to.equal('kW');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.04');
   });
 
   it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 1', () => {
@@ -95,5 +97,7 @@ describe('SensorElements test', () => {
     selement.setValueAndUnitOfMeasurement('0.9', 'kW', false, 1);
     expect(selement.value).to.equal(900);
     expect(selement.unitOfMeasurement).to.equal('W');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.036');
   });
 });

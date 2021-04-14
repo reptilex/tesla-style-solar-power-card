@@ -120,7 +120,7 @@ export class SensorElement {
     this.speed = 0;
     if (Math.abs(this.value) === 0) return;
 
-    if (this.unitOfMeasurement !== 'kW') {
+    if (this.unitOfMeasurement !== 'W') {
       this.speed = SensorElement.SPEEDFACTOR * this.value;
     } else {
       this.speed = (SensorElement.SPEEDFACTOR / 1000) * this.value;
