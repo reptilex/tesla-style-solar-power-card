@@ -46,7 +46,7 @@ export class SensorElement {
     entityState: string | undefined,
     unitOfMeasurement: string | undefined,
     useWnotkW = false,
-    thresholdInK = 1
+    thresholdInK: number | undefined = undefined
   ): void {
     if (entityState === undefined) {
       this.value = 0;
@@ -81,7 +81,7 @@ export class SensorElement {
     unitOfMeasurement: string,
     valueFromState: number,
     useWnotkW: boolean,
-    thresholdInK: number
+    thresholdInK: number | undefined
   ) {
     if (useWnotkW) {
       if (unitOfMeasurement === 'kW') {
@@ -100,7 +100,7 @@ export class SensorElement {
     }
     this.unitOfMeasurement = 'kW';
 
-    if (thresholdInK !== 1 && this.unitOfMeasurement === 'kW' && this.value < thresholdInK) {
+    if (thresholdInK !== undefined && this.unitOfMeasurement === 'kW' && this.value < thresholdInK) {
       this.value *= 1000;
       this.unitOfMeasurement = 'W';
     }
@@ -116,11 +116,11 @@ export class SensorElement {
     return roundedValue;
   }
 
-  public setSpeed(useWnotkW: boolean): void {
+  public setSpeed(): void {
     this.speed = 0;
     if (Math.abs(this.value) === 0) return;
 
-    if (!useWnotkW) {
+    if (this.unitOfMeasurement !== 'kW') {
       this.speed = SensorElement.SPEEDFACTOR * this.value;
     } else {
       this.speed = (SensorElement.SPEEDFACTOR / 1000) * this.value;

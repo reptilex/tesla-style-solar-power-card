@@ -8,34 +8,33 @@ describe('SensorElements test', () => {
   it('should setSpeed with kW', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 1;
-    selement.setSpeed(false);
+    selement.unitOfMeasurement = 'W';
+    selement.setSpeed();
     expect(selement.speed).to.equal(0.04);
   });
 
   it('should setSpeed with W', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 1;
-    selement.setSpeed(true);
+    selement.unitOfMeasurement = 'kW';
+    selement.setSpeed();
     expect(selement.speed).to.equal(0.00004);
   });
 
-  it('should setValueAndUnitOfMeasurement fro kW rounded to 1 decimals', () => {
+  it('should setValueAndUnitOfMeasurement from kW rounded to 1 decimals', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
-    selement.value = 1;
     selement.setValueAndUnitOfMeasurement('1.1111', 'kW', false);
     expect(selement.value).to.equal(1.1);
   });
 
-  it('should setValueAndUnitOfMeasurement fro kW rounded to 2 decimals', () => {
+  it('should setValueAndUnitOfMeasurement from kW rounded to 2 decimals', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
-    selement.value = 1;
     selement.setValueAndUnitOfMeasurement('0.0111', 'kW', false);
     expect(selement.value).to.equal(0.01);
   });
 
   it('should setValueAndUnitOfMeasurement from W rounded to two decimals get kW', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
-    selement.value = 1;
     selement.setValueAndUnitOfMeasurement('1100.1', 'W', false);
     expect(selement.value).to.equal(1.1);
   });
@@ -68,7 +67,7 @@ describe('SensorElements test', () => {
     expect(selement.value).to.equal('on');
   });
 
-  it('should setValueAndUnitOfMeasurement from with threshhold with value below threshold', () => {
+  it('should setValueAndUnitOfMeasurement from with threshhold with value below threshold 5', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 4500;
     selement.setValueAndUnitOfMeasurement('4.5', 'kW', false, 5);
@@ -76,11 +75,25 @@ describe('SensorElements test', () => {
     expect(selement.unitOfMeasurement).to.equal('W');
   });
 
-  it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold', () => {
+  it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 5', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 4500;
     selement.setValueAndUnitOfMeasurement('5.5', 'kW', false, 5);
     expect(selement.value).to.equal(5.5);
     expect(selement.unitOfMeasurement).to.equal('kW');
+  });
+
+  it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 1', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.setValueAndUnitOfMeasurement('1', 'kW', false, 1);
+    expect(selement.value).to.equal(1);
+    expect(selement.unitOfMeasurement).to.equal('kW');
+  });
+
+  it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 1', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.setValueAndUnitOfMeasurement('0.9', 'kW', false, 1);
+    expect(selement.value).to.equal(900);
+    expect(selement.unitOfMeasurement).to.equal('W');
   });
 });

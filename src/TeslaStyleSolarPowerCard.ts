@@ -151,7 +151,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
           this.config.show_w_not_kw,
           this.config.threshold_in_k
         );
-        solarSensor.setSpeed(this.config.show_w_not_kw);
+        solarSensor.setSpeed();
       } catch (err) {
         this.error += " Configured '" + solarSensor.entity + "' entity was not found. ";
       }
