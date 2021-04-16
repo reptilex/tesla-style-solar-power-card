@@ -34,23 +34,15 @@ export class SensorElement {
 
   public entitySlot: string;
 
-  public showW: boolean;
-
   private static readonly SPEEDFACTOR = 0.04;
 
   constructor(entity: string, enitySlot: string) {
     this.entity = entity;
     this.entitySlot = enitySlot;
     this.value = 0;
-    this.showW = false;
   }
 
-  public setValueAndUnitOfMeasurement(
-    entityState: string | undefined,
-    unitOfMeasurement: string | undefined,
-    useWnotkW = false,
-    thresholdInK: number | undefined = undefined
-  ): void {
+  public setValueAndUnitOfMeasurement(entityState: string | undefined, unitOfMeasurement: string | undefined): void {
     if (entityState === undefined) {
       this.value = 0;
       return;
@@ -65,7 +57,12 @@ export class SensorElement {
     switch (unitOfMeasurement) {
       case 'W':
       case 'kW':
-        this.setValueAndUnitDependingOnExtraOptions(unitOfMeasurement, valueFromState, useWnotkW, thresholdInK);
+        this.value = valueFromState;
+        if (unitOfMeasurement === 'kW') {
+          this.value *= 1000;
+        }
+        this.unitOfMeasurement = 'W';
+        this.value = Math.round(this.value);
         break;
       case '%':
         this.value = valueFromState;
@@ -74,60 +71,12 @@ export class SensorElement {
       default:
         this.value = entityState;
         this.unitOfMeasurement = unitOfMeasurement;
-        return;
     }
-
-    this.value = this.roundValue(this.value);
-  }
-
-  private setValueAndUnitDependingOnExtraOptions(
-    unitOfMeasurement: string,
-    valueFromState: number,
-    useWnotkW: boolean,
-    thresholdInK: number | undefined
-  ) {
-    this.value = valueFromState;
-
-    if (useWnotkW) {
-      if (unitOfMeasurement === 'kW') {
-        this.value *= 1000;
-        this.unitOfMeasurement = 'W';
-      }
-      return;
-    }
-
-    if (unitOfMeasurement === 'kW') {
-      this.value = valueFromState;
-    } else if (unitOfMeasurement === 'W') {
-      this.value = valueFromState / 1000;
-    }
-
-    if (thresholdInK !== undefined && this.value < thresholdInK) {
-      this.value *= 1000;
-      this.unitOfMeasurement = 'W';
-    } else {
-      this.unitOfMeasurement = 'kW';
-    }
-  }
-
-  private roundValue(value: number): number {
-    let roundedValue: number;
-    if (value > 0.1) {
-      roundedValue = (Math.round((value + Number.EPSILON) * 10) | 0) / 10;
-    } else {
-      roundedValue = (Math.round((value + Number.EPSILON) * 100) | 0) / 100;
-    }
-    return roundedValue;
   }
 
   public setSpeed(): void {
     this.speed = 0;
     if (Math.abs(this.value) === 0) return;
-
-    if (this.unitOfMeasurement === 'W') {
-      this.speed = SensorElement.SPEEDFACTOR * (this.value / 1000);
-    } else {
-      this.speed = SensorElement.SPEEDFACTOR * this.value;
-    }
+    this.speed = (SensorElement.SPEEDFACTOR * this.value) / 1000;
   }
 }

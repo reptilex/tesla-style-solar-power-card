@@ -62,7 +62,7 @@ describe('Colouring of bubble depending on production test', () => {
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
-      '4.3 kW'
+      '4.2 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
 
@@ -81,7 +81,7 @@ describe('Colouring of bubble depending on production test', () => {
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
-      '5.7 kW'
+      '5.6 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
 
@@ -100,7 +100,7 @@ describe('Colouring of bubble depending on production test', () => {
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
-      '6.69 kW'
+      '6.7 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
     expect(houseEntity.style.color).to.equal('var(--info-color)');

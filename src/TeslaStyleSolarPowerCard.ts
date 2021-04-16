@@ -147,9 +147,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       try {
         solarSensor.setValueAndUnitOfMeasurement(
           this.hass.states[solarSensor.entity].state,
-          this.hass.states[solarSensor.entity].attributes.unit_of_measurement,
-          this.config.show_w_not_kw,
-          this.config.threshold_in_k
+          this.hass.states[solarSensor.entity].attributes.unit_of_measurement
         );
         solarSensor.setSpeed();
       } catch (err) {
@@ -296,16 +294,16 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         entityHolder = entityHolder.substring(1);
         isSubstractionEntity = true;
       }
-      const divEntity = this.solarCardElements.get(entityHolder);
-      if (divEntity !== null && divEntity?.value !== undefined) {
+      const divSolarElement = this.solarCardElements.get(entityHolder);
+      if (divSolarElement !== null && divSolarElement?.value !== undefined) {
         oneDefinedEntity = true;
         if (isSubstractionEntity) {
-          mainValue -= divEntity?.value;
+          mainValue -= divSolarElement?.value;
         } else {
-          mainValue += divEntity?.value;
+          mainValue += divSolarElement?.value;
         }
         mainValue = ((mainValue * 100) | 0) / 100;
-        mainUnitOfMeasurement = divEntity?.unitOfMeasurement; // TODO set the value for the first? or the one in the config? not the last
+        mainUnitOfMeasurement = divSolarElement?.unitOfMeasurement;
       }
       isSubstractionEntity = false;
     });
@@ -320,6 +318,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
     if (bubblClickEntitySlot !== null) {
       clickEntityHassState = this.hass.states[this.config[bubblClickEntitySlot]];
+    }
+
+    if (this.showKW(mainValue)) {
+      mainValue = this.roundValue(mainValue / 1000);
+      mainUnitOfMeasurement = 'kW';
     }
 
     if (isBatteryBubble) {
@@ -345,6 +348,28 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       extraValue,
       extraUnitOfMeasurement
     );
+  }
+
+  private showKW(value: number) {
+    if (this.config.show_w_not_kw) {
+      return false;
+    }
+
+    if (this.config.threshold_in_k !== undefined && value < this.config.threshold_in_k * 1000) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private roundValue(value: number): number {
+    let roundedValue: number;
+    if (value > 0.1) {
+      roundedValue = (Math.round((value + Number.EPSILON) * 10) | 0) / 10;
+    } else {
+      roundedValue = (Math.round((value + Number.EPSILON) * 100) | 0) / 100;
+    }
+    return roundedValue;
   }
 
   private animateCircles(obj: any) {
@@ -416,11 +441,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     let highestEntityHolder = '';
 
     houseEntities.forEach(entityHolder => {
-      const divEntity = this.solarCardElements.get(entityHolder);
-      if (divEntity !== null && divEntity?.value !== undefined) {
-        if (highestEntity == null || divEntity?.value > highestEntity.value) {
+      const divSolarElement = this.solarCardElements.get(entityHolder);
+      if (divSolarElement !== null && divSolarElement?.value !== undefined) {
+        if (highestEntity == null || divSolarElement?.value > highestEntity.value) {
           highestEntityHolder = entityHolder;
-          highestEntity = divEntity;
+          highestEntity = divSolarElement;
         }
       }
     });
