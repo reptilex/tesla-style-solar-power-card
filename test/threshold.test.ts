@@ -1,4 +1,4 @@
-import { expect, elementUpdated, assert } from '@open-wc/testing';
+import { expect, /* elementUpdated, */ assert } from '@open-wc/testing';
 import { LovelaceCardConfig } from 'custom-card-helpers';
 import { setViewport } from '@web/test-runner-commands';
 
@@ -19,18 +19,33 @@ describe('TeslaStyleSolarPowerCard with threshold', () => {
     config = {
       type: 'custom:tesla-style-solar-power-card',
       name: 'Powerhouse',
-      grid_to_house_entity: 'sensor.grid_to_house',
-      grid_entity: 'sensor.grid_consumption',
-      threshold_in_k: 5,
+      generation_to_house_entity: 'sensor.generation_to_house',
+      generation_to_grid_entity: 'sensor.generation_to_grid',
+      battery_to_house_entity: 'sensor.battery_to_house',
+      threshold_in_k: 1,
     };
     hass = {
       states: {
-        'sensor.grid_to_house': {
+        'sensor.generation_to_house': {
           attributes: {
             unit_of_measurement: 'W',
           },
           entity_id: 'sensor.grid_to_house',
-          state: '4001.000000001',
+          state: '2801.000000001',
+        },
+        'sensor.generation_to_grid': {
+          attributes: {
+            unit_of_measurement: 'W',
+          },
+          entity_id: 'sensor.grid_to_house',
+          state: '1801.000000001',
+        },
+        'sensor.battery_to_house': {
+          attributes: {
+            unit_of_measurement: 'W',
+          },
+          entity_id: 'sensor.battery_to_house',
+          state: '801.000000001',
         },
       },
     };
@@ -49,34 +64,32 @@ describe('TeslaStyleSolarPowerCard with threshold', () => {
     if (teslaCard === null || teslaCard === undefined) assert.fail('No tesla-style-card');
   });
 
-  const setGridToHouseFlow = async (state: string) => {
+  /* const setGridToHouseFlow = async (state: string) => {
     hass.states['sensor.grid_to_house'].state = state;
     card.setAttribute('hass', JSON.stringify(hass));
     await elementUpdated(card);
     await card.setConfig(config);
-  };
+  }; */
 
-  it('is below threshold', async () => {
+  it('battery is below threshold', async () => {
+    const gridEntity = teslaCard?.querySelector('.battery_entity');
+    if (gridEntity === null || gridEntity === undefined) assert.fail('No battery_entity element found');
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('801 W');
+    expect(gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:battery-medium');
+  });
+
+  it('grid is above threshold', async () => {
     const gridEntity = teslaCard?.querySelector('.grid_entity');
     if (gridEntity === null || gridEntity === undefined) assert.fail('No grid_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('4001 W');
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('1.8 kW');
     expect(gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:transmission-tower');
   });
 
-  it('is below threshold', async () => {
-    await setGridToHouseFlow('4920');
-    const gridEntity = teslaCard?.querySelector('.grid_entity');
-    if (gridEntity === null || gridEntity === undefined) assert.fail('No grid_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('4920 W');
-    expect(gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:transmission-tower');
-  });
-
-  it('is above threshold', async () => {
-    await setGridToHouseFlow('5000');
+  it('house is above threshold', async () => {
     card.requestUpdate();
     const houseEntity = teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML).contains('5 kW');
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML).contains('3.6 kW');
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
   });
 });

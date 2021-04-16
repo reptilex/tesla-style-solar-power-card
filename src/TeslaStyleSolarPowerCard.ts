@@ -354,8 +354,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.config.show_w_not_kw) {
       return false;
     }
-
-    if (this.config.threshold_in_k !== undefined && value < this.config.threshold_in_k * 1000) {
+    const absValue = Math.abs(value);
+    if (this.config.threshold_in_k !== undefined && absValue < this.config.threshold_in_k * 1000) {
       return false;
     }
 
