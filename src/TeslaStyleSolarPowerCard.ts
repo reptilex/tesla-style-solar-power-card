@@ -1,14 +1,13 @@
 /* eslint-disable no-restricted-globals, prefer-template, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events, no-bitwise, import/extensions */
 import { LitElement, html, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
-import { HomeAssistant, LovelaceCardConfig, LovelaceCardEditor } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardConfig /* , LovelaceCardEditor */ } from 'custom-card-helpers';
 import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
 
-import './components/editor';
+/* import './components/editor'; */
 
 import { SensorElement } from './models/SensorElement';
 import { HtmlWriterForPowerCard } from './services/HtmlWriterForPowerCard';
 import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
-// import { TeslaStyleSolarPowerCardEditor } from './components/editor';
 // import { localize } from './localize/localize';
 
 // This puts your card into the UI card picker dialog
@@ -85,9 +84,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     return 5;
   }
 
+  /*
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('tesla-style-solar-power-card-editor');
   }
+  */
 
   public static getStubConfig(): Record<string, any> {
     return {};
