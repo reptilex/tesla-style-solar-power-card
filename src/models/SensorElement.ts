@@ -34,12 +34,15 @@ export class SensorElement {
 
   public entitySlot: string;
 
+  public showW: boolean;
+
   private static readonly SPEEDFACTOR = 0.04;
 
   constructor(entity: string, enitySlot: string) {
     this.entity = entity;
     this.entitySlot = enitySlot;
     this.value = 0;
+    this.showW = false;
   }
 
   public setValueAndUnitOfMeasurement(
@@ -83,12 +86,12 @@ export class SensorElement {
     useWnotkW: boolean,
     thresholdInK: number | undefined
   ) {
+    this.value = valueFromState;
+
     if (useWnotkW) {
       if (unitOfMeasurement === 'kW') {
-        this.value = valueFromState * 1000;
+        this.value *= 1000;
         this.unitOfMeasurement = 'W';
-      } else {
-        this.value = valueFromState;
       }
       return;
     }
@@ -98,11 +101,12 @@ export class SensorElement {
     } else if (unitOfMeasurement === 'W') {
       this.value = valueFromState / 1000;
     }
-    this.unitOfMeasurement = 'kW';
 
-    if (thresholdInK !== undefined && this.unitOfMeasurement === 'kW' && this.value < thresholdInK) {
+    if (thresholdInK !== undefined && this.value < thresholdInK) {
       this.value *= 1000;
       this.unitOfMeasurement = 'W';
+    } else {
+      this.unitOfMeasurement = 'kW';
     }
   }
 
@@ -121,7 +125,7 @@ export class SensorElement {
     if (Math.abs(this.value) === 0) return;
 
     if (this.unitOfMeasurement === 'W') {
-      this.speed = (SensorElement.SPEEDFACTOR / 1000) * this.value;
+      this.speed = SensorElement.SPEEDFACTOR * (this.value / 1000);
     } else {
       this.speed = SensorElement.SPEEDFACTOR * this.value;
     }

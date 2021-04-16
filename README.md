@@ -191,7 +191,7 @@ template sensors if you are missing one like solar yield out of solar_consumptio
         unit_of_measurement: W
 ``` 
 
-# Tesla-Powerwall-Usage (untested if someone can confirm it would be great, I lack the hardware)
+# Tesla-Powerwall-Usage 
 In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter. 
 
 Fortunately this can be easily fixed with the addition of a few template sensors, the ones you would need to add are shown below. Note that these sensors assume the default names for each entity created by the Tesla Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:

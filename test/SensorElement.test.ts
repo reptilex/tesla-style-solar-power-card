@@ -53,6 +53,46 @@ describe('SensorElements test', () => {
     expect(selement.value).to.equal(1);
   });
 
+  it('testing speed for 1 kw with W not kW', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.value = 1;
+    selement.setValueAndUnitOfMeasurement('1', 'kW', true);
+    expect(selement.value).to.equal(1000);
+    expect(selement.unitOfMeasurement).to.equal('W');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.04');
+  });
+
+  it('testing speed for 1000 W with W not kW', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.value = 1;
+    selement.setValueAndUnitOfMeasurement('1', 'kW', true);
+    expect(selement.value).to.equal(1000);
+    expect(selement.unitOfMeasurement).to.equal('W');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.04');
+  });
+
+  it('testing speed for 1000 W', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.value = 1;
+    selement.setValueAndUnitOfMeasurement('1', 'kW', false);
+    expect(selement.value).to.equal(1);
+    expect(selement.unitOfMeasurement).to.equal('kW');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.04');
+  });
+
+  it('testing speed for 1 kw', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.value = 1;
+    selement.setValueAndUnitOfMeasurement('1', 'kW', false);
+    expect(selement.value).to.equal(1);
+    expect(selement.unitOfMeasurement).to.equal('kW');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.04');
+  });
+
   it('should setValueAndUnitOfMeasurement from undefined', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 1;
@@ -73,6 +113,8 @@ describe('SensorElements test', () => {
     selement.setValueAndUnitOfMeasurement('4.5', 'kW', false, 5);
     expect(selement.value).to.equal(4500);
     expect(selement.unitOfMeasurement).to.equal('W');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.18');
   });
 
   it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 5', () => {
@@ -81,6 +123,8 @@ describe('SensorElements test', () => {
     selement.setValueAndUnitOfMeasurement('5.5', 'kW', false, 5);
     expect(selement.value).to.equal(5.5);
     expect(selement.unitOfMeasurement).to.equal('kW');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.22');
   });
 
   it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 1', () => {
@@ -90,6 +134,15 @@ describe('SensorElements test', () => {
     expect(selement.unitOfMeasurement).to.equal('kW');
     selement.setSpeed();
     expect(selement.speed.toString()).contains('0.04');
+  });
+
+  it('should setValueAndUnitOfMeasurement from with threshhold with value 1.1 above threshold 1', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.setValueAndUnitOfMeasurement('1.1', 'kW', false, 1);
+    expect(selement.value).to.equal(1.1);
+    expect(selement.unitOfMeasurement).to.equal('kW');
+    selement.setSpeed();
+    expect(selement.speed.toString()).contains('0.044');
   });
 
   it('should setValueAndUnitOfMeasurement from with threshhold with value above threshold 1', () => {

@@ -243,7 +243,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private writeGridIconBubble(): TemplateResult {
-    const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity'];
+    const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity', 'grid_to_battery_entity'];
 
     return this.writeIconBubble(gridEntities, 'acc_left', 'grid_icon', 'grid_entity', 'grid_extra_entity');
   }
