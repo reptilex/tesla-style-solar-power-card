@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-param-reassign, camelcase, lit/no-useless-template-literals, lit-a11y/click-events-have-key-events */
 import { LitElement, html, customElement, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
-import { HomeAssistant, LovelaceCardEditor, ActionConfig, LovelaceCardConfig } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardEditor, fireEvent, ActionConfig, LovelaceCardConfig } from 'custom-card-helpers';
 import '../types.js';
 
 import { TeslaStyleSolarPowerCardConfig } from '../models/TeslaStyleSolarPowerCardConfig.js';
@@ -368,7 +368,7 @@ export class TeslaStyleSolarPowerCardEditor extends LitElement implements Lovela
         };
       }
     }
-    // fireEvent(this, 'config-changed', { config: this._config }); // this is breaking the card built when terser is activated
+    fireEvent(this, 'config-changed', { config: this._config }); // this is breaking the card built when terser is activated
   }
 
   private _fillLineEntityMap() {
