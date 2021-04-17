@@ -17,7 +17,6 @@ import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
   name: 'Tesla Style Solar Power Card',
   description: 'A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2',
 });
-
 export class TeslaStyleSolarPowerCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
 
