@@ -364,10 +364,11 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private roundValue(value: number): number {
     let roundedValue: number;
+    roundedValue = Math.abs(value);
     if (value > 0.1) {
-      roundedValue = (Math.round((value + Number.EPSILON) * 10) | 0) / 10;
+      roundedValue = (Math.round((roundedValue + Number.EPSILON) * 10) | 0) / 10;
     } else {
-      roundedValue = (Math.round((value + Number.EPSILON) * 100) | 0) / 100;
+      roundedValue = (Math.round((roundedValue + Number.EPSILON) * 100) | 0) / 100;
     }
     return roundedValue;
   }
