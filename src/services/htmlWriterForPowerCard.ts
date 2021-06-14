@@ -6,7 +6,7 @@ import { SensorElement } from '../models/SensorElement';
 import { TeslaStyleSolarPowerCard } from '../TeslaStyleSolarPowerCard';
 
 export class HtmlWriterForPowerCard {
-  private teslaCard: TeslaStyleSolarPowerCard;
+  public teslaCard: TeslaStyleSolarPowerCard;
 
   private solarCardElements: Map<string, SensorElement>;
 
@@ -66,7 +66,7 @@ export class HtmlWriterForPowerCard {
     extraUnitOfMeasurement: string | undefined = undefined
   ): TemplateResult {
     if (extraValue !== undefined) {
-      icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
+     icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
     }
     return this.writeBubbleDiv(
       mainValue,

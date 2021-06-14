@@ -59,6 +59,7 @@ export class HtmlResizeForPowerCard {
       .forEach(icontext => {
         icontext.style['font-size'] = 3 * pxRate + 'px';
         icontext.style['margin-top'] = -0.5 * pxRate + 'px';
+        icontext.style.width = 10 * pxRate + 'px';
       });
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text_extra')
@@ -71,8 +72,8 @@ export class HtmlResizeForPowerCard {
     // power lines
     changeSelectorStyle('.power_lines', 'height', 42 * pxRate + 'px');
     changeSelectorStyle('.power_lines', 'width', 42 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'top', 21 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'left', 21 * pxRate + 'px');
+    changeSelectorStyle('.power_lines', 'top', 0 * pxRate + 'px');
+    changeSelectorStyle('.power_lines', 'left', 28 * pxRate + 'px');
     changeSelectorStyle('.power_lines svg', 'width', 42 * pxRate + 'px');
     changeSelectorStyle('.power_lines svg', 'height', 42 * pxRate + 'px');
     changeSelectorStyle(
@@ -93,13 +94,13 @@ export class HtmlResizeForPowerCard {
       '#generation_to_house_entity_line',
       'd',
       'M' +
-        half +
+        (half-pxRate) +
         ',0 C' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' ' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' ' +
@@ -111,13 +112,13 @@ export class HtmlResizeForPowerCard {
       '#grid_feed_in_entity_line',
       'd',
       'M' +
-        half +
+        (half-pxRate) +
         ',0 C' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' ' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' 0,' +
@@ -163,15 +164,15 @@ export class HtmlResizeForPowerCard {
       '#battery_to_house_entity_line',
       'd',
       'M' +
-        half +
+        (half-pxRate) +
         ',' +
         half * 2 +
         ' C' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' ' +
-        half +
+        (half-pxRate) +
         ',' +
         half +
         ' ' +
@@ -183,15 +184,15 @@ export class HtmlResizeForPowerCard {
       '#generation_to_battery_entity_line',
       'd',
       'M' +
-        half +
+        (half-pxRate) +
         ',0 C' +
-        half +
+        (half-pxRate) +
         ',0 ' +
-        half +
+        (half-pxRate) +
         ',' +
         half * 2 +
         ' ' +
-        half +
+        (half-pxRate) +
         ',' +
         half * 2
     );
@@ -201,7 +202,7 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'viewBox',
-        '0 0 ' + 26 * pxRate + ' ' + 26 * pxRate
+        '0 0 ' + ((12*pxRate)-((value-1)*5)) + ' ' + ((12*pxRate)-((value-1)*5))
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
@@ -211,22 +212,22 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
         'width',
-        4 * pxRate + 'px'
+        '10px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
         'height',
-        18 * pxRate + 'px'
+        (12 * pxRate ) - (( value - 1) * 5) + 'px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'width',
-        4 * pxRate + 'px'
+        '10px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'height',
-        18 * pxRate + 'px'
+        (12 * pxRate ) - (( value - 1) * 5) + 'px'
       );
       selectorElement = <HTMLElement>(
         teslaCardElement.querySelector('.acc_appliance' + value + '_line_svg')
@@ -234,7 +235,7 @@ export class HtmlResizeForPowerCard {
       if (selectorElement !== null)
         selectorElement.setAttribute(
           'viewBox',
-          '0 0 ' + 26 * pxRate + ' ' + 26 * pxRate
+          '0 0 ' + ((12*pxRate)-((value-1)*5)) + ' ' + ((12*pxRate)-((value-1)*5))
         );
 
       const topElement = <HTMLElement>(
@@ -276,9 +277,9 @@ export class HtmlResizeForPowerCard {
     }
 
     changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');
-    changeSelectorStyle('.acc_appliance1_line', 'top', 23 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance1_line', 'top', 19 * pxRate + 12 + 'px');
     changeSelectorStyle('.acc_appliance2', 'bottom', 10 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 15 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19 * pxRate + 12 +'px');
 
     return newWidth;
   }
