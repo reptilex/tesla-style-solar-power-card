@@ -6,7 +6,7 @@ import { SensorElement } from '../models/SensorElement';
 import { TeslaStyleSolarPowerCard } from '../TeslaStyleSolarPowerCard';
 
 export class HtmlWriterForPowerCard {
-  public teslaCard: TeslaStyleSolarPowerCard;
+  private teslaCard: TeslaStyleSolarPowerCard;
 
   private solarCardElements: Map<string, SensorElement>;
 
@@ -14,7 +14,7 @@ export class HtmlWriterForPowerCard {
 
   private hass: HomeAssistant;
 
-  private constructor(teslaCard: TeslaStyleSolarPowerCard, hass: HomeAssistant) {
+  public constructor(teslaCard: TeslaStyleSolarPowerCard, hass: HomeAssistant) {
     this.teslaCard = teslaCard;
     this.solarCardElements = teslaCard.solarCardElements;
     this.pxRate = teslaCard.pxRate;
@@ -66,7 +66,7 @@ export class HtmlWriterForPowerCard {
     extraUnitOfMeasurement: string | undefined = undefined
   ): TemplateResult {
     if (extraValue !== undefined) {
-    icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
+      icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
     }
     return this.writeBubbleDiv(
       mainValue,
