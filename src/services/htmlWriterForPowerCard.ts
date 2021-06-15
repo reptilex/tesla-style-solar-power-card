@@ -66,7 +66,7 @@ export class HtmlWriterForPowerCard {
     extraUnitOfMeasurement: string | undefined = undefined
   ): TemplateResult {
     if (extraValue !== undefined) {
-      if (icon == 'mdi:battery-medium'){
+      if (icon == 'mdi:battery-medium' || icon == 'mdi:battery'){
         icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
       }
     }
