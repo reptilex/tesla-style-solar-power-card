@@ -200,32 +200,31 @@ Fortunately this can be easily fixed with the addition of a few template sensors
   sensors:
     tesla_card_grid_consumption:
       unique_id: 'tesla_card_5fee6ddd5c1f42a099067ce9dd44e6d1'
-      value_template: "{{ states('sensor.powerwall_site_now') | float | max(0) }}"
+      value_template: "{{ states('sensor.powerwall_site_now') | float | max(0) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
+
     tesla_card_grid_feed_in:
       unique_id: 'tesla_card_52d22b847ade42c5b4526b2ff15f5aef'
-      value_template: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs }}"
+      value_template: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
     tesla_card_solar_consumption:
       unique_id: 'tesla_card_2bb67bd5264f4ec39f141f1722fea085'
-      value_template: >-
-        {% set solar = states('sensor.powerwall_solar_now') | float %}
-        {% set house = states('sensor.powerwall_load_now') | float %}
-        {{ solar if house > solar else house }}
+      value_template: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging') | float) ) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
     tesla_card_battery_consumption:
       unique_id: 'tesla_card_2b7aaa2588e8480aaba586815a84fcd7'
-      value_template: "{{ states('sensor.powerwall_battery_now') | float | max(0) }}"
+      value_template: "{{ states('sensor.powerwall_battery_now') | float | max(0) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
+
     tesla_card_battery_charging:
       unique_id: 'tesla_card_9c46447cf75942ba9ac4bcaca85ba6c5'
-      value_template: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs }}"
+      value_template: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 ```
