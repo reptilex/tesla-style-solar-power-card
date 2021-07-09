@@ -193,7 +193,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                 >
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_house_entity',
-                    'M' + half + ',0 C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
+                    'M' + (half-this.pxRate) + ',0 C' + (half-this.pxRate) + ',' + half + ' ' + (half-this.pxRate) + ',' + half + ' ' + half * 2 + ',' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_house_entity',
@@ -201,7 +201,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_grid_entity',
-                    'M' + half + ',0 C' + half + ',' + half + ' ' + half + ',' + half + ' 0,' + half
+                    'M' + (half-this.pxRate) + ',0 C' + (half-this.pxRate) + ',' + half + ' ' + (half-this.pxRate) + ',' + half + ' 0,' + half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_battery_entity',
@@ -213,19 +213,19 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_battery_entity',
-                    'M' + half + ',0 C' + half + ',0 ' + half + ',' + half * 2 + ' ' + half + ',' + half * 2
+                    'M' + (half-this.pxRate) + ',0 C' + (half-this.pxRate) + ',0 ' + (half-this.pxRate) + ',' + half * 2 + ' ' + (half-this.pxRate) + ',' + half * 2
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_house_entity',
-                    'M' + half + ',' + half * 2 + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
+                    'M' + (half-this.pxRate) + ',' + half * 2 + ' C' + (half-this.pxRate) + ',' + half + ' ' + (half-this.pxRate) + ',' + half + ' ' + half * 2 + ',' + half
                   )}
                 </svg>
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M4,' + 16 * this.pxRate + ' C4,' + 16 * this.pxRate + ' 4,0 4,0')}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M5,' + 12 * this.pxRate + ' C5,' + 12 * this.pxRate + ' 5,0 5,0')}
               ${this.writeApplianceIconBubble(2)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M4,0 C4,0 4,' + 16 * this.pxRate + ' 4,' + 16 * this.pxRate)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M5,0 C5,0 5,' + 11 * this.pxRate + ' 5,' + 11 * this.pxRate)}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
