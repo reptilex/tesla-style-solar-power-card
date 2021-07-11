@@ -196,37 +196,38 @@ In order to use this card with the [Tesla Powerwall integration](https://www.hom
 
 Fortunately this can be easily fixed with the addition of a few template sensors, the ones you would need to add are shown below. Note that these sensors assume the default names for each entity created by the Tesla Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:
 ```yaml
-- platform: template
-  sensors:
-    tesla_card_grid_consumption:
-      unique_id: 'tesla_card_5fee6ddd5c1f42a099067ce9dd44e6d1'
-      value_template: "{{ states('sensor.powerwall_site_now') | float | max(0) | round(1) }}"
+template:
+  - sensor:
+    - name: "Tesla Card Grid Consumption"
+      unique_id: 'tesla_card_grid_consumption'
+      state: "{{ states('sensor.powerwall_site_now') | float | max(0) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
-    tesla_card_grid_feed_in:
-      unique_id: 'tesla_card_52d22b847ade42c5b4526b2ff15f5aef'
-      value_template: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs | round(1) }}"
+    - name: "Tesla Card Grid Feed In"
+      unique_id: 'tesla_card_grid_feed_in'
+      state: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
-    tesla_card_solar_consumption:
-      unique_id: 'tesla_card_2bb67bd5264f4ec39f141f1722fea085'
-      value_template: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging') | float) ) | round(1) }}"
+    - name: "Tesla Card Solar Consumption"
+      unique_id: 'tesla_card_solar_consumption'
+      state: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging') | float) ) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
-    tesla_card_battery_consumption:
-      unique_id: 'tesla_card_2b7aaa2588e8480aaba586815a84fcd7'
-      value_template: "{{ states('sensor.powerwall_battery_now') | float | max(0) | round(1) }}"
+    - name: "Tesla Card Battery Consumption"
+      unique_id: 'tesla_card_battery_consumption'
+      state: "{{ states('sensor.powerwall_battery_now') | float | max(0) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
-    tesla_card_battery_charging:
-      unique_id: 'tesla_card_9c46447cf75942ba9ac4bcaca85ba6c5'
-      value_template: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs | round(1) }}"
+    - name: "Tesla Card Battery Charging Inside"
+      unique_id: 'tesla_card_battery_charging'
+      state: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs | round(1) }}"
       device_class: power
       unit_of_measurement: kW
+    
 ```
 After you've included these sensors then you can configure the card like this:
 ```yaml
