@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Webcomponent tesla-style-solar-power-card following open-wc recommendations",
   "author": "tesla-style-solar-power-card",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
