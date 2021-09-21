@@ -212,7 +212,7 @@ template:
 
     - name: "Tesla Card Solar Consumption"
       unique_id: 'tesla_card_solar_consumption'
-      state: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging') | float) ) | round(1) }}"
+      state: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging_inside') | float) ) | round(1) }}"
       device_class: power
       unit_of_measurement: kW
 
@@ -223,7 +223,7 @@ template:
       unit_of_measurement: kW
 
     - name: "Tesla Card Battery Charging Inside"
-      unique_id: 'tesla_card_battery_charging'
+      unique_id: 'tesla_card_battery_charging_inside'
       state: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs | round(1) }}"
       device_class: power
       unit_of_measurement: kW
