@@ -8,11 +8,11 @@
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
 ### Table of contents
-* [Concept](#Concept)<a name="Concept"></a>   
-* [HACS-Installation](HACS-Installation)<a name="HACS-Installation"></a>   
-* [Usage](#Usage)<a name="Usage"></a>   
-* [Tesla Powerwall Usage](#Tesla-Powerwall-Usage)<a name="Tesla-Powerwall-Usage"></a>   
-* [Contributing](#Contributing)<a name="Contributing"></a>   
+* [Concept](#concept)
+* [HACS-Installation](#hacs-installation)  
+* [Usage](#usage)
+* [Tesla Powerwall Usage](#tesla-powerwall-usage)
+* [Contributing](#contributing)
 
 
 ![tesla-style-card-animated-gif](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/tesla-style-card-animation.gif)
