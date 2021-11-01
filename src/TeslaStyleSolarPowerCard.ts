@@ -168,7 +168,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.error !== '') return this._showError();
 
     this.pxRate = this.clientWidth / 100;
-    const gap = this.clientWidth / 50;
+    const gap = 2 * this.pxRate;
     const half = 22 * this.pxRate;
     //
     return html`
