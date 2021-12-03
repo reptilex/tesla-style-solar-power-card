@@ -167,12 +167,12 @@ energy_flow_diagramm_line_factor: 2
 
 Then there are 6 icon configuration variables:
 ```yml
-grid_icon: 'mdi:transmission-tower';
-generation_icon: 'mdi:solar-panel-large';
-house_icon: 'mdi:home';
-battery_icon: 'mdi:battery';
-appliance1_icon: 'mdi:car-sports';
-appliance2_icon: 'mdi:car-sports';
+grid_icon: 'mdi:transmission-tower'
+generation_icon: 'mdi:solar-panel-large'
+house_icon: 'mdi:home'
+battery_icon: 'mdi:battery'
+appliance1_icon: 'mdi:car-sports'
+appliance2_icon: 'mdi:car-sports'
 ```
 
 ### templates for missing sensors or for negative sensors
