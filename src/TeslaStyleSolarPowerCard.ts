@@ -168,6 +168,14 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.error !== '') return this._showError();
 
     this.pxRate = this.clientWidth / 100;
+
+    let gap: number;
+    if (this.config.show_gap !== undefined && this.config.show_gap) {
+      gap = 2 * this.pxRate;
+    } else {
+      gap = 0;
+    }
+
     const half = 22 * this.pxRate;
     //
     return html`
@@ -194,52 +202,98 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_house_entity',
                     'M' +
-                      (half - this.pxRate) +
-                      ',0 C' +
-                      (half - this.pxRate) +
+                      (half - this.pxRate + gap) +
+                      ',0' +
+                      'C' +
+                      (half - this.pxRate + gap) +
                       ',' +
-                      half +
+                      (half - gap) +
                       ' ' +
-                      (half - this.pxRate) +
+                      (half - this.pxRate + gap) +
                       ',' +
-                      half +
+                      (half - gap) +
                       ' ' +
                       half * 2 +
                       ',' +
-                      half
+                      (half - gap)
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_house_entity',
-                    'M0,' + half + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half * 2 + ',' + half
+                    'M0,' +
+                      half +
+                      ' ' +
+                      'C' +
+                      (half - this.pxRate) +
+                      ',' +
+                      half +
+                      ' ' +
+                      (half - this.pxRate) +
+                      ',' +
+                      half +
+                      ' ' +
+                      (half - this.pxRate) * 2 +
+                      ',' +
+                      half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_grid_entity',
                     'M' +
-                      (half - this.pxRate) +
-                      ',0 C' +
-                      (half - this.pxRate) +
+                      (half - this.pxRate - gap) +
+                      ',0 ' +
+                      'C' +
+                      (half - this.pxRate - gap) +
                       ',' +
-                      half +
+                      (half - gap) +
                       ' ' +
-                      (half - this.pxRate) +
+                      (half - this.pxRate - gap) +
                       ',' +
-                      half +
+                      (half - gap) +
                       ' 0,' +
-                      half
+                      (half - gap)
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'grid_to_battery_entity',
-                    'M0,' + half + ' C' + half + ',' + half + ' ' + half + ',' + half + ' ' + half + ',' + half * 2
+                    'M0,' +
+                      (half + gap) +
+                      ' ' +
+                      'C' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      (half + gap) +
+                      ' ' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      (half + gap) +
+                      ' ' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      half * 2
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_grid_entity',
-                    'M' + half + ',' + half * 2 + ' C' + half + ',' + half + ' ' + half + ',' + half + ' 0,' + half
+                    'M' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      half * 2 +
+                      ' ' +
+                      'C' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      (half + gap) +
+                      ' ' +
+                      (half - this.pxRate - gap) +
+                      ',' +
+                      (half + gap) +
+                      ' ' +
+                      '0,' +
+                      (half + gap)
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_battery_entity',
                     'M' +
                       (half - this.pxRate) +
-                      ',0 C' +
+                      ',0 ' +
+                      'C' +
                       (half - this.pxRate) +
                       ',0 ' +
                       (half - this.pxRate) +
@@ -253,21 +307,22 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_house_entity',
                     'M' +
-                      (half - this.pxRate) +
+                      (half - this.pxRate + gap) +
                       ',' +
                       half * 2 +
-                      ' C' +
-                      (half - this.pxRate) +
-                      ',' +
-                      half +
                       ' ' +
-                      (half - this.pxRate) +
+                      'C' +
+                      (half - this.pxRate + gap) +
                       ',' +
-                      half +
+                      (half + gap) +
+                      ' ' +
+                      (half - this.pxRate + gap) +
+                      ',' +
+                      (half + gap) +
                       ' ' +
                       half * 2 +
                       ',' +
-                      half
+                      (half + gap)
                   )}
                 </svg>
               </div>
