@@ -151,6 +151,11 @@ One to hide the lines not active to use it, please make sure everything is worki
 hide_inactive_lines: 1
 ```
 
+One to add gaps for the power lines the way the energy panel from ha does it:
+```yml
+show_gaps: true
+```
+
 One to colour the house bubble depending on the highest flow:
 ```yml
 change_house_bubble_color_with_flow: 1
