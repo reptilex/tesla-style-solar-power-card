@@ -9,7 +9,7 @@ describe('SensorElements test', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 1;
     selement.unitOfMeasurement = 'W';
-    selement.setSpeed();
+    selement.setSpeed(0.04);
     expect(selement.speed).to.equal(0.00004);
   });
 
@@ -17,8 +17,16 @@ describe('SensorElements test', () => {
     const selement = new SensorElement('test_entity', 'solar_consumption');
     selement.value = 1;
     selement.unitOfMeasurement = 'KW';
-    selement.setSpeed();
+    selement.setSpeed(0.04);
     expect(selement.speed).to.equal(0.00004);
+  });
+
+  it('should setSpeed with kW with factor 0.05', () => {
+    const selement = new SensorElement('test_entity', 'solar_consumption');
+    selement.value = 1;
+    selement.unitOfMeasurement = 'KW';
+    selement.setSpeed(0.05);
+    expect(selement.speed).to.equal(0.00005);
   });
 
   it('should setValueAndUnitOfMeasurement from kW rounded to 1 decimals', () => {

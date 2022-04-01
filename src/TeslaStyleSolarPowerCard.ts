@@ -61,6 +61,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.config.battery_icon == null) this.config.battery_icon = 'mdi:battery-medium';
     if (this.config.appliance1_icon == null) this.config.appliance1_icon = 'mdi:car-sports';
     if (this.config.appliance2_icon == null) this.config.appliance2_icon = 'mdi:air-filter';
+    if (this.config.speed_factor == null) this.config.speed_factor = 0.04;
 
     this.createSolarCardElements();
     if (!this.config.energy_flow_diagramm) {
@@ -149,7 +150,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
           this.hass.states[solarSensor.entity].state,
           this.hass.states[solarSensor.entity].attributes.unit_of_measurement
         );
-        solarSensor.setSpeed();
+        solarSensor.setSpeed(this.config.speed_factor);
       } catch (err) {
         this.error += " Configured '" + solarSensor.entity + "' entity was not found. ";
       }

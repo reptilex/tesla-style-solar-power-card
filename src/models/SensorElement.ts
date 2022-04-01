@@ -74,9 +74,17 @@ export class SensorElement {
     }
   }
 
-  public setSpeed(): void {
+  public setSpeed(factor: number | undefined): void {
     this.speed = 0;
     if (Math.abs(this.value) === 0) return;
-    this.speed = (SensorElement.SPEEDFACTOR * this.value) / 1000;
+
+    let speedFactor: number;
+    if (factor === undefined || factor > 1 || factor <= 0) {
+      speedFactor = SensorElement.SPEEDFACTOR;
+    } else {
+      speedFactor = factor;
+    }
+
+    this.speed = (speedFactor * this.value) / 1000;
   }
 }

@@ -140,6 +140,11 @@ One to force W (Watt) instead of kW, set it to 1 to use it:
 show_w_not_kw: 1
 ```
 
+One to set a different speed for the moving dots, normal speed factor is 0.04 so stay near that number at first, 0.2 is really fast:
+```yml
+speed_factor: 0.03
+```
+
 One for the threshold from which W is converted to kW (the example below will change W into kilowatt from 5000 W onwards):
 ```yml
 threshold_in_k: 5
