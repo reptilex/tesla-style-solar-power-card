@@ -62,6 +62,7 @@ describe('TeslaStyleSolarPowerCard with threshold', () => {
     if (haCard === null || haCard === undefined) assert.fail('No ha-card');
     teslaCard = <HTMLElement>haCard.querySelector('#tesla-style-solar-power-card');
     if (teslaCard === null || teslaCard === undefined) assert.fail('No tesla-style-card');
+    // console.log(teslaCard);
   });
 
   /* const setGridToHouseFlow = async (state: string) => {
@@ -74,14 +75,14 @@ describe('TeslaStyleSolarPowerCard with threshold', () => {
   it('battery is below threshold', async () => {
     const gridEntity = teslaCard?.querySelector('.battery_entity');
     if (gridEntity === null || gridEntity === undefined) assert.fail('No battery_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('801 W');
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('801 W');
     expect(gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:battery-medium');
   });
 
   it('grid is above threshold', async () => {
     const gridEntity = teslaCard?.querySelector('.grid_entity');
     if (gridEntity === null || gridEntity === undefined) assert.fail('No grid_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains('1.8 kW');
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('1.8 kW');
     expect(gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:transmission-tower');
   });
 
@@ -89,7 +90,7 @@ describe('TeslaStyleSolarPowerCard with threshold', () => {
     card.requestUpdate();
     const houseEntity = teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML).contains('3.6 kW');
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('3.6 kW');
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
   });
 });

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-param-reassign, camelcase, lit/no-useless-template-literals, lit-a11y/click-events-have-key-events */
-import { LitElement, html, customElement, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
+import { LitElement, html, TemplateResult, CSSResult, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { HomeAssistant, LovelaceCardEditor, ActionConfig, LovelaceCardConfig } from 'custom-card-helpers';
 import '../types.js';
 
@@ -50,11 +51,11 @@ const options = {
 export class TeslaStyleSolarPowerCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
-  @internalProperty() private _config?: LovelaceCardConfig;
+  @property() private _config?: LovelaceCardConfig;
 
-  @internalProperty() private _toggle?: boolean;
+  @property() private _toggle?: boolean;
 
-  @internalProperty() private _helpers?: any;
+  @property() private _helpers?: any;
 
   private _initialized = false;
 

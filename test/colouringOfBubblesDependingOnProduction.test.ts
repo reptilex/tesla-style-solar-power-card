@@ -61,7 +61,7 @@ describe('Colouring of bubble depending on production test', () => {
   it('house_icon shoud have success colour', async () => {
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''), 'sum of consumptions in mixed house consumption is wrong').contains(
       '4.2 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
@@ -80,7 +80,7 @@ describe('Colouring of bubble depending on production test', () => {
     await setGenerationToHouseFlow('2500');
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''), 'sum of consumptions in mixed house consumption is wrong').contains(
       '5.6 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');
@@ -99,7 +99,7 @@ describe('Colouring of bubble depending on production test', () => {
     await setGridToHouseFlow('3500');
     const houseEntity = <HTMLElement>teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined) assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML, 'sum of consumptions in mixed house consumption is wrong').contains(
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''), 'sum of consumptions in mixed house consumption is wrong').contains(
       '6.7 kW'
     );
     expect(houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()).to.equal('mdi:home');

@@ -81,7 +81,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     if (batteryEntity === null || batteryEntity === undefined)
       assert.fail('No battery_entity element found');
     expect(
-      batteryEntity?.querySelector('.acc_text')?.innerHTML,
+      batteryEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of battery charging flows in acc_text of battery_entity'
     ).contains('2 kW');
     expect(
@@ -90,7 +90,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '99 %'
     );
   });
@@ -161,7 +161,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '100 %'
     );
   });
@@ -178,7 +178,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-90');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '83 %'
     );
   });
@@ -195,7 +195,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-80');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '73 %'
     );
   });
@@ -212,7 +212,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-70');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '65 %'
     );
   });
@@ -229,7 +229,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-20');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '15 %'
     );
   });
@@ -246,7 +246,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-10');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '6 %'
     );
   });
@@ -263,7 +263,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
         ?.getAttribute('icon')
         ?.toString()
     ).to.equal('mdi:battery-charging-outline');
-    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML).contains(
+    expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '5 %'
     );
   });

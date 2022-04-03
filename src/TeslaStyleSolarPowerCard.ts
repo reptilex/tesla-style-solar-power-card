@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals, prefer-template, no-param-reassign, class-methods-use-this, lit-a11y/click-events-have-key-events, no-bitwise, import/extensions */
-import { LitElement, html, property, TemplateResult, CSSResult, css, internalProperty } from 'lit-element';
+import { LitElement, html, TemplateResult, CSSResult, css } from 'lit';
+import { property } from 'lit/decorators.js';
 import { HomeAssistant, LovelaceCardConfig /* , LovelaceCardEditor */ } from 'custom-card-helpers';
+import { HassEntity } from 'home-assistant-js-websocket';
 import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
 
 /* import './components/editor'; */
@@ -20,11 +22,11 @@ import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
 export class TeslaStyleSolarPowerCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
 
-  @internalProperty() private config!: TeslaStyleSolarPowerCardConfig;
+  @property() private config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
 
-  @internalProperty() private oldWidth = 100;
+  @property() private oldWidth = 100;
 
   public pxRate = 4;
 
@@ -393,7 +395,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     let extraUnitOfMeasurement: string | undefined;
     let isSubstractionEntity = false;
     let oneDefinedEntity = false;
-    let clickEntityHassState = null;
+    let clickEntityHassState:HassEntity | null = null;
 
     entitiesForMainValue.forEach((entityHolder: string) => {
       if (entityHolder.substring(0, 1) === '-') {

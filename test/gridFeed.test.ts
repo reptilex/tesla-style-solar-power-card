@@ -66,7 +66,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     if (gridEntity === null || gridEntity === undefined)
       assert.fail('No grid_entity element found');
     expect(
-      gridEntity?.querySelector('.acc_text')?.innerHTML,
+      gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of grid charging flows in acc_text of grid_entity'
     ).contains('2 kW');
     expect(

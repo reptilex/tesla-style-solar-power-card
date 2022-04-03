@@ -79,7 +79,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     const gridEntity = teslaCard?.querySelector('.grid_entity');
     if (gridEntity === null || gridEntity === undefined)
       assert.fail('No grid_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML).contains(
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '0.5 kW'
     );
     expect(
@@ -91,7 +91,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     const houseEntity = teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined)
       assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML).contains(
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
       '0.5 kW'
     );
     expect(

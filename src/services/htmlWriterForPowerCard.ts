@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,  import/extensions, prefer-template, class-methods-use-this, lit-a11y/click-events-have-key-events, lines-between-class-members */
-import { html, TemplateResult } from 'lit-element';
+import { html, TemplateResult } from 'lit';
 import { HomeAssistant } from 'custom-card-helpers';
 import { HassEntity } from 'home-assistant-js-websocket';
 import { SensorElement } from '../models/SensorElement';
@@ -43,8 +43,7 @@ export class HtmlWriterForPowerCard {
               style="font-size:${3 * this.pxRate + 'px'};
                         top: ${1 * this.pxRate + 'px'};
                         width: ${10 * this.pxRate + 'px'};"
-            >
-              ${extraValue} ${extraUnitOfMeasurement}
+            >${extraValue} ${extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${icon}"></ha-icon>
@@ -66,7 +65,7 @@ export class HtmlWriterForPowerCard {
     extraUnitOfMeasurement: string | undefined = undefined
   ): TemplateResult {
     if (extraValue !== undefined) {
-      if (icon == 'mdi:battery-medium' || icon == 'mdi:battery'){
+      if (icon === 'mdi:battery-medium' || icon === 'mdi:battery'){
         icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
       }
     }

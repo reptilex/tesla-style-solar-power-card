@@ -1,4 +1,5 @@
 // import { playwrightLauncher } from '@web/test-runner-playwright';
+// import { legacyPlugin } from '@web/dev-server-legacy';
 
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   files: 'dist/test/**/*.test.js',
