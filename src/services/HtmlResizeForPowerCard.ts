@@ -17,7 +17,7 @@ export class HtmlResizeForPowerCard {
     );
     if (teslaCardElement == null) return oldWidth;
 
-    if(newWidth < 100) newWidth = 200;
+    if(newWidth < 200) newWidth = 250;
 
     const pxRate = newWidth / 100;
 
