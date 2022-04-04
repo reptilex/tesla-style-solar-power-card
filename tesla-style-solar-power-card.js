@@ -56,15 +56,14 @@ const X=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,
               style="font-size:${3*this.pxRate+"px"};
                         top: ${1*this.pxRate+"px"};
                         width: ${10*this.pxRate+"px"};"
-            >
-              ${o} ${l}
+            >${o} ${l}
             </div>`:O``}
         <ha-icon class="acc_icon" icon="${n}"></ha-icon>
         <div class="acc_text" style="font-size:${3*this.pxRate+"px"}; margin-top:${-.5*this.pxRate+"px"}; width: ${10*this.pxRate+"px"}">
           ${t} ${e}
         </div>
       </div>
-    </div>`}writeBatteryBubbleDiv(t,e,i,n,s,r,o,l){return void 0!==o&&("mdi:battery-medium"!=n&&"mdi:battery"!=n||(n=this.getBatteryIcon(parseFloat(o),t))),this.writeBubbleDiv(t,e,i,n,s,r,o,l)}getBatteryIcon(t,e){let i=t;t<=5&&(i=0);const n=10*Math.ceil(i/10);let s="-"+n.toString(),r="-charging";return e<=0&&(r=""),100===n&&(s=""),n<=5&&(s="-outline"),"mdi:battery"+r+s}writeAppliancePowerLineAndCircle(t,e){if(null==this.solarCardElements.get("appliance"+t+"_consumption_entity"))return O``;let i;return i=1===t?"top:"+22.5*this.pxRate+"px;":"bottom:"+15*this.pxRate+"px;",O` <div
+    </div>`}writeBatteryBubbleDiv(t,e,i,n,s,r,o,l){return void 0!==o&&("mdi:battery-medium"!==n&&"mdi:battery"!==n||(n=this.getBatteryIcon(parseFloat(o),t))),this.writeBubbleDiv(t,e,i,n,s,r,o,l)}getBatteryIcon(t,e){let i=t;t<=5&&(i=0);const n=10*Math.ceil(i/10);let s="-"+n.toString(),r="-charging";return e<=0&&(r=""),100===n&&(s=""),n<=5&&(s="-outline"),"mdi:battery"+r+s}writeAppliancePowerLineAndCircle(t,e){if(null==this.solarCardElements.get("appliance"+t+"_consumption_entity"))return O``;let i;return i=1===t?"top:"+22.5*this.pxRate+"px;":"bottom:"+15*this.pxRate+"px;",O` <div
       class="acc_line acc_appliance${t}_line"
       style="
         height:${12*this.pxRate-5*(t-1)+"px"}
