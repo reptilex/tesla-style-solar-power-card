@@ -4,6 +4,7 @@ import { HomeAssistant } from 'custom-card-helpers';
 import { HassEntity } from 'home-assistant-js-websocket';
 import { SensorElement } from '../models/SensorElement';
 import { TeslaStyleSolarPowerCard } from '../TeslaStyleSolarPowerCard';
+import { BubbleData } from '../models/BubbleData';
 
 export class HtmlWriterForPowerCard {
   private teslaCard: TeslaStyleSolarPowerCard;
@@ -21,64 +22,41 @@ export class HtmlWriterForPowerCard {
     this.hass = hass;
   }
 
-  public writeBubbleDiv(
-    mainValue: number,
-    mainUnitOfMeasurement: string | undefined,
-    cssSelector: string,
-    icon: string,
-    bubblClickEntitySlot: string | null = null,
-    bubblClickEntitySlotHassState: HassEntity | null = null,
-    extraValue: string | null = null,
-    extraUnitOfMeasurement: string | null = null
+  public writeBubbleDiv(bubbleData: BubbleData
   ): TemplateResult {
-    return html` <div class="acc_td ${cssSelector}">
+    
+    if(bubbleData.noEntitiesWithValueFound) return html``;
+
+    return html` <div class="acc_td ${bubbleData.cssSelector}">
       <div
-        class="acc_container ${bubblClickEntitySlot}"
+        class="acc_container ${bubbleData.clickEntitySlot}"
         style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px;'}"
-        @click="${() => this._handleClick(bubblClickEntitySlotHassState)}"
+        @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
-        ${extraValue !== null
+        ${bubbleData.extraValue !== null
           ? html` <div
               class="acc_text_extra"
               style="font-size:${3 * this.pxRate + 'px'};
                         top: ${1 * this.pxRate + 'px'};
                         width: ${10 * this.pxRate + 'px'};"
-            >${extraValue} ${extraUnitOfMeasurement}
+            >${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
-        <ha-icon class="acc_icon" icon="${icon}"></ha-icon>
+        <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
         <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 * this.pxRate + 'px'}; width: ${10 * this.pxRate + 'px'}">
-          ${mainValue} ${mainUnitOfMeasurement}
+          ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
     </div>`;
   }
 
-  public writeBatteryBubbleDiv(
-    mainValue: number,
-    mainUnitOfMeasurement: string | undefined,
-    cssSelector: string,
-    icon: string,
-    bubblClickEntitySlot: string | null,
-    bubblClickEntitySlotHassState: HassEntity | null,
-    extraValue: string | undefined = undefined,
-    extraUnitOfMeasurement: string | undefined = undefined
-  ): TemplateResult {
-    if (extraValue !== undefined) {
-      if (icon === 'mdi:battery-medium' || icon === 'mdi:battery'){
-        icon = this.getBatteryIcon(parseFloat(extraValue), mainValue);
+  public writeBatteryBubbleDiv(bubbleData:BubbleData): TemplateResult {
+    if (bubbleData.extraValue !== undefined) {
+      if (bubbleData.icon === 'mdi:battery-medium' || bubbleData.icon === 'mdi:battery'){
+        bubbleData.icon = this.getBatteryIcon(parseFloat(bubbleData.extraValue), bubbleData.mainValue);
       }
     }
-    return this.writeBubbleDiv(
-      mainValue,
-      mainUnitOfMeasurement,
-      cssSelector,
-      icon,
-      bubblClickEntitySlot,
-      bubblClickEntitySlotHassState,
-      extraValue,
-      extraUnitOfMeasurement
-    );
+    return this.writeBubbleDiv(bubbleData);
   }
 
   private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number) {

@@ -175,6 +175,11 @@ There is a factor to make the lines thicker depending on your flow normaly it's 
 energy_flow_diagramm_line_factor: 2
 ```
 
+You can subtract the appliance values from the house value without affecting the line flow:
+```yml
+house_without_appliances_values: 1
+```
+
 Then there are 6 icon configuration variables:
 ```yml
 grid_icon: 'mdi:transmission-tower'

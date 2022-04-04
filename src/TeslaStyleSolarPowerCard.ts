@@ -2,12 +2,12 @@
 import { LitElement, html, TemplateResult, CSSResult, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { HomeAssistant, LovelaceCardConfig /* , LovelaceCardEditor */ } from 'custom-card-helpers';
-import { HassEntity } from 'home-assistant-js-websocket';
 import { TeslaStyleSolarPowerCardConfig } from './models/TeslaStyleSolarPowerCardConfig';
 
 /* import './components/editor'; */
 
 import { SensorElement } from './models/SensorElement';
+import { BubbleData } from './models/BubbleData';
 import { HtmlWriterForPowerCard } from './services/HtmlWriterForPowerCard';
 import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
 // import { localize } from './localize/localize';
@@ -25,7 +25,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   @property() private config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
-
+  
   @property() private oldWidth = 100;
 
   public pxRate = 4;
@@ -170,7 +170,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   protected render(): TemplateResult | void {
     if (this.error !== '') return this._showError();
 
-    const newWidth = this.clientWidth <= 200 ?  250 : this.clientWidth;
+    const newWidth = this.clientWidth <= 100 ?  250 : this.clientWidth;
 
     this.pxRate = newWidth / 100;
     
@@ -347,20 +347,52 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private writeGenerationIconBubble(): TemplateResult {
     const generationEntities = ['generation_to_grid_entity', 'generation_to_house_entity', 'generation_to_battery_entity'];
+    
+    const bubbleData:BubbleData = this.calculateIconBubbleData(
+      generationEntities, 
+      'generation_entity', 
+      'generation_extra_entity');
 
-    return this.writeIconBubble(generationEntities, 'acc_top', 'generation_icon', 'generation_entity', 'generation_extra_entity');
+    bubbleData.cssSelector = 'acc_top';
+    bubbleData.icon = this.config.generation_icon;
+
+    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeGridIconBubble(): TemplateResult {
     const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity', 'grid_to_battery_entity'];
+    
+    const bubbleData:BubbleData = this.calculateIconBubbleData(
+      gridEntities, 
+      'grid_entity', 
+      'grid_extra_entity');
 
-    return this.writeIconBubble(gridEntities, 'acc_left', 'grid_icon', 'grid_entity', 'grid_extra_entity');
+    bubbleData.cssSelector = 'acc_left';
+    bubbleData.icon = this.config.grid_icon;
+
+    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeHouseIconBubble(): TemplateResult {
-    const houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
+    
+    let houseEntities:Array<string>;
+    if(this.config.house_without_appliances_values){
+      houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity', '-appliance1_consumption_entity','-appliance2_consumption_entity'];
+    } else {
+      houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
+    }
 
-    return this.writeIconBubble(houseEntities, 'acc_right', 'house_icon', 'house_entity', 'house_extra_entity');
+
+    const bubbleData:BubbleData = this.calculateIconBubbleData(
+      houseEntities, 
+      'house_entity', 
+      'house_extra_entity');
+
+    bubbleData.cssSelector = 'acc_right';
+    bubbleData.icon = this.config.house_icon;
+
+
+    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeBatteryIconBubble(): TemplateResult {
@@ -370,35 +402,41 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       '-battery_to_house_entity',
       '-battery_to_grid_entity',
     ];
-    return this.writeIconBubble(batteryEntities, 'acc_bottom', 'battery_icon', 'battery_entity', 'battery_extra_entity', true);
+    const bubbleData:BubbleData = this.calculateIconBubbleData(
+      batteryEntities, 
+      'battery_entity', 
+      'battery_extra_entity');
+
+    bubbleData.cssSelector = 'acc_bottom';
+    bubbleData.icon = this.config.battery_icon;
+
+    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeApplianceIconBubble(applianceNumber: number): TemplateResult {
     const applianceEntities = ['appliance' + applianceNumber + '_consumption_entity'];
-    return this.writeIconBubble(
-      applianceEntities,
-      'acc_appliance' + applianceNumber,
-      'appliance' + applianceNumber + '_icon',
-      'appliance' + applianceNumber + '_consumption_entity',
-      'appliance' + applianceNumber + '_extra_entity'
-    );
+
+
+    const bubbleData:BubbleData = this.calculateIconBubbleData(
+      applianceEntities, 
+      'appliance' + applianceNumber + '_consumption_entity', 
+      'appliance' + applianceNumber + '_extra_entity');
+
+    bubbleData.cssSelector = 'acc_appliance' + applianceNumber;
+    bubbleData.icon = this.config['appliance' + applianceNumber + '_icon'];
+
+    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
-  private writeIconBubble(
+  private calculateIconBubbleData(
     entitiesForMainValue: Array<string>,
-    cssSelector: string,
-    iconVariable: string,
-    bubblClickEntitySlot: string | null = null,
+    bubbleClickEntitySlot: string | null = null,
     extraEntitySlot: string | null = null,
-    isBatteryBubble: boolean = false
-  ): TemplateResult {
-    let mainValue: number = 0;
-    let mainUnitOfMeasurement: string | undefined;
-    let extraValue: string | undefined;
-    let extraUnitOfMeasurement: string | undefined;
+  ): BubbleData {
+    
     let isSubstractionEntity = false;
-    let oneDefinedEntity = false;
-    let clickEntityHassState:HassEntity | null = null;
+    const bubbleData = new BubbleData;
+    bubbleData.clickEntitySlot = bubbleClickEntitySlot;
 
     entitiesForMainValue.forEach((entityHolder: string) => {
       if (entityHolder.substring(0, 1) === '-') {
@@ -406,59 +444,31 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         isSubstractionEntity = true;
       }
       const divSolarElement = this.solarCardElements.get(entityHolder);
+
       if (divSolarElement !== null && divSolarElement?.value !== undefined) {
-        oneDefinedEntity = true;
-        if (isSubstractionEntity) {
-          mainValue -= divSolarElement?.value;
-        } else {
-          mainValue += divSolarElement?.value;
-        }
-        mainValue = ((mainValue * 100) | 0) / 100;
-        mainUnitOfMeasurement = divSolarElement?.unitOfMeasurement;
+        bubbleData.noEntitiesWithValueFound = false;
+        bubbleData.mainValue = isSubstractionEntity ? (bubbleData.mainValue - divSolarElement?.value) : (bubbleData.mainValue + divSolarElement?.value);
+        bubbleData.mainValue = ((bubbleData.mainValue * 100) | 0) / 100;
+        bubbleData.mainUnitOfMeasurement = divSolarElement?.unitOfMeasurement;
       }
       isSubstractionEntity = false;
     });
 
-    if (!oneDefinedEntity) return html``;
-
     if (extraEntitySlot !== null) {
       const extraEntity = this.solarCardElements.get(extraEntitySlot);
-      extraValue = extraEntity?.value;
-      extraUnitOfMeasurement = extraEntity?.unitOfMeasurement;
+      bubbleData.extraValue = extraEntity?.value;
+      bubbleData.extraUnitOfMeasurement = extraEntity?.unitOfMeasurement;
     }
 
-    if (bubblClickEntitySlot !== null) {
-      clickEntityHassState = this.hass.states[this.config[bubblClickEntitySlot]];
+    if (bubbleClickEntitySlot !== null) {
+      bubbleData.clickEntityHassState = this.hass.states[this.config[bubbleClickEntitySlot]];
     }
 
-    if (this.showKW(mainValue)) {
-      mainValue = this.roundValue(mainValue / 1000);
-      mainUnitOfMeasurement = 'kW';
+    if (this.showKW(bubbleData.mainValue)) {
+      bubbleData.mainValue = this.roundValue(bubbleData.mainValue / 1000);
+      bubbleData.mainUnitOfMeasurement = 'kW';
     }
-
-    if (isBatteryBubble) {
-      return this.htmlWriter.writeBatteryBubbleDiv(
-        mainValue,
-        mainUnitOfMeasurement,
-        cssSelector,
-        this.config[iconVariable],
-        bubblClickEntitySlot,
-        clickEntityHassState,
-        extraValue,
-        extraUnitOfMeasurement
-      );
-    }
-
-    return this.htmlWriter.writeBubbleDiv(
-      mainValue,
-      mainUnitOfMeasurement,
-      cssSelector,
-      this.config[iconVariable],
-      bubblClickEntitySlot,
-      clickEntityHassState,
-      extraValue,
-      extraUnitOfMeasurement
-    );
+    return bubbleData;
   }
 
   private showKW(value: number) {
@@ -645,7 +655,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private _showError(): TemplateResult {
     // const errorCard = <LovelaceCard>document.createElement('hui-error-card');
-    console.log(this.error);
+    // eslint-disable-next-line no-console
+    console.log(this.error); 
     return html`
       <hui-warning
         ><div>
