@@ -17,6 +17,8 @@ export class HtmlResizeForPowerCard {
     );
     if (teslaCardElement == null) return oldWidth;
 
+    if(newWidth < 100) newWidth = 200;
+
     const pxRate = newWidth / 100;
 
     const changeSelectorStyle = function (
