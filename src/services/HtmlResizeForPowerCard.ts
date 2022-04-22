@@ -74,130 +74,8 @@ export class HtmlResizeForPowerCard {
     // power lines
     changeSelectorStyle('.power_lines', 'height', 42 * pxRate + 'px');
     changeSelectorStyle('.power_lines', 'width', 42 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'top', 0 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'left', 28 * pxRate + 'px');
-    changeSelectorStyle('.power_lines svg', 'width', 42 * pxRate + 'px');
-    changeSelectorStyle('.power_lines svg', 'height', 42 * pxRate + 'px');
-    changeSelectorStyle(
-      '.power_lines svg',
-      'viewBox',
-      '0 0 ' + 42 * pxRate + ' ' + 42 * pxRate
-    );
-    let selectorElement = <HTMLElement>(
-      teslaCardElement.querySelector('.power_lines svg')
-    );
-    if (selectorElement !== null)
-      selectorElement.setAttribute(
-        'viewBox',
-        '0 0 ' + 42 * pxRate + ' ' + 42 * pxRate
-      );
-    const half = 22 * pxRate;
-    changeSelectorStyle(
-      '#generation_to_house_entity_line',
-      'd',
-      'M' +
-        (half-pxRate) +
-        ',0 C' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' ' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' ' +
-        half * 2 +
-        ',' +
-        half
-    );
-    changeSelectorStyle(
-      '#grid_feed_in_entity_line',
-      'd',
-      'M' +
-        (half-pxRate) +
-        ',0 C' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' ' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' 0,' +
-        half
-    );
-    changeSelectorStyle(
-      '#grid_to_house_entity_line',
-      'd',
-      'M0,' +
-        half +
-        ' C' +
-        half +
-        ',' +
-        half +
-        ' ' +
-        half +
-        ',' +
-        half +
-        ' ' +
-        half * 2 +
-        ',' +
-        half
-    );
-    changeSelectorStyle(
-      '#grid_to_battery_entity_line',
-      'd',
-      'M0,' +
-        half +
-        ' C' +
-        half +
-        ',' +
-        half +
-        ' ' +
-        half +
-        ',' +
-        half +
-        ' ' +
-        half +
-        ',' +
-        half * 2
-    );
-    changeSelectorStyle(
-      '#battery_to_house_entity_line',
-      'd',
-      'M' +
-        (half-pxRate) +
-        ',' +
-        half * 2 +
-        ' C' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' ' +
-        (half-pxRate) +
-        ',' +
-        half +
-        ' ' +
-        half * 2 +
-        ',' +
-        half
-    );
-    changeSelectorStyle(
-      '#generation_to_battery_entity_line',
-      'd',
-      'M' +
-        (half-pxRate) +
-        ',0 C' +
-        (half-pxRate) +
-        ',0 ' +
-        (half-pxRate) +
-        ',' +
-        half * 2 +
-        ' ' +
-        (half-pxRate) +
-        ',' +
-        half * 2
-    );
+    
+
 
     // appliances
     [1, 2].forEach(value => {
@@ -231,14 +109,10 @@ export class HtmlResizeForPowerCard {
         'height',
         (12 * pxRate ) - (( value - 1) * 5) + 'px'
       );
-      selectorElement = <HTMLElement>(
+      // eslint-disable-next-line prefer-const
+      let selectorElement = <HTMLElement>(
         teslaCardElement.querySelector('.acc_appliance' + value + '_line_svg')
       );
-      if (selectorElement !== null)
-        selectorElement.setAttribute(
-          'viewBox',
-          '0 0 ' + ((12*pxRate)-((value-1)*5)) + ' ' + ((12*pxRate)-((value-1)*5))
-        );
 
       const topElement = <HTMLElement>(
         teslaCardElement.querySelector('.generation_entity')
@@ -268,14 +142,6 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle('.generation_entity', 'margin', '0px');
       changeSelectorStyle('.battery_entity', 'margin', '0px');
       changeSelectorStyle('.power_lines', 'width', 30 * pxRate + 'px');
-      selectorElement = <HTMLElement>(
-        teslaCardElement.querySelector('.power_lines svg')
-      );
-      if (selectorElement !== null)
-        selectorElement.setAttribute(
-          'viewBox',
-          12 * pxRate + ' 0 ' + 42 * pxRate + ' ' + 42 * pxRate
-        );
     }
 
     changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');

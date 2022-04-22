@@ -8,8 +8,8 @@
   "module": "dist/index.js",
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js",
-    "prepublish": "tsc",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js && scp tesla-style-solar-power-card.js reptilex@blackelf:/home/reptilex/projects/homeassistant/config/www",
+    "prepublish": "tsc && scp tesla-style-solar-power-card.js reptilex@blackelf:/home/reptilex/projects/homeassistant/config/www",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "test": "tsc && wtr --coverage",

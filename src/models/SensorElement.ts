@@ -20,9 +20,9 @@ export class SensorElement {
 
   public entity = '';
 
-  public circle?: SVGPathElement;
+  public circle?: HTMLElement;
 
-  public line?: SVGPathElement;
+  public line?: HTMLElement;
 
   public color = 'stroke:var(--info-color)';
 

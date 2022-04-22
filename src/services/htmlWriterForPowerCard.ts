@@ -22,7 +22,7 @@ export class HtmlWriterForPowerCard {
     this.hass = hass;
   }
 
-  public writeBubbleDiv(bubbleData: BubbleData
+  public writeBubbleDiv(bubbleData: BubbleData, pxRate: number
   ): TemplateResult {
     
     if(bubbleData.noEntitiesWithValueFound) return html``;
@@ -30,33 +30,33 @@ export class HtmlWriterForPowerCard {
     return html` <div class="acc_td ${bubbleData.cssSelector}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px;'}"
+        style="${'width:' + 9 * pxRate + 'px; height: ' + 9 * pxRate + 'px; padding:' + 5 * pxRate + 'px;'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
           ? html` <div
               class="acc_text_extra"
-              style="font-size:${3 * this.pxRate + 'px'};
-                        top: ${1 * this.pxRate + 'px'};
-                        width: ${10 * this.pxRate + 'px'};"
+              style="font-size:${3 * pxRate + 'px'};
+                        top: ${1 * pxRate + 'px'};
+                        width: ${10 * pxRate + 'px'};"
             >${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 * this.pxRate + 'px'}; width: ${10 * this.pxRate + 'px'}">
+        <div class="acc_text" style="font-size:${3 * pxRate + 'px'}; margin-top:${-0.5 * pxRate + 'px'}; width: ${10 * pxRate + 'px'}">
           ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
     </div>`;
   }
 
-  public writeBatteryBubbleDiv(bubbleData:BubbleData): TemplateResult {
+  public writeBatteryBubbleDiv(bubbleData:BubbleData, pxRate:number): TemplateResult {
     if (bubbleData.extraValue !== undefined) {
       if (bubbleData.icon === 'mdi:battery-medium' || bubbleData.icon === 'mdi:battery'){
         bubbleData.icon = this.getBatteryIcon(parseFloat(bubbleData.extraValue), bubbleData.mainValue);
       }
     }
-    return this.writeBubbleDiv(bubbleData);
+    return this.writeBubbleDiv(bubbleData, pxRate);
   }
 
   private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number) {
@@ -77,30 +77,30 @@ export class HtmlWriterForPowerCard {
     return 'mdi:battery' + batteryCharging + batteryStateIconString;
   }
 
-  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string) {
+  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string, pxRate:number) {
     const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
     const height = 12;
     let verticalPosition: string;
     if (applianceNumber === 1) {
-      verticalPosition = 'top:' + 22.5 * this.pxRate + 'px;';
+      verticalPosition = 'top:' + 22.5 * pxRate + 'px;';
     } else {
-      verticalPosition = 'bottom:' + 15 * this.pxRate + 'px;';
+      verticalPosition = 'bottom:' + 15 * pxRate + 'px;';
     }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
       style="
-        height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'}
+        height:${(height * pxRate)-((applianceNumber-1)*5)+'px'}
         width:10px};
-        right:${(9.5 * this.pxRate) + 10 + 'px'};
+        right:${(9.5 * pxRate) + 10 + 'px'};
         ${verticalPosition}
         position:absolute"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox='${'0 0 '+ ((12*this.pxRate)-((applianceNumber-1)*5)) + ' ' +((12*this.pxRate)-((applianceNumber-1)*5))}'
+        viewBox='${'0 0 '+ ((12*pxRate)-((applianceNumber-1)*5)) + ' ' +((12*pxRate)-((applianceNumber-1)*5))}'
         preserveAspectRatio="xMinYMax slice"
-        style="height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'};width:10px}"
+        style="height:${(height * pxRate)-((applianceNumber-1)*5)+'px'};width:10px}"
         class="acc_appliance${applianceNumber}_line_svg"
       >
         ${this.writeCircleAndLine('appliance' + applianceNumber + '_consumption_entity', pathDAttribute)}
