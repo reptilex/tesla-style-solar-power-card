@@ -210,53 +210,198 @@ template sensors if you are missing one like solar yield out of solar_consumptio
 In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter. 
 
 Fortunately this can be easily fixed with the addition of a few template sensors, the ones you would need to add are shown below. Note that these sensors assume the default names for each entity created by the Tesla Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:
+
 ```yaml
+# Templates for Actual Powerflow transfer charts (APF - Actual PowerFlow)
+#
+# For the math to add up a new Real House Load must be calculated and used, witch includes
+# the inverter consumption and excludes rounding errors and corrects inaccurate power readings.
+#
+# It never made sense that inbound power sometimes does not equal outbound power. This fixes it!
+#
+# Developed by AviadorLP modified for powerwall by purcell-lab
+# Correctly sets battery2grid & grid2battery flows
+#
 template:
   - sensor:
-    - name: "Tesla Card Grid Consumption"
-      unique_id: 'tesla_card_grid_consumption'
-      state: "{{ states('sensor.powerwall_site_now') | float | max(0) | round(1) }}"
+# grid sensor must be negative when importing and positive when exporting
+    - name: APF Grid Entity
       device_class: power
-      unit_of_measurement: kW
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ (0 - states('sensor.powerwall_site_now')|float(0)*1000)|int(0) }}"
 
-    - name: "Tesla Card Grid Feed In"
-      unique_id: 'tesla_card_grid_feed_in'
-      state: "{{ states('sensor.powerwall_site_now') | float | min(0) | abs | round(1) }}"
+# sensor must always be 0 or positive (i think they always are)
+    - name: APF House Entity
       device_class: power
-      unit_of_measurement: kW
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ (states('sensor.powerwall_load_now')|float(0)*1000)|int(0) }}"
 
-    - name: "Tesla Card Solar Consumption"
-      unique_id: 'tesla_card_solar_consumption'
-      state: "{{ ((states('sensor.powerwall_solar_now') | float) - (states('sensor.tesla_card_grid_feed_in') | float ) - (states('sensor.tesla_card_battery_charging_inside') | float) ) | round(1) }}"
+# sensor must always be 0 or positive (i think they always are)
+    - name: APF Generation Entity
       device_class: power
-      unit_of_measurement: kW
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ (states('sensor.powerwall_solar_now')|float(0)*1000)|int(0) }}"
 
-    - name: "Tesla Card Battery Consumption"
-      unique_id: 'tesla_card_battery_consumption'
-      state: "{{ states('sensor.powerwall_battery_now') | float | max(0) | round(1) }}"
+# battery sensor must be positive when charging and negative when discharging
+    - name: APF Battery Entity
       device_class: power
-      unit_of_measurement: kW
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ (0 - states('sensor.powerwall_battery_now')|float(0)*1000)|int(0) }}"
 
-    - name: "Tesla Card Battery Charging Inside"
-      unique_id: 'tesla_card_battery_charging_inside'
-      state: "{{ states('sensor.powerwall_battery_now') | float | min(0) | abs | round(1) }}"
+
+
+
+# Required to reduce code later on
+    - name: APF Grid Import
       device_class: power
-      unit_of_measurement: kW
-    
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_grid_entity')|int(default=0) < 0 %}
+          {{ states('sensor.apf_grid_entity')|int(default=0)|abs }}
+        {% else %}
+          0
+        {% endif %}
+
+#   Inverter consumption and power losses due to Inverter transfers and power conversions (AC/DC)
+#   excludes rounding errors made worst by the fact that some inverters round all sensors readings to INT
+#   Occasionally this might be negative probably due to cumulative errors in not so accurate power readings.
+    - name: APF Inverter Power Consumption
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ states('sensor.apf_generation_entity')|int(default=0) - states('sensor.apf_battery_entity')|int(default=0) - states('sensor.apf_house_entity')|int(default=0) - states('sensor.apf_grid_entity')|int(default=0) }}"
+
+# Real House Load Includes Inverter consumption and transfer conversions and losses and rounding errors.
+# It never made sense that inbound power sometimes does not equal outbound power. This fixes it!
+    - name: APF Real House Load
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: "{{ states('sensor.apf_house_entity')|int(default=0) + states('sensor.apf_inverter_power_consumption')|int(default=0) }}"
+      icon: mdi:home-lightning-bolt
+
+    - name: APF Grid2House
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state:  >
+        {% if states('sensor.apf_grid_import')|int(default=0) > states('sensor.apf_real_house_load')|int(default=0) %}
+          {{ states('sensor.apf_real_house_load')|int(default=0) }}
+        {% else %}
+          {{ states('sensor.apf_grid_import')|int(default=0) }}
+        {% endif %}
+
+    - name: APF Grid2Batt
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_grid_import')|int(default=0) > states('sensor.apf_real_house_load')|int(default=0) %}
+          {{ states('sensor.apf_grid_import')|int(default=0) - states('sensor.apf_real_house_load')|int(default=0) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: APF Batt2House
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_battery_entity')|int(default=0) < 0 %}
+          {% if states('sensor.apf_battery_entity')|int(default=0)|abs > states('sensor.apf_real_house_load')|int(default=0) %}
+            {{ states('sensor.apf_real_house_load')|int(default=0) }}
+          {% else %}
+            {{ states('sensor.apf_battery_entity')|int(default=0)|abs }}
+          {% endif %}
+        {% else %}
+          0
+        {% endif %}
+
+# This might be called house to grid, and can happen in rare circumstances,
+# like when the inverter is not able to do a precise adjustment of power fast enough
+# or when you want to force a discharge of the battery or something...
+# But it only happens with battery or other power generator users.
+    - name: APF Batt2Grid
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_battery_entity')|int(default=0) < 0 %}
+          {% if states('sensor.apf_battery_entity')|int(default=0)|abs > states('sensor.apf_real_house_load')|int(default=0) %}
+            {{ states('sensor.apf_battery_entity')|int(default=0)|abs - states('sensor.apf_real_house_load')|int(default=0) }}
+          {% else %}
+            0
+          {% endif %}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: APF Solar2Grid
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_grid_entity')|int(default=0) > states('sensor.apf_batt2grid')|int(default=0) %}
+          {{ states('sensor.apf_grid_entity')|int(default=0) - states('sensor.apf_batt2grid')|int(default=0) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: APF Solar2House
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_generation_entity')|int(default=0) > 0 and states('sensor.apf_real_house_load')|int(default=0) > states('sensor.apf_batt2house')|int(default=0) + states('sensor.apf_grid_import')|int(default=0) %}
+          {% if states('sensor.apf_generation_entity')|int(default=0) > states('sensor.apf_real_house_load')|int(default=0) - states('sensor.apf_batt2house')|int(default=0) - states('sensor.apf_grid2house')|int(default=0) %}
+            {{ states('sensor.apf_real_house_load')|int(default=0) - states('sensor.apf_batt2house')|int(default=0) - states('sensor.apf_grid2house')|int(default=0) }}
+          {% else %}
+            {{ states('sensor.apf_generation_entity')|int(default=0) }}
+          {% endif %}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: APF Solar2Batt
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: W
+      state: >
+        {% if states('sensor.apf_generation_entity')|int(default=0) > 0 and states('sensor.apf_battery_entity')|int(default=0) > 0 %}
+          {% if states('sensor.apf_battery_entity')|int(default=0) > states('sensor.apf_grid2batt')|int(default=0) %}
+            {% if states('sensor.apf_generation_entity')|int(default=0) - states('sensor.apf_solar2house')|int(default=0) > states('sensor.apf_battery_entity')|int(default=0) - states('sensor.apf_grid2batt')|int(default=0) %}
+              {{ states('sensor.apf_battery_entity')|int(default=0) - states('sensor.apf_grid2batt')|int(default=0) }}
+            {% else %}
+              {{ states('sensor.apf_generation_entity')|int(default=0) - states('sensor.apf_solar2house')|int(default=0) - states('sensor.apf_solar2grid')|int(default=0) }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+        {% else %}
+          0
+        {% endif %}
 ```
 After you've included these sensors then you can configure the card like this:
 ```yaml
 type: 'custom:tesla-style-solar-power-card'
-house_entity: sensor.powerwall_load_now
-grid_entity: sensor.tesla_card_grid_consumption
-battery_entity: sensor.tesla_card_battery_consumption
-generation_entity: sensor.powerwall_solar_now
 
-generation_to_grid_entity: sensor.tesla_card_grid_feed_in
-generation_to_house_entity: sensor.tesla_card_solar_consumption
-generation_to_battery_entity: sensor.tesla_card_battery_charging
-battery_to_house_entity: sensor.tesla_card_battery_consumption
-grid_to_house_entity: sensor.tesla_card_grid_consumption
+grid_entity: sensor.apf_grid_entity
+house_entity: sensor.apf_real_house_load
+generation_entity: sensor.apf_generation_entity
+battery_entity: sensor.apf_battery_entity
+
+grid_to_house_entity: sensor.apf_grid2house
+grid_to_battery_entity: sensor.apf_grid2batt
+generation_to_grid_entity: sensor.apf_solar2grid
+generation_to_battery_entity: sensor.apf_solar2batt
+generation_to_house_entity: sensor.apf_solar2house
+battery_to_house_entity: sensor.apf_batt2house
+battery_to_grid_entity: sensor.apf_batt2grid
 
 battery_extra_entity: sensor.powerwall_charge
 ```
