@@ -56,6 +56,7 @@ export class SensorElement {
 
     switch (unitOfMeasurement) {
       case 'W':
+      case 'w':
       case 'kW':
         this.value = valueFromState;
         if (unitOfMeasurement === 'kW') {

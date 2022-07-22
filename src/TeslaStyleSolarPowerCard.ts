@@ -631,7 +631,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         const entityCircle = <SVGPathElement>teslaCardElement.querySelector('#' + key + '_circle');
         entityCircle.style.visibility = 'hidden';
         if (this.config.energy_flow_diagramm_lines_factor === undefined) this.config.energy_flow_diagramm_lines_factor = 2;
-        if (element?.unitOfMeasurement === 'W') {
+        if (element?.unitOfMeasurement.toUpperCase() === 'W') {
           width = (Math.floor(element?.value / 100) / 10) * this.config.energy_flow_diagramm_lines_factor;
         } else {
           width = (Math.floor(element?.value * 10) / 10) * this.config.energy_flow_diagramm_lines_factor;

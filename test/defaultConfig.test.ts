@@ -26,14 +26,14 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
       states: {
         'sensor.grid_to_house': {
           attributes: {
-            unit_of_measurement: 'W',
+            unit_of_measurement: 'w',
           },
           entity_id: 'sensor.grid_to_house',
           state: '500.000000001',
         },
         'sensor.grid_consumption': {
           attributes: {
-            unit_of_measurement: 'W',
+            unit_of_measurement: 'w',
           },
           entity_id: 'sensor.grid_consumption',
           state: '500.000000001',
