@@ -210,6 +210,7 @@ export class TeslaStyleSolarPowerCardEditor extends LitElement implements Lovela
           ? html`<div class="values">
               ${Array.from(this._entityMap).map(entityArr => {
                 const entityName: keyof TeslaStyleSolarPowerCardConfig = entityArr[0];
+                // @ts-ignore
                 const entityFunction = this[`_${entityName}`];
                 return html`
                   <ha-entity-picker
@@ -356,6 +357,7 @@ export class TeslaStyleSolarPowerCardEditor extends LitElement implements Lovela
       return;
     }
     const { target } = ev;
+    // @ts-ignore
     if (this[`_${target.configValue}`] === target.value) {
       return;
     }

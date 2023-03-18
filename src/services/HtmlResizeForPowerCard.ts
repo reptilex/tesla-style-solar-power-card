@@ -59,13 +59,16 @@ export class HtmlResizeForPowerCard {
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text')
       .forEach(icontext => {
+        // @ts-ignore
         icontext.style['font-size'] = 3 * pxRate + 'px';
+        // @ts-ignore
         icontext.style['margin-top'] = -0.5 * pxRate + 'px';
         icontext.style.width = 10 * pxRate + 'px';
       });
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text_extra')
       .forEach(icontextExtra => {
+        // @ts-ignore
         icontextExtra.style['font-size'] = 3 * pxRate + 'px';
         icontextExtra.style.top = 1 * pxRate + 'px';
         icontextExtra.style.width = 10 * pxRate + 'px';
