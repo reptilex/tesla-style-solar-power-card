@@ -15,8 +15,10 @@
     "inlineSources": true,
     "rootDir": "./",
     "declaration": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "resolveJsonModule": true
+    // "suppressImplicitAnyIndexErrors": true,
+    "resolveJsonModule": true,
+    "ignoreDeprecations": "5.0"
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["dist"]
 }
