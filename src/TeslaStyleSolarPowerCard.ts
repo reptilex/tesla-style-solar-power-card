@@ -688,9 +688,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         position:relative;
         cursor:pointer;
     }
-    .acc_icon {
-        --mdc-icon-size: 40px;
-    }
+    // .acc_icon {
+    //     --mdc-icon-size: 40px;
+    // }
     .acc_text,
     .acc_text_extra {
         text-align: center;

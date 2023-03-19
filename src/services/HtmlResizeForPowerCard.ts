@@ -56,6 +56,16 @@ export class HtmlResizeForPowerCard {
           icon.style.width = 7 * pxRate + 'px';
         }
       });
+    
+    teslaCardElement
+      .querySelectorAll<HTMLElement>('.acc_text_extra')
+      .forEach(icontextExtra => {
+        // @ts-ignore
+        icontextExtra.style['font-size'] = 3 * pxRate + 'px';
+        // @ts-ignore
+        icontextExtra.style['margin-top'] = -1 * pxRate + 'px';
+        // icontextExtra.style.width = 10 * pxRate + 'px';
+      });
 
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text')
@@ -63,7 +73,7 @@ export class HtmlResizeForPowerCard {
         // @ts-ignore
         icontext.style['font-size'] = 3 * pxRate + 'px';
         // @ts-ignore
-        icontext.style['margin-top'] = -0.5 * pxRate + 'px';
+        icontext.style['margin-top'] = 1 * pxRate + 'px';
         // icontext.style.width = 10 * pxRate + 'px';
       });
 
@@ -284,9 +294,9 @@ export class HtmlResizeForPowerCard {
     }
 
     changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');
-    changeSelectorStyle('.acc_appliance1_line', 'top', 22.2 * pxRate + 12 + 'px');
+    changeSelectorStyle('.acc_appliance1_line', 'top', 22.4 * pxRate + 12 + 'px');
     changeSelectorStyle('.acc_appliance2', 'bottom', 10 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 20.4 * pxRate + 12 +'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 20.6 * pxRate + 12 +'px');
 
     return newWidth;
   }

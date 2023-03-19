@@ -30,7 +30,7 @@ export class HtmlWriterForPowerCard {
     return html` <div class="acc_td ${bubbleData.cssSelector}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px;'}"
+        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px /*; margin-top: ' + -1 * this.pxRate + 'px*/'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
@@ -38,12 +38,12 @@ export class HtmlWriterForPowerCard {
               class="acc_text_extra"
               style="font-size:${3 * this.pxRate + 'px'};
                         top: ${1 * this.pxRate + 'px'};
-                        width: ${10 * this.pxRate + 'px'};"
+                        /* width: ${10 * this.pxRate + 'px'}; */"
             >${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
-        <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 * this.pxRate + 'px'}; width: ${10 * this.pxRate + 'px'}">
+        <ha-icon class="acc_icon" style="padding-left:${3 * this.pxRate + 'px'};" icon="${bubbleData.icon}"></ha-icon>
+        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${1 * this.pxRate + 'px'}; /*width: ${10 * this.pxRate + 'px'}*/">
           ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
@@ -83,9 +83,9 @@ export class HtmlWriterForPowerCard {
     const height = 12;
     let verticalPosition: string;
     if (applianceNumber === 1) {
-      verticalPosition = 'top:' + 22.5 * this.pxRate + 'px;';
+      verticalPosition = 'top:' + 22.4 * this.pxRate + 'px;';
     } else {
-      verticalPosition = 'bottom:' + 14.5 * this.pxRate + 'px;';
+      verticalPosition = 'bottom:' + 20.6 * this.pxRate + 'px;';
     }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
