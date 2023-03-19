@@ -24,7 +24,7 @@ export class HtmlWriterForPowerCard {
 
   public writeBubbleDiv(bubbleData: BubbleData
   ): TemplateResult {
-    
+
     if(bubbleData.noEntitiesWithValueFound) return html``;
 
     return html` <div class="acc_td ${bubbleData.cssSelector}">
@@ -85,14 +85,14 @@ export class HtmlWriterForPowerCard {
     if (applianceNumber === 1) {
       verticalPosition = 'top:' + 22.5 * this.pxRate + 'px;';
     } else {
-      verticalPosition = 'bottom:' + 15 * this.pxRate + 'px;';
+      verticalPosition = 'bottom:' + 14.5 * this.pxRate + 'px;';
     }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
       style="
         height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'}
         width:10px};
-        right:${(9.5 * this.pxRate) + 10 + 'px'};
+        right:${(11 * this.pxRate) + 10 + 'px'};
         ${verticalPosition}
         position:absolute"
     >

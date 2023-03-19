@@ -49,12 +49,12 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
           ${t.mainValue} ${t.mainUnitOfMeasurement}
         </div>
       </div>
-    </div>`}writeBatteryBubbleDiv(t){return void 0!==t.extraValue&&("mdi:battery-medium"!==t.icon&&"mdi:battery"!==t.icon||(t.icon=this.getBatteryIcon(parseFloat(t.extraValue),t.mainValue))),this.writeBubbleDiv(t)}getBatteryIcon(t,e){let i=t;t<=5&&(i=0);const n=10*Math.ceil(i/10);let s="-"+n.toString(),r="-charging";return e<=0&&(r=""),100===n&&(s=""),n<=5&&(s="-outline"),"mdi:battery"+r+s}writeAppliancePowerLineAndCircle(t,e){if(null==this.solarCardElements.get("appliance"+t+"_consumption_entity"))return H``;let i;return i=1===t?"top:"+22.5*this.pxRate+"px;":"bottom:"+15*this.pxRate+"px;",H` <div
+    </div>`}writeBatteryBubbleDiv(t){return void 0!==t.extraValue&&("mdi:battery-medium"!==t.icon&&"mdi:battery"!==t.icon||(t.icon=this.getBatteryIcon(parseFloat(t.extraValue),t.mainValue))),this.writeBubbleDiv(t)}getBatteryIcon(t,e){let i=t;t<=5&&(i=0);const n=10*Math.ceil(i/10);let s="-"+n.toString(),r="-charging";return e<=0&&(r=""),100===n&&(s=""),n<=5&&(s="-outline"),"mdi:battery"+r+s}writeAppliancePowerLineAndCircle(t,e){if(null==this.solarCardElements.get("appliance"+t+"_consumption_entity"))return H``;let i;return i=1===t?"top:"+22.5*this.pxRate+"px;":"bottom:"+14.5*this.pxRate+"px;",H` <div
       class="acc_line acc_appliance${t}_line"
       style="
         height:${12*this.pxRate-5*(t-1)+"px"}
         width:10px};
-        right:${9.5*this.pxRate+10+"px"};
+        right:${11*this.pxRate+10+"px"};
         ${i}
         position:absolute"
     >
@@ -70,7 +70,7 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
     </div>`}writeCircleAndLine(t,e){const i=this.solarCardElements.get(t);return null==i?H``:H`<svg>
       <circle r="4" cx="${i.startPosition.toString()}" cy="4" fill="${i.color}" id="${t+"_circle"}"></circle>
       <path d="${e}" id="${t+"_line"}"></path>
-    </svg>`}_handleClick(t){if(null==t)return;const e=new Event("hass-more-info",{bubbles:!0,cancelable:!0,composed:!0});e.detail={entityId:t.entity_id},null!=this.teslaCard.shadowRoot&&this.teslaCard.shadowRoot.dispatchEvent(e)}}class at{static changeStylesDependingOnWidth(t,e,i,n){if("complete"!==document.readyState||n===i)return n;if(null==t.shadowRoot)return n;const s=t.shadowRoot.querySelector("#tesla-style-solar-power-card");if(null==s)return n;i<200&&(i=250);const r=i/100,o=function(t,e,i){const n=s.querySelector(t);null!==n&&(n.style[e]=i)};o(".acc_left","top",12*r+"px"),o(".acc_right","top",12*r+"px"),s.querySelectorAll(".acc_container").forEach(((t,e,i)=>{const n=i[e];n.style.height=9*r+"px",n.style.width=9*r+"px",n.style.padding=5*r+"px"})),s.querySelectorAll("ha-icon").forEach(((t,e,i)=>{var n;const s=null===(n=i[e].shadowRoot)||void 0===n?void 0:n.querySelector("ha-svg-icon");null!=s&&(s.style.height=9*r+"px",s.style.width=9*r+"px")})),s.querySelectorAll(".acc_text").forEach((t=>{t.style["font-size"]=3*r+"px",t.style["margin-top"]=-.5*r+"px",t.style.width=10*r+"px"})),s.querySelectorAll(".acc_text_extra").forEach((t=>{t.style["font-size"]=3*r+"px",t.style.top=1*r+"px",t.style.width=10*r+"px"})),o(".power_lines","height",42*r+"px"),o(".power_lines","width",42*r+"px"),o(".power_lines","top",0*r+"px"),o(".power_lines","left",28*r+"px"),o(".power_lines svg","width",42*r+"px"),o(".power_lines svg","height",42*r+"px"),o(".power_lines svg","viewBox","0 0 "+42*r+" "+42*r);let l=s.querySelector(".power_lines svg");null!==l&&l.setAttribute("viewBox","0 0 "+42*r+" "+42*r);const a=22*r;o("#generation_to_house_entity_line","d","M"+(a-r)+",0 C"+(a-r)+","+a+" "+(a-r)+","+a+" "+2*a+","+a),o("#grid_feed_in_entity_line","d","M"+(a-r)+",0 C"+(a-r)+","+a+" "+(a-r)+","+a+" 0,"+a),o("#grid_to_house_entity_line","d","M0,"+a+" C"+a+","+a+" "+a+","+a+" "+2*a+","+a),o("#grid_to_battery_entity_line","d","M0,"+a+" C"+a+","+a+" "+a+","+a+" "+a+","+2*a),o("#battery_to_house_entity_line","d","M"+(a-r)+","+2*a+" C"+(a-r)+","+a+" "+(a-r)+","+a+" "+2*a+","+a),o("#generation_to_battery_entity_line","d","M"+(a-r)+",0 C"+(a-r)+",0 "+(a-r)+","+2*a+" "+(a-r)+","+2*a),[1,2].forEach((t=>{o(".acc_appliance"+t+"_line svg","viewBox","0 0 "+(12*r-5*(t-1))+" "+(12*r-5*(t-1))),o(".acc_appliance"+t+"_line","right",9.5*r+10+"px"),o(".acc_appliance"+t+"_line","width","10px"),o(".acc_appliance"+t+"_line","height",12*r-5*(t-1)+"px"),o(".acc_appliance"+t+"_line svg","width","10px"),o(".acc_appliance"+t+"_line svg","height",12*r-5*(t-1)+"px"),l=s.querySelector(".acc_appliance"+t+"_line_svg"),null!==l&&l.setAttribute("viewBox","0 0 "+(12*r-5*(t-1))+" "+(12*r-5*(t-1)));null===s.querySelector(".generation_entity")&&1===t&&null!==l&&o(".acc_center_container","margin-top",19*r+"px");null===s.querySelector(".battery_entity")&&2===t&&null!==l&&o(".acc_center_container","margin-bottom",19*r+"px")}));return null===s.querySelector(".grid_entity")&&(o(".generation_entity","margin","0px"),o(".battery_entity","margin","0px"),o(".power_lines","width",30*r+"px"),l=s.querySelector(".power_lines svg"),null!==l&&l.setAttribute("viewBox",12*r+" 0 "+42*r+" "+42*r)),o(".acc_appliance1","top","10px"),o(".acc_appliance1_line","top",19*r+12+"px"),o(".acc_appliance2","bottom","10px"),o(".acc_appliance2_line","bottom",19*r+12+"px"),i}}window.customCards=window.customCards||[],window.customCards.push({type:"tesla-style-solar-power-card",name:"Tesla Style Solar Power Card",description:"A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2"});class ct extends tt{constructor(){super(...arguments),this.solarCardElements=new Map,this.oldWidth=100,this.pxRate=4,this.htmlWriter=new lt(this,this.hass),this.title="Hey there",this.counter=5,this.error=""}__increment(){this.counter+=1}setConfig(t){if(t.test_gui,this.config={...t},null==this.config.grid_icon&&(this.config.grid_icon="mdi:transmission-tower"),null==this.config.generation_icon&&(this.config.generation_icon="mdi:solar-panel-large"),null==this.config.house_icon&&(this.config.house_icon="mdi:home"),null==this.config.battery_icon&&(this.config.battery_icon="mdi:battery-medium"),null==this.config.appliance1_icon&&(this.config.appliance1_icon="mdi:car-sports"),null==this.config.appliance2_icon&&(this.config.appliance2_icon="mdi:air-filter"),null==this.config.speed_factor&&(this.config.speed_factor=.04),this.createSolarCardElements(),!this.config.energy_flow_diagramm){const t=this;setInterval(this.animateCircles,15,t)}}createSolarCardElements(){Object.keys(this.config).forEach((t=>{if(null!=this.config[t]&&t.indexOf("_entity")>5){const e=this.config[t].toString();this.solarCardElements.set(t,new rt(e,t))}}))}getCardSize(){return 5}static getStubConfig(){return{}}async firstUpdated(){await new Promise((t=>setTimeout(t,0))),this.oldWidth=at.changeStylesDependingOnWidth(this,this.solarCardElements,this.clientWidth,this.oldWidth)}connectedCallback(){super.connectedCallback(),this.redraw=this.redraw.bind(this),window.addEventListener("resize",this.redraw)}shouldUpdate(t){let e;e=this,this.config.energy_flow_diagramm||requestAnimationFrame((t=>{e.updateAllCircles(t)})),e=this;let i=!0;return Array.from(t.keys()).some((e=>{const n=t.get(e);return"hass"===e&&n&&(i=i&&this.sensorChangeDetected(n)),!i})),i}sensorChangeDetected(t){let e=!1;return this.solarCardElements.forEach(((i,n)=>{void 0!==this.hass.states[this.config[n]]&&this.hass.states[this.config[n]].state!==t.states[this.config[n]].state&&(e=!0)})),e}async performUpdate(){this.error="",this.solarCardElements.forEach((t=>{try{t.setValueAndUnitOfMeasurement(this.hass.states[t.entity].state,this.hass.states[t.entity].attributes.unit_of_measurement),t.setSpeed(this.config.speed_factor)}catch(e){this.error+=" Configured '"+t.entity+"' entity was not found. "}})),this.config.energy_flow_diagramm&&this.setEnergyFlowDiagramm(),this.config.change_house_bubble_color_with_flow&&this.colourHouseBubbleDependingOnHighestInput(),super.performUpdate()}render(){if(""!==this.error)return this._showError();const t=this.clientWidth<=100?250:this.clientWidth;let e;this.pxRate=t/100,e=void 0!==this.config.show_gap&&this.config.show_gap?2*this.pxRate:0;const i=22*this.pxRate;return H`
+    </svg>`}_handleClick(t){if(null==t)return;const e=new Event("hass-more-info",{bubbles:!0,cancelable:!0,composed:!0});e.detail={entityId:t.entity_id},null!=this.teslaCard.shadowRoot&&this.teslaCard.shadowRoot.dispatchEvent(e)}}class at{static changeStylesDependingOnWidth(t,e,i,n){if("complete"!==document.readyState||n===i)return n;if(null==t.shadowRoot)return n;const s=t.shadowRoot.querySelector("#tesla-style-solar-power-card");if(null==s)return n;i<200&&(i=250);const r=i/100,o=function(t,e,i){const n=s.querySelector(t);null!==n&&(n.style[e]=i)};o(".acc_left","top",10.61*r+"px"),o(".acc_right","top",10.61*r+"px"),s.querySelectorAll(".acc_container").forEach(((t,e,i)=>{const n=i[e];n.style.height=12*r+"px",n.style.width=12*r+"px",n.style.padding=5*r+"px"})),s.querySelectorAll("ha-icon").forEach(((t,e,i)=>{var n;const s=null===(n=i[e].shadowRoot)||void 0===n?void 0:n.querySelector("ha-svg-icon");null!=s&&(s.style.height=7*r+"px",s.style.width=7*r+"px")})),s.querySelectorAll(".acc_text").forEach((t=>{t.style["font-size"]=3*r+"px",t.style["margin-top"]=-.5*r+"px"})),s.querySelectorAll(".acc_text_extra").forEach((t=>{t.style["font-size"]=3*r+"px",t.style.top=1*r+"px"})),o(".power_lines","height",42*r+"px"),o(".power_lines","width",42*r+"px"),o(".power_lines","top",0*r+"px"),o(".power_lines","left",28*r+"px"),o(".power_lines svg","width",42*r+"px"),o(".power_lines svg","height",42*r+"px"),o(".power_lines svg","viewBox","0 0 "+42*r+" "+42*r);let l=s.querySelector(".power_lines svg");null!==l&&l.setAttribute("viewBox","0 0 "+42*r+" "+42*r);const a=22*r;o("#generation_to_house_entity_line","d","M"+(a-r)+",0 C"+(a-r)+","+a+" "+(a-r)+","+a+" "+2*a+","+a),o("#grid_feed_in_entity_line","d","M"+(a-r)+",0 C"+(a-r)+","+a+" "+(a-r)+","+a+" 0,"+a),o("#grid_to_house_entity_line","d","M0,"+a+" C"+a+","+a+" "+a+","+a+" "+2*a+","+a),o("#grid_to_battery_entity_line","d","M0,"+a+" C"+a+","+a+" "+a+","+a+" "+a+","+2*a),o("#battery_to_house_entity_line","d","M"+(a-r)+","+2*a+" C"+(a-r)+","+a+" "+(a-r)+","+a+" "+2*a+","+a),o("#generation_to_battery_entity_line","d","M"+(a-r)+",0 C"+(a-r)+",0 "+(a-r)+","+2*a+" "+(a-r)+","+2*a),[1,2].forEach((t=>{o(".acc_appliance"+t+"_line svg","viewBox","0 0 "+(12*r-5*(t-1))+" "+(12*r-5*(t-1))),o(".acc_appliance"+t+"_line","right",11*r+10+"px"),o(".acc_appliance"+t+"_line","width","10px"),o(".acc_appliance"+t+"_line","height",12*r-5*(t-1)+"px"),o(".acc_appliance"+t+"_line svg","width","10px"),o(".acc_appliance"+t+"_line svg","height",12*r-5*(t-1)+"px"),l=s.querySelector(".acc_appliance"+t+"_line_svg"),null!==l&&l.setAttribute("viewBox","0 0 "+(12*r-5*(t-1))+" "+(12*r-5*(t-1)));null===s.querySelector(".generation_entity")&&1===t&&null!==l&&o(".acc_center_container","margin-top",19*r+"px");null===s.querySelector(".battery_entity")&&2===t&&null!==l&&o(".acc_center_container","margin-bottom",19*r+"px")}));return null===s.querySelector(".grid_entity")&&(o(".generation_entity","margin","0px"),o(".battery_entity","margin","0px"),o(".power_lines","width",30*r+"px"),l=s.querySelector(".power_lines svg"),null!==l&&l.setAttribute("viewBox",12*r+" 0 "+42*r+" "+42*r)),o(".acc_appliance1","top","10px"),o(".acc_appliance1_line","top",22.2*r+12+"px"),o(".acc_appliance2","bottom","10px"),o(".acc_appliance2_line","bottom",20.4*r+12+"px"),i}}window.customCards=window.customCards||[],window.customCards.push({type:"tesla-style-solar-power-card",name:"Tesla Style Solar Power Card",description:"A Solar Power Visualization with svg paths that mimmicks the powerwall app of tesla 2"});class ct extends tt{constructor(){super(...arguments),this.solarCardElements=new Map,this.oldWidth=100,this.pxRate=4,this.htmlWriter=new lt(this,this.hass),this.title="Hey there",this.counter=5,this.error=""}__increment(){this.counter+=1}setConfig(t){if(t.test_gui,this.config={...t},null==this.config.grid_icon&&(this.config.grid_icon="mdi:transmission-tower"),null==this.config.generation_icon&&(this.config.generation_icon="mdi:solar-panel-large"),null==this.config.house_icon&&(this.config.house_icon="mdi:home"),null==this.config.battery_icon&&(this.config.battery_icon="mdi:battery-medium"),null==this.config.appliance1_icon&&(this.config.appliance1_icon="mdi:car-sports"),null==this.config.appliance2_icon&&(this.config.appliance2_icon="mdi:air-filter"),null==this.config.speed_factor&&(this.config.speed_factor=.04),this.createSolarCardElements(),!this.config.energy_flow_diagramm){const t=this;setInterval(this.animateCircles,15,t)}}createSolarCardElements(){Object.keys(this.config).forEach((t=>{if(null!=this.config[t]&&t.indexOf("_entity")>5){const e=this.config[t].toString();this.solarCardElements.set(t,new rt(e,t))}}))}getCardSize(){return 5}static getStubConfig(){return{}}async firstUpdated(){await new Promise((t=>setTimeout(t,0))),this.oldWidth=at.changeStylesDependingOnWidth(this,this.solarCardElements,this.clientWidth,this.oldWidth)}connectedCallback(){super.connectedCallback(),this.redraw=this.redraw.bind(this),window.addEventListener("resize",this.redraw)}shouldUpdate(t){let e;e=this,this.config.energy_flow_diagramm||requestAnimationFrame((t=>{e.updateAllCircles(t)})),e=this;let i=!0;return Array.from(t.keys()).some((e=>{const n=t.get(e);return"hass"===e&&n&&(i=i&&this.sensorChangeDetected(n)),!i})),i}sensorChangeDetected(t){let e=!1;return this.solarCardElements.forEach(((i,n)=>{void 0!==this.hass.states[this.config[n]]&&this.hass.states[this.config[n]].state!==t.states[this.config[n]].state&&(e=!0)})),e}async performUpdate(){this.error="",this.solarCardElements.forEach((t=>{try{t.setValueAndUnitOfMeasurement(this.hass.states[t.entity].state,this.hass.states[t.entity].attributes.unit_of_measurement),t.setSpeed(this.config.speed_factor)}catch(e){this.error+=" Configured '"+t.entity+"' entity was not found. "}})),this.config.energy_flow_diagramm&&this.setEnergyFlowDiagramm(),this.config.change_house_bubble_color_with_flow&&this.colourHouseBubbleDependingOnHighestInput(),super.performUpdate()}render(){if(""!==this.error)return this._showError();const t=this.clientWidth<=100?250:this.clientWidth;let e;this.pxRate=t/100,e=void 0!==this.config.show_gap&&this.config.show_gap?2*this.pxRate:0;const i=22*this.pxRate;return H`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">
           ${this.writeGenerationIconBubble()}
@@ -102,9 +102,9 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1,"M5,"+12*this.pxRate+" C5,"+12*this.pxRate+" 5,0 5,0")}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1,"M5,"+10.6*this.pxRate+" C5,"+10.6*this.pxRate+" 5,0 5,0")}
               ${this.writeApplianceIconBubble(2)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2,"M5,0 C5,0 5,"+11*this.pxRate+" 5,"+11*this.pxRate)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2,"M5,0 C5,0 5,"+9.5*this.pxRate+" 5,"+9.5*this.pxRate)}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
@@ -127,7 +127,7 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
     .acc_container {
         height: 40px;
         width: 40px;
-        border: 1px solid black;
+        border: 2px solid black;
         border-radius: 100px;
         padding: 22px;
         color: var(--primary-text-color);
@@ -144,7 +144,7 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
         white-space: nowrap;
     }
     .acc_text_extra {
-      overflow: hidden;
+      // overflow: hidden; spanners
       position: absolute;
     }
     .acc_td {
@@ -192,22 +192,22 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
     #appliance2_consumption_entity_line{
       stroke:var(--info-color);
       fill:none;
-      stroke-width:1;
+      stroke-width:2;
     }
 
     .generation_entity {
-      border: 1px solid var(--warning-color);
+      border: 2px solid var(--warning-color);
     }
     .generation_entity .acc_icon,
     .generation_entity{
       color: var(--warning-color);
     }
     .house_entity{
-      border: 1px solid var(--info-color);
+      border: 2px solid var(--info-color);
     }
     .appliance1_consumption_entity,
     .appliance2_consumption_entity {
-      border: 1px solid var(--info-color);
+      border: 2px solid var(--info-color);
     }
     .house_entity,
     .appliance1_consumption_entity,
@@ -240,7 +240,7 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
     }
     .battery_extra_entity,
     .battery_entity{
-      border: 1px solid var(--success-color);
+      border: 2px solid var(--success-color);
       color: var(--success-color);
     }
     .battery_extra_text{

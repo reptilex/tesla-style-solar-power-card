@@ -25,7 +25,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   @property() private config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
-  
+
   @property() private oldWidth = 100;
 
   public pxRate = 4;
@@ -173,7 +173,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     const newWidth = this.clientWidth <= 100 ?  250 : this.clientWidth;
 
     this.pxRate = newWidth / 100;
-    
+
 
     let gap: number;
     if (this.config.show_gap !== undefined && this.config.show_gap) {
@@ -334,9 +334,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M5,' + 12 * this.pxRate + ' C5,' + 12 * this.pxRate + ' 5,0 5,0')}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M5,' + 10.6 * this.pxRate + ' C5,' + 10.6 * this.pxRate + ' 5,0 5,0')}
               ${this.writeApplianceIconBubble(2)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M5,0 C5,0 5,' + 11 * this.pxRate + ' 5,' + 11 * this.pxRate)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M5,0 C5,0 5,' + 9.5 * this.pxRate + ' 5,' + 9.5 * this.pxRate)}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
@@ -347,10 +347,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private writeGenerationIconBubble(): TemplateResult {
     const generationEntities = ['generation_to_grid_entity', 'generation_to_house_entity', 'generation_to_battery_entity'];
-    
+
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      generationEntities, 
-      'generation_entity', 
+      generationEntities,
+      'generation_entity',
       'generation_extra_entity');
 
     bubbleData.cssSelector = 'acc_top';
@@ -361,10 +361,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private writeGridIconBubble(): TemplateResult {
     const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity', 'grid_to_battery_entity'];
-    
+
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      gridEntities, 
-      'grid_entity', 
+      gridEntities,
+      'grid_entity',
       'grid_extra_entity');
 
     bubbleData.cssSelector = 'acc_left';
@@ -374,7 +374,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private writeHouseIconBubble(): TemplateResult {
-    
+
     let houseEntities:Array<string>;
     if(this.config.house_without_appliances_values){
       houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity', '-appliance1_consumption_entity','-appliance2_consumption_entity'];
@@ -384,8 +384,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
 
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      houseEntities, 
-      'house_entity', 
+      houseEntities,
+      'house_entity',
       'house_extra_entity');
 
     bubbleData.cssSelector = 'acc_right';
@@ -403,8 +403,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       '-battery_to_grid_entity',
     ];
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      batteryEntities, 
-      'battery_entity', 
+      batteryEntities,
+      'battery_entity',
       'battery_extra_entity');
 
     bubbleData.cssSelector = 'acc_bottom';
@@ -418,8 +418,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
 
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      applianceEntities, 
-      'appliance' + applianceNumber + '_consumption_entity', 
+      applianceEntities,
+      'appliance' + applianceNumber + '_consumption_entity',
       'appliance' + applianceNumber + '_extra_entity');
 
     bubbleData.cssSelector = 'acc_appliance' + applianceNumber;
@@ -433,7 +433,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     bubbleClickEntitySlot: string | null = null,
     extraEntitySlot: string | null = null,
   ): BubbleData {
-    
+
     let isSubstractionEntity = false;
     const bubbleData = new BubbleData;
     bubbleData.clickEntitySlot = bubbleClickEntitySlot;
@@ -656,7 +656,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   private _showError(): TemplateResult {
     // const errorCard = <LovelaceCard>document.createElement('hui-error-card');
     // eslint-disable-next-line no-console
-    console.log(this.error); 
+    console.log(this.error);
     return html`
       <hui-warning
         ><div>
@@ -680,7 +680,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .acc_container {
         height: 40px;
         width: 40px;
-        border: 1px solid black;
+        border: 2px solid black;
         border-radius: 100px;
         padding: 22px;
         color: var(--primary-text-color);
@@ -697,7 +697,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         white-space: nowrap;
     }
     .acc_text_extra {
-      overflow: hidden;
+      // overflow: hidden; spanners
       position: absolute;
     }
     .acc_td {
@@ -745,22 +745,22 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     #appliance2_consumption_entity_line{
       stroke:var(--info-color);
       fill:none;
-      stroke-width:1;
+      stroke-width:2;
     }
 
     .generation_entity {
-      border: 1px solid var(--warning-color);
+      border: 2px solid var(--warning-color);
     }
     .generation_entity .acc_icon,
     .generation_entity{
       color: var(--warning-color);
     }
     .house_entity{
-      border: 1px solid var(--info-color);
+      border: 2px solid var(--info-color);
     }
     .appliance1_consumption_entity,
     .appliance2_consumption_entity {
-      border: 1px solid var(--info-color);
+      border: 2px solid var(--info-color);
     }
     .house_entity,
     .appliance1_consumption_entity,
@@ -793,7 +793,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     .battery_extra_entity,
     .battery_entity{
-      border: 1px solid var(--success-color);
+      border: 2px solid var(--success-color);
       color: var(--success-color);
     }
     .battery_extra_text{

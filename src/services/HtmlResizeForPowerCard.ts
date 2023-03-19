@@ -33,16 +33,16 @@ export class HtmlResizeForPowerCard {
         selectorElement.style[styleAttribute] = attributeValue;
     };
 
-    changeSelectorStyle('.acc_left', 'top', 12 * pxRate + 'px');
-    changeSelectorStyle('.acc_right', 'top', 12 * pxRate + 'px');
+    changeSelectorStyle('.acc_left', 'top', 10.61 * pxRate + 'px');
+    changeSelectorStyle('.acc_right', 'top', 10.61 * pxRate + 'px');
 
     // icons
     teslaCardElement
       .querySelectorAll('.acc_container')
       .forEach((_currentValue, currentIndex, iconContainerItem) => {
         const iconContainer = <HTMLElement>iconContainerItem[currentIndex];
-        iconContainer.style.height = 9 * pxRate + 'px';
-        iconContainer.style.width = 9 * pxRate + 'px';
+        iconContainer.style.height = 12 * pxRate + 'px';
+        iconContainer.style.width = 12 * pxRate + 'px';
         iconContainer.style.padding = 5 * pxRate + 'px';
       });
     teslaCardElement
@@ -52,10 +52,11 @@ export class HtmlResizeForPowerCard {
           icons[currentIndex].shadowRoot?.querySelector('ha-svg-icon')
         );
         if (icon != null) {
-          icon.style.height = 9 * pxRate + 'px';
-          icon.style.width = 9 * pxRate + 'px';
+          icon.style.height = 7 * pxRate + 'px';
+          icon.style.width = 7 * pxRate + 'px';
         }
       });
+
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text')
       .forEach(icontext => {
@@ -63,15 +64,16 @@ export class HtmlResizeForPowerCard {
         icontext.style['font-size'] = 3 * pxRate + 'px';
         // @ts-ignore
         icontext.style['margin-top'] = -0.5 * pxRate + 'px';
-        icontext.style.width = 10 * pxRate + 'px';
+        // icontext.style.width = 10 * pxRate + 'px';
       });
+
     teslaCardElement
       .querySelectorAll<HTMLElement>('.acc_text_extra')
       .forEach(icontextExtra => {
         // @ts-ignore
         icontextExtra.style['font-size'] = 3 * pxRate + 'px';
         icontextExtra.style.top = 1 * pxRate + 'px';
-        icontextExtra.style.width = 10 * pxRate + 'px';
+        // icontextExtra.style.width = 10 * pxRate + 'px';
       });
 
     // power lines
@@ -212,7 +214,7 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
         'right',
-        (9.5 * pxRate) + 10 + 'px'
+        (11 * pxRate) + 10 + 'px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
@@ -282,9 +284,9 @@ export class HtmlResizeForPowerCard {
     }
 
     changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');
-    changeSelectorStyle('.acc_appliance1_line', 'top', 19 * pxRate + 12 + 'px');
+    changeSelectorStyle('.acc_appliance1_line', 'top', 22.2 * pxRate + 12 + 'px');
     changeSelectorStyle('.acc_appliance2', 'bottom', 10 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19 * pxRate + 12 +'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 20.4 * pxRate + 12 +'px');
 
     return newWidth;
   }
