@@ -73,7 +73,7 @@ export class HtmlResizeForPowerCard {
         // @ts-ignore
         icontext.style['font-size'] = 3 * pxRate + 'px';
         // @ts-ignore
-        icontext.style['margin-top'] = 1 * pxRate + 'px';
+        // icontext.style['margin-top'] = 1 * pxRate + 'px';
         // icontext.style.width = 10 * pxRate + 'px';
       });
 

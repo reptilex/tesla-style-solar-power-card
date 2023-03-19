@@ -43,7 +43,7 @@ export class HtmlWriterForPowerCard {
             </div>`
           : html``}
         <ha-icon class="acc_icon" style="padding-left:${3 * this.pxRate + 'px'};" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${1 * this.pxRate + 'px'}; /*width: ${10 * this.pxRate + 'px'}*/">
+        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; /*margin-top:${1 * this.pxRate + 'px'}; *//*width: ${10 * this.pxRate + 'px'}*/">
           ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
