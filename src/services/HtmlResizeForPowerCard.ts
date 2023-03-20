@@ -224,7 +224,7 @@ export class HtmlResizeForPowerCard {
     // appliances
     [1, 2].forEach(value => {
       const accLineHeight = 13.25 * pxRate;
-      const accLowerLineDiff = 1.45 * pxRate;
+      const accLowerLineDiff = 1.5 * pxRate;
 
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
@@ -294,7 +294,7 @@ export class HtmlResizeForPowerCard {
         changeSelectorStyle(
           '.acc_center_container',
           'margin-bottom',
-          -1.7 * pxRate + 'px'
+          -1.3 * pxRate + 'px'
         );        
       }
     });
@@ -318,7 +318,7 @@ export class HtmlResizeForPowerCard {
     changeSelectorStyle('.acc_appliance1', 'top', 10.1 + 'px');
     changeSelectorStyle('.acc_appliance1_line', 'top', 21.4 * pxRate + 12 + 'px');
     changeSelectorStyle('.acc_appliance2', 'bottom', 10.1 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19.3 * pxRate + 12 +'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19.1 * pxRate + 12 +'px');
 
     return newWidth;
   }

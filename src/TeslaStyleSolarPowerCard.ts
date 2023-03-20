@@ -192,7 +192,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
             <div class="acc_center_container" 
               style="
               margin-top:${-0.3 * this.pxRate + 'px'};
-              margin-bottom:${-1.7 * this.pxRate + 'px'}">
+              margin-bottom:${-1.3 * this.pxRate + 'px'}">
               ${this.writeGridIconBubble()}
               <div
                 class="acc_line power_lines"
