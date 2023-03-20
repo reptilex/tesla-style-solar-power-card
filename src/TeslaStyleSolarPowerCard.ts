@@ -192,7 +192,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
             <div class="acc_center_container" 
               style="
               margin-top:${-0.3 * this.pxRate + 'px'};
-              margin-bottom:${-1.5 * this.pxRate + 'px'}">
+              margin-bottom:${-1.7 * this.pxRate + 'px'}">
               ${this.writeGridIconBubble()}
               <div
                 class="acc_line power_lines"
@@ -201,8 +201,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                 width:${42 * this.pxRate + 'px'};
                 top:${0 * this.pxRate + 'px'};
                 left:${28 * this.pxRate + 'px'};
-                margin-left:${-0.8 * this.pxRate + 'px'};
-                margin-right:${-0.8 * this.pxRate + 'px'}"
+                margin-left:${-1.15 * this.pxRate + 'px'};
+                margin-right:${-1.15 * this.pxRate + 'px'}"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -463,6 +463,20 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       const extraEntity = this.solarCardElements.get(extraEntitySlot);
       bubbleData.extraValue = extraEntity?.value;
       bubbleData.extraUnitOfMeasurement = extraEntity?.unitOfMeasurement;
+
+      if (typeof extraEntity?.value !== 'undefined') {
+        if (typeof extraEntity?.unitOfMeasurement !== 'undefined') {
+          if (extraEntity.unitOfMeasurement.toLowerCase() == "wh") {
+            const extraValue: number = parseInt(extraEntity.value)
+            if (!Number.isNaN(extraValue)) {
+              if (this.showKW(extraValue)) {
+                bubbleData.extraValue = this.roundValue(extraValue / 1000).toString();
+                bubbleData.extraUnitOfMeasurement = 'k' + bubbleData.extraUnitOfMeasurement;      
+              }
+            }
+          }
+        }
+      }
     }
 
     if (bubbleClickEntitySlot !== null) {
@@ -705,7 +719,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     .acc_text_extra {
       // overflow: hidden; spanners
-      position: absolute;
+      // position: absolute;
     }
     .acc_td {
         vertical-align: top;

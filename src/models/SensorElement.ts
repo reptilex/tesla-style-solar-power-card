@@ -54,15 +54,23 @@ export class SensorElement {
 
     const valueFromState = parseFloat(entityState);
 
-    switch (unitOfMeasurement) {
-      case 'W':
+    switch (unitOfMeasurement.toLowerCase()) {
       case 'w':
-      case 'kW':
+      case 'kw':
         this.value = valueFromState;
         if (unitOfMeasurement === 'kW') {
           this.value *= 1000;
         }
         this.unitOfMeasurement = 'W';
+        this.value = Math.round(this.value);
+        break;
+      case 'wh':
+      case 'kwh':
+        this.value = valueFromState;
+        if (unitOfMeasurement === 'kWh') {
+          this.value *= 1000;
+        }
+        this.unitOfMeasurement = 'Wh';
         this.value = Math.round(this.value);
         break;
       case '%':

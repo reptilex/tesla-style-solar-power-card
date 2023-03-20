@@ -63,7 +63,10 @@ export class HtmlResizeForPowerCard {
         // @ts-ignore
         icontextExtra.style['font-size'] = 3 * pxRate + 'px';
         // @ts-ignore
-        icontextExtra.style['margin-top'] = 3.5 * pxRate + 'px';
+        icontextExtra.style['margin-top'] = 3 * pxRate + 'px';
+        // @ts-ignore
+        icontextExtra.style['margin-bottom'] = -0.3 * pxRate + 'px';
+        
         // icontextExtra.style.width = 10 * pxRate + 'px';
       });
 
@@ -73,7 +76,9 @@ export class HtmlResizeForPowerCard {
         // @ts-ignore
         icontext.style['font-size'] = 3 * pxRate + 'px';
         // @ts-ignore
-        icontext.style['margin-bottom'] = 4 * pxRate + 'px';
+        icontext.style['margin-top'] = -0.3 * pxRate + 'px';
+        // @ts-ignore
+        icontext.style['margin-bottom'] = 3 * pxRate + 'px';
         // icontext.style.width = 10 * pxRate + 'px';
       });
 
@@ -91,8 +96,8 @@ export class HtmlResizeForPowerCard {
     changeSelectorStyle('.power_lines', 'width', 42 * pxRate + 'px');
     changeSelectorStyle('.power_lines', 'top', 0 * pxRate + 'px');
     changeSelectorStyle('.power_lines', 'left', 28 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'margin-left', -0.8 * pxRate + 'px');
-    changeSelectorStyle('.power_lines', 'margin-left', -0.8 * pxRate + 'px');
+    changeSelectorStyle('.power_lines', 'margin-left', -1.15 * pxRate + 'px');
+    changeSelectorStyle('.power_lines', 'margin-left', -1.15 * pxRate + 'px');
     changeSelectorStyle('.power_lines svg', 'width', 42 * pxRate + 'px');
     changeSelectorStyle('.power_lines svg', 'height', 42 * pxRate + 'px');
     changeSelectorStyle(
@@ -218,10 +223,13 @@ export class HtmlResizeForPowerCard {
 
     // appliances
     [1, 2].forEach(value => {
+      const accLineHeight = 13.25 * pxRate;
+      const accLowerLineDiff = 1.45 * pxRate;
+
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'viewBox',
-        '0 0 ' + ((12*pxRate)-((value-1)*5)) + ' ' + ((12*pxRate)-((value-1)*5))
+        '0 0 ' + ((accLineHeight)-((value-1)*accLowerLineDiff)) + ' ' + ((accLineHeight)-((value-1)*accLowerLineDiff))
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
@@ -236,7 +244,7 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
         'height',
-        (12 * pxRate ) - (( value - 1) * 5) + 'px'
+        (accLineHeight) - (( value - 1) * accLowerLineDiff) + 'px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
@@ -246,7 +254,7 @@ export class HtmlResizeForPowerCard {
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'height',
-        (12 * pxRate ) - (( value - 1) * 5) + 'px'
+        (accLineHeight) - (( value - 1) * accLowerLineDiff) + 'px'
       );
       selectorElement = <HTMLElement>(
         teslaCardElement.querySelector('.acc_appliance' + value + '_line_svg')
@@ -254,7 +262,7 @@ export class HtmlResizeForPowerCard {
       if (selectorElement !== null)
         selectorElement.setAttribute(
           'viewBox',
-          '0 0 ' + ((12*pxRate)-((value-1)*5)) + ' ' + ((12*pxRate)-((value-1)*5))
+          '0 0 ' + ((accLineHeight)-((value-1)*accLowerLineDiff)) + ' ' + ((accLineHeight)-((value-1)*accLowerLineDiff))
         );
 
       const topElement = <HTMLElement>(
@@ -286,7 +294,7 @@ export class HtmlResizeForPowerCard {
         changeSelectorStyle(
           '.acc_center_container',
           'margin-bottom',
-          -1.5 * pxRate + 'px'
+          -1.7 * pxRate + 'px'
         );        
       }
     });
@@ -307,10 +315,10 @@ export class HtmlResizeForPowerCard {
         );
     }
 
-    changeSelectorStyle('.acc_appliance1', 'top', 10 + 'px');
+    changeSelectorStyle('.acc_appliance1', 'top', 10.1 + 'px');
     changeSelectorStyle('.acc_appliance1_line', 'top', 21.4 * pxRate + 12 + 'px');
-    changeSelectorStyle('.acc_appliance2', 'bottom', 10 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19.6 * pxRate + 12 +'px');
+    changeSelectorStyle('.acc_appliance2', 'bottom', 10.1 + 'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19.3 * pxRate + 12 +'px');
 
     return newWidth;
   }

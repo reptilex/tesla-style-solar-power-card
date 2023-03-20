@@ -37,13 +37,13 @@ export class HtmlWriterForPowerCard {
           ? html` <div
               class="acc_text_extra"
               style="font-size:${3 * this.pxRate + 'px'};
-                        top: ${1 * this.pxRate + 'px'};
-                        /* width: ${10 * this.pxRate + 'px'}; */"
+                     margin-top: ${3 * this.pxRate + 'px'};
+                     margin-bottom: ${-0.3 * this.pxRate + 'px'}; "
             >${bubbleData.extraValue}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-bottom:${4 * this.pxRate + 'px'}; /*width: ${10 * this.pxRate + 'px'}*/">
+        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.3 * this.pxRate + 'px'}; margin-bottom:${3 * this.pxRate + 'px'};">
           ${bubbleData.mainValue}${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
@@ -80,17 +80,19 @@ export class HtmlWriterForPowerCard {
   public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string) {
     const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
-    const height = 12;
+    const accLineHeight = 13.25 * this.pxRate;
+    const accLowerLineDiff = 1.45 * this.pxRate;
+
     let verticalPosition: string;
     if (applianceNumber === 1) {
-      verticalPosition = 'top:' + 22.4 * this.pxRate + 'px;';
+      verticalPosition = 'top:' + 21.4 * this.pxRate + 12 + 'px;';
     } else {
-      verticalPosition = 'bottom:' + 20.6 * this.pxRate + 'px;';
+      verticalPosition = 'bottom:' + 19.3 * this.pxRate + 12 + 'px;';
     }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
       style="
-        height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'}
+        height:${(accLineHeight * this.pxRate)-((applianceNumber-1)*accLowerLineDiff)+'px'}
         width:10px};
         right:${(10 * this.pxRate) + 10 + 'px'};
         ${verticalPosition}
@@ -98,9 +100,9 @@ export class HtmlWriterForPowerCard {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox='${'0 0 '+ ((12*this.pxRate)-((applianceNumber-1)*5)) + ' ' +((12*this.pxRate)-((applianceNumber-1)*5))}'
+        viewBox='${'0 0 '+ ((accLineHeight)-((applianceNumber-1)*accLowerLineDiff)) + ' ' +((accLineHeight)-((applianceNumber-1)*accLowerLineDiff))}'
         preserveAspectRatio="xMinYMax slice"
-        style="height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'};width:10px}"
+        style="height:${(accLineHeight)-((applianceNumber-1)*accLowerLineDiff)+'px'};width:10px}"
         class="acc_appliance${applianceNumber}_line_svg"
       >
         ${this.writeCircleAndLine('appliance' + applianceNumber + '_consumption_entity', pathDAttribute)}
