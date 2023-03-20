@@ -76,7 +76,7 @@ describe('TeslaStyleSolarPowerCard with solarConfig', () => {
     expect(
       solarYieldEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of grid charging flows in acc_text of grid_entity'
-    ).contains('8.1 kW');
+    ).contains('8.1kW');
     expect(
       solarYieldEntity
         ?.querySelector('.acc_icon')

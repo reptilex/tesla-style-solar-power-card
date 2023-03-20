@@ -30,7 +30,7 @@ export class HtmlWriterForPowerCard {
     return html` <div class="acc_td ${bubbleData.cssSelector}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px /*; margin-top: ' + -1 * this.pxRate + 'px*/'}"
+        style="${'width:' + 21 * this.pxRate + 'px; height: ' + 21 * this.pxRate + 'px; padding:' + 0 * this.pxRate + 'px /*; margin-top: ' + 4 * this.pxRate + 'px*/'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
@@ -39,12 +39,12 @@ export class HtmlWriterForPowerCard {
               style="font-size:${3 * this.pxRate + 'px'};
                         top: ${1 * this.pxRate + 'px'};
                         /* width: ${10 * this.pxRate + 'px'}; */"
-            >${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
+            >${bubbleData.extraValue}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
-        <ha-icon class="acc_icon" style="padding-left:${3 * this.pxRate + 'px'};" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; /*margin-top:${1 * this.pxRate + 'px'}; *//*width: ${10 * this.pxRate + 'px'}*/">
-          ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
+        <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
+        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-bottom:${4 * this.pxRate + 'px'}; /*width: ${10 * this.pxRate + 'px'}*/">
+          ${bubbleData.mainValue}${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
     </div>`;
@@ -92,7 +92,7 @@ export class HtmlWriterForPowerCard {
       style="
         height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'}
         width:10px};
-        right:${(11 * this.pxRate) + 10 + 'px'};
+        right:${(10 * this.pxRate) + 10 + 'px'};
         ${verticalPosition}
         position:absolute"
     >

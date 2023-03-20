@@ -68,7 +68,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     expect(
       gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of grid charging flows in acc_text of grid_entity'
-    ).contains('2 kW');
+    ).contains('2kW');
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
     ).to.equal('mdi:transmission-tower');

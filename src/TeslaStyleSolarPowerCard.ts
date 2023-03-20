@@ -189,7 +189,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         <div id="tesla-style-solar-power-card">
           ${this.writeGenerationIconBubble()}
           <div class="acc_center">
-            <div class="acc_center_container">
+            <div class="acc_center_container" 
+              style="
+              margin-top:${-0.3 * this.pxRate + 'px'};
+              margin-bottom:${-1.5 * this.pxRate + 'px'}">
               ${this.writeGridIconBubble()}
               <div
                 class="acc_line power_lines"
@@ -197,7 +200,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                 height:${42 * this.pxRate + 'px'};
                 width:${42 * this.pxRate + 'px'};
                 top:${0 * this.pxRate + 'px'};
-                left:${28 * this.pxRate + 'px'}"
+                left:${28 * this.pxRate + 'px'};
+                margin-left:${-0.8 * this.pxRate + 'px'};
+                margin-right:${-0.8 * this.pxRate + 'px'}"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -687,10 +692,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         border-color: var(--primary-text-color);
         position:relative;
         cursor:pointer;
+        display:grid;
     }
-    // .acc_icon {
-    //     --mdc-icon-size: 40px;
-    // }
+    .acc_icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
     .acc_text,
     .acc_text_extra {
         text-align: center;
@@ -715,15 +722,15 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     .acc_center_container{
       display:inline-block;
-      margin: 0px auto;
-      margin-bottom:-5px;
+      // margin: 0px auto;
+      // margin-bottom:-5px;
     }
 
     .acc_right ,
     .acc_left ,
     .acc_line{
       display:inline-block;
-      margin-right:-4px
+      // margin-right:-4px
     }
     .acc_left {
       vertical-align: top;
@@ -731,7 +738,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     .acc_right {
       z-index:5;
-      margin-right:0px;
+      // margin-right:0px;
     }
     #battery_to_house_entity_line,
     #generation_to_house_entity_line,
