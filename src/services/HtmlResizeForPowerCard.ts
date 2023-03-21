@@ -2,7 +2,17 @@
 import { SensorElement } from '../models/SensorElement';
 import { TeslaStyleSolarPowerCard } from '../TeslaStyleSolarPowerCard';
 
-export class HtmlResizeForPowerCard {
+export class HtmlResizeForPowerCard {  
+  public static getNewWidth(newWidth: number) {
+    if (newWidth < 200)
+      newWidth = 250;
+    return newWidth;
+  }
+
+  public static getPxRate(newWidth: number) {
+    return newWidth / 100;
+  }
+
   public static changeStylesDependingOnWidth(
     teslaCard: TeslaStyleSolarPowerCard,
     solarCardElements: Map<string, SensorElement>,
@@ -17,9 +27,8 @@ export class HtmlResizeForPowerCard {
     );
     if (teslaCardElement == null) return oldWidth;
 
-    if(newWidth < 200) newWidth = 250;
-
-    const pxRate = newWidth / 100;
+    newWidth = HtmlResizeForPowerCard.getNewWidth(newWidth);
+    const pxRate = HtmlResizeForPowerCard.getPxRate(newWidth);
 
     const changeSelectorStyle = function (
       selector: string,
@@ -32,6 +41,8 @@ export class HtmlResizeForPowerCard {
       if (selectorElement !== null)
         selectorElement.style[styleAttribute] = attributeValue;
     };
+
+    teslaCardElement.style.padding = 2 * pxRate + 'px';
 
     changeSelectorStyle('.acc_left', 'top', 11 * pxRate + 'px');
     changeSelectorStyle('.acc_right', 'top', 11 * pxRate + 'px');
@@ -222,34 +233,29 @@ export class HtmlResizeForPowerCard {
     );
 
     // appliances
+    const accLineHeight = 11.38 * pxRate;
+    const accLowerLineDiff = 2.2 * pxRate;
     [1, 2].forEach(value => {
-      const accLineHeight = 13.25 * pxRate;
-      const accLowerLineDiff = 1.5 * pxRate;
 
-      changeSelectorStyle(
-        '.acc_appliance' + value + '_line svg',
-        'viewBox',
-        '0 0 ' + ((accLineHeight)-((value-1)*accLowerLineDiff)) + ' ' + ((accLineHeight)-((value-1)*accLowerLineDiff))
-      );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line',
         'right',
-        (10 * pxRate) + 10 + 'px'
+        (11.46 * pxRate) + 'px'
       );
-      changeSelectorStyle(
-        '.acc_appliance' + value + '_line',
-        'width',
-        '10px'
-      );
-      changeSelectorStyle(
-        '.acc_appliance' + value + '_line',
-        'height',
-        (accLineHeight) - (( value - 1) * accLowerLineDiff) + 'px'
-      );
+      // changeSelectorStyle(
+      //   '.acc_appliance' + value + '_line',
+      //   'width',
+      //   (2 * pxRate) + 'px'
+      // );
+      // changeSelectorStyle(
+      //   '.acc_appliance' + value + '_line',
+      //   'height',
+      //   (accLineHeight) - (( value - 1) * accLowerLineDiff) + 'px'
+      // );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
         'width',
-        '10px'
+        (2.5 * pxRate) + 'px'
       );
       changeSelectorStyle(
         '.acc_appliance' + value + '_line svg',
@@ -259,11 +265,13 @@ export class HtmlResizeForPowerCard {
       selectorElement = <HTMLElement>(
         teslaCardElement.querySelector('.acc_appliance' + value + '_line_svg')
       );
-      if (selectorElement !== null)
+
+      if (selectorElement !== null) {
         selectorElement.setAttribute(
           'viewBox',
           '0 0 ' + ((accLineHeight)-((value-1)*accLowerLineDiff)) + ' ' + ((accLineHeight)-((value-1)*accLowerLineDiff))
         );
+      }
 
       const topElement = <HTMLElement>(
         teslaCardElement.querySelector('.generation_entity')
@@ -294,7 +302,7 @@ export class HtmlResizeForPowerCard {
         changeSelectorStyle(
           '.acc_center_container',
           'margin-bottom',
-          -1.3 * pxRate + 'px'
+          -1.55 * pxRate + 'px'
         );        
       }
     });
@@ -315,11 +323,18 @@ export class HtmlResizeForPowerCard {
         );
     }
 
-    changeSelectorStyle('.acc_appliance1', 'top', 10.1 + 'px');
-    changeSelectorStyle('.acc_appliance1_line', 'top', 21.4 * pxRate + 12 + 'px');
-    changeSelectorStyle('.acc_appliance2', 'bottom', 10.1 + 'px');
-    changeSelectorStyle('.acc_appliance2_line', 'bottom', 19.1 * pxRate + 12 +'px');
+    changeSelectorStyle('.acc_appliance1', 'top', 2 * pxRate + 'px');    
+    changeSelectorStyle('.acc_appliance1', 'right', 2 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance1_line', 'top', 23.45 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance2', 'bottom', 2 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance2', 'right', 2 * pxRate + 'px');
+    changeSelectorStyle('.acc_appliance2_line', 'bottom', 22.62 * pxRate +'px');
+
+    changeSelectorStyle('#appliance1_consumption_entity_line', 'd', 'M5,' + accLineHeight + ' C5,' + accLineHeight + ' 5,0 5,0');
+    changeSelectorStyle('#appliance2_consumption_entity_line', 'd', 'M5,0 C5,0 5,' + (accLineHeight - accLowerLineDiff) + ' 5,' + (accLineHeight - accLowerLineDiff));
 
     return newWidth;
   }
 }
+
+
