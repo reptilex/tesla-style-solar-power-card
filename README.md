@@ -14,6 +14,9 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 
 ![tesla-style-card-animated-gif](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/tesla-style-card-animation.gif)
 
+Improvements in this fork are general layout and styling improvements to fit extra entity text on different screens including Wh/kWh and rounding being applied to extra entity text as they were for the core entity text.
+
+![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
 
 ## Concept
 I have tried to make it as generic as possible, for now there are 6 bubbles with 4 main icons and 2 extra appliances. The Four main icon values are controlled by the sum of the flows from and to them:
