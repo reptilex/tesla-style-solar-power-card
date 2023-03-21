@@ -80,7 +80,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     if (gridEntity === null || gridEntity === undefined)
       assert.fail('No grid_entity element found');
     expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '0.5 kW'
+      '0.5kW'
     );
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
@@ -92,7 +92,7 @@ describe('TeslaStyleSolarPowerCard with defaultConfig', () => {
     if (houseEntity === null || houseEntity === undefined)
       assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '0.5 kW'
+      '0.5kW'
     );
     expect(
       houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()

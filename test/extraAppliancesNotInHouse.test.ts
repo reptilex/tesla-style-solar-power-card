@@ -91,7 +91,7 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
     const houseEntity = teslaCard?.querySelector('.house_entity');
     if (houseEntity === null || houseEntity === undefined)
       assert.fail('No house_entity element found');
-    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('1 kW');
+    expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('1kW');
     expect(
       houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
     ).to.equal('mdi:home');

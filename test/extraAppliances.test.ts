@@ -90,7 +90,7 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
     const gridEntity = teslaCard?.querySelector('.house_entity');
     if (gridEntity === null || gridEntity === undefined)
       assert.fail('No house_entity element found');
-    expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('4 kW');
+    expect(gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains('4kW');
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
     ).to.equal('mdi:home');
@@ -105,14 +105,14 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
     expect(
       gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of appliance1 charging flows in acc_text of grid_entity'
-    ).contains('2 kW');
+    ).contains('2kW');
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
     ).to.equal('mdi:car-sports');
     expect(
       gridEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'Appliance 1 extra text is wrong'
-    ).contains('90 %');
+    ).contains('90%');
   });
 
   it('has appliance2_consumption_entity, text and icon', async () => {
@@ -124,7 +124,7 @@ describe('TeslaStyleSolarPowerCard with extra appliances', () => {
     expect(
       gridEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, ''),
       'No sum of appliance2 charging flows in acc_text of grid_entity'
-    ).contains('1 kW');
+    ).contains('1kW');
     expect(
       gridEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
     ).to.equal('mdi:air-filter');

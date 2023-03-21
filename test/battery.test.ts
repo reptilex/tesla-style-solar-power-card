@@ -89,7 +89,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     if (houseEntity === null || houseEntity === undefined)
       assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '1.3 kW'
+      '1.3kW'
     );
     expect(
       houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
@@ -101,7 +101,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     if (batteryEntity === null || batteryEntity === undefined)
       assert.fail('No battery_entity element found');
     expect(batteryEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '1.3 kW'
+      '1.3kW'
     );
     expect(
       batteryEntity
@@ -110,7 +110,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '100 %'
+      '100%'
     );
   });
 
@@ -167,7 +167,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-90');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '90 %'
+      '90%'
     );
   });
 
@@ -184,7 +184,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-90');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '83 %'
+      '83%'
     );
   });
 
@@ -201,7 +201,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-80');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '73 %'
+      '73%'
     );
   });
 
@@ -218,7 +218,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-70');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '65 %'
+      '65%'
     );
   });
 
@@ -235,7 +235,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-20');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '15 %'
+      '15%'
     );
   });
 
@@ -252,7 +252,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-10');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '6 %'
+      '6%'
     );
   });
 
@@ -269,7 +269,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-outline');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '5 %'
+      '5%'
     );
   });
 
@@ -286,7 +286,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
         ?.toString()
     ).to.equal('mdi:battery-outline');
     expect(batteryEntity?.querySelector('.acc_text_extra')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '5 %'
+      '5%'
     );
   });
 });
