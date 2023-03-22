@@ -2,6 +2,19 @@
 
 This is a fork of the excellent work by reptilex (see forked from)
 
+Improvements in this fork are general layout and styling improvements to fit extra entity text on different screens including Wh/kWh and rounding being applied to extra entity text as they were for the core entity text.
+
+![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
+
+To install (at your own risk) follow 'Original Repo Instructions' below this section then:
+* Locate your existing tesla-style-solar-power-card.js in <HA_LOCATION>/config/www/community/tesla-style-solar-power-card
+* backup the existing tesla-style-solar-power-card.js
+* if there is a tesla-style-solar-power-card.gz then rename it (for example with a suffix) so it is not served instead of the js file
+* Clear mobile app cache or, for web browsers clear cache, do a deep refresh or use a new private window
+* Restarting HA is not necessary unless the above steps fail
+
+# Original Repo Instructions
+
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
 ### Table of contents
@@ -13,10 +26,6 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 
 
 ![tesla-style-card-animated-gif](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/tesla-style-card-animation.gif)
-
-Improvements in this fork are general layout and styling improvements to fit extra entity text on different screens including Wh/kWh and rounding being applied to extra entity text as they were for the core entity text.
-
-![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
 
 ## Concept
 I have tried to make it as generic as possible, for now there are 6 bubbles with 4 main icons and 2 extra appliances. The Four main icon values are controlled by the sum of the flows from and to them:
