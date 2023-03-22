@@ -6,12 +6,13 @@ Improvements in this fork are general layout and styling improvements to fit ext
 
 ![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
 
-To install (at your own risk) follow 'Original Repo Instructions' below this section then:
+To install (at your own risk) follow 'Original Repo Instructions' below this section or this excellent youtube tutorial https://www.youtube.com/watch?v=KYQbDjNGTsE&t=2s then:
 * Locate your existing tesla-style-solar-power-card.js in <HA_LOCATION>/config/www/community/tesla-style-solar-power-card
-* backup the existing tesla-style-solar-power-card.js
-* if there is a tesla-style-solar-power-card.gz then rename it (for example with a suffix) so it is not served instead of the js file
+* Backup the existing tesla-style-solar-power-card.js
+* Copy in tesla-style-solar-power-card.js from the root of this repo.
+* If there is a tesla-style-solar-power-card.gz then rename it (for example with a suffix) so it is not served instead of the js file
 * Clear mobile app cache or, for web browsers clear cache, do a deep refresh or use a new private window
-* Restarting HA is not necessary unless the above steps fail
+* I've found that restarting HA is not necessary unless the above steps are not enough (I do have HA server side caching for static contetn knobled).
 
 # Original Repo Instructions
 
