@@ -22,7 +22,7 @@ import { HtmlResizeForPowerCard } from './services/HtmlResizeForPowerCard';
 export class TeslaStyleSolarPowerCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
 
-  @property() private config!: TeslaStyleSolarPowerCardConfig;
+  @property() public config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
 
