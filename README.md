@@ -1,8 +1,8 @@
 # tesla-style-solar-power-card
 
-This is a fork of the excellent work by reptilex (see forked from)
+This is a fork of the excellent work by reptilex (see 'forked from')
 
-Improvements in this fork are general layout and styling improvements to fit extra entity text on different screens including Wh/kWh and rounding being applied to extra entity text as they were for the core entity text.
+Improvements in this fork are general layout and styling improvements to fit extra entity text on different screen sizes and DPIs.  Wh/kWh and rounding have being applied to extra entity text as they were for the core entity text.
 
 ![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
 
