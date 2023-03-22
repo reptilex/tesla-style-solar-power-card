@@ -2,7 +2,7 @@
 
 This is a fork of the excellent work by reptilex (see 'forked from')
 
-Improvements in this fork are for general layout and styling to fit extra entity text on different screen sizes and DPIs.  Wh/kWh switching and rounding have being applied to extra entity text as they were already present for the main entity text.
+Improvements in this fork are for general layout and styling to fit extra entity text on different screen sizes and DPIs.  Wh/kWh switching and rounding have being applied to extra entity text in the same way that they were already present for the main entity text.
 
 ![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
 
@@ -10,9 +10,9 @@ To install (at your own risk) follow 'Original Repo Instructions' below this sec
 * Locate your existing tesla-style-solar-power-card.js in <HA_LOCATION>/config/www/community/tesla-style-solar-power-card
 * Backup the existing tesla-style-solar-power-card.js
 * Copy in tesla-style-solar-power-card.js from the root of this repo.
-* If there is a tesla-style-solar-power-card.gz then rename it (for example with a suffix) so it is not served instead of the js file
+* If there is a tesla-style-solar-power-card.gz then rename it (add a suffix for example) this forces ha to serve js file
 * Clear mobile app cache or, for web browsers clear cache, do a deep refresh or use a new private window
-* I've found that restarting HA is not necessary unless the above steps are not enough (I do have HA server side caching for static contetn knobled).
+* I've found that restarting HA is not necessary unless the above steps are not enough (but I do have HA server side caching for static content knobled).
 
 # Original Repo Instructions
 
