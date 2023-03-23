@@ -33,6 +33,9 @@ export class HtmlWriterForPowerCard {
       }
     } 
 
+    const spaceBeforeExtraUnit = this.getSpaceBeforeUnit(bubbleData.extraUnitOfMeasurement);
+    const spaceBeforeUnit = this.getSpaceBeforeUnit(bubbleData.mainUnitOfMeasurement);
+
     return html` <div class="acc_td ${bubbleData.cssSelector}" styles="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
@@ -45,15 +48,27 @@ export class HtmlWriterForPowerCard {
               style="font-size:${3 * pxRate + 'px'};
                      margin-top: ${3 * pxRate + 'px'};
                      margin-bottom: ${-0.3 * pxRate + 'px'}; "
-            >${bubbleData.extraValue}${bubbleData.extraUnitOfMeasurement}
+            >${bubbleData.extraValue}${spaceBeforeExtraUnit}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
         <div class="acc_text" style="font-size:${3 * pxRate + 'px'}; margin-top:${-0.3 * pxRate + 'px'}; margin-bottom:${3 * pxRate + 'px'};">
-          ${bubbleData.mainValue}${bubbleData.mainUnitOfMeasurement}
+          ${bubbleData.mainValue}${spaceBeforeUnit}${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
     </div>`;
+  }
+
+  getSpaceBeforeUnit(unitOfMeasurement: string | undefined) {
+    if (this.teslaCard.config.show_space_before_all_units) {
+      return " ";
+    } else if (this.teslaCard.config.show_space_before_power_units) {
+      if (unitOfMeasurement?.toLocaleLowerCase().startsWith('kw') || unitOfMeasurement?.toLocaleLowerCase().startsWith('w')) {
+        return " ";
+      }
+    } else {
+      return "";
+    }
   }
 
   public writeBatteryBubbleDiv(bubbleData:BubbleData, pxRate: number, extraStyles: string=""): TemplateResult {
