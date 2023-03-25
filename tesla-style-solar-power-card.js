@@ -40,11 +40,11 @@ const it=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
         ${null!==t.extraValue?U` <div
               class="acc_text_extra"
               style="font-size:${this.teslaCard.dimensions.fontSize+"px"};
-                     line-height: ${this.teslaCard.dimensions.fontSize+"px"};
-                     margin-top: ${this.teslaCard.dimensions.marginTop+"px"}; "
+                     line-height:${this.teslaCard.dimensions.fontSize+"px"};
+                     margin-top:${this.teslaCard.dimensions.marginTop+"px"}; "
             >${t.extraValue}${i}${t.extraUnitOfMeasurement}
             </div>`:U``}
-        <ha-icon class="acc_icon" icon="${t.icon}"></ha-icon>
+        <ha-icon class="acc_icon" icon="${t.icon}" style="width:${this.teslaCard.dimensions.iconHeight+"px"};height:${this.teslaCard.dimensions.iconHeight+"px"}"></ha-icon>
         <div class="acc_text" style="font-size:${this.teslaCard.dimensions.fontSize+"px"}; line-height:${this.teslaCard.dimensions.fontSize+"px"}; margin-bottom:${this.teslaCard.dimensions.fontSize+"px"};">
           ${t.mainValue}${n}${t.mainUnitOfMeasurement}
         </div>
