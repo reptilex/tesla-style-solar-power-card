@@ -49,12 +49,14 @@ export class HtmlResizeForPowerCard {
     teslaCardElement
       .querySelectorAll('ha-icon')
       .forEach((_currentValue, currentIndex, icons) => {
+        icons[currentIndex].setAttribute('style', `--mdc-icon-size:${teslaCard.dimensions.iconHeight + 'px'};width:${teslaCard.dimensions.iconHeight + 'px'};height:${teslaCard.dimensions.iconHeight + 'px'}`)
+
         const icon = <HTMLElement>(
           icons[currentIndex].shadowRoot?.querySelector('ha-svg-icon')
         );
         if (icon != null) {
-          icon.style.height = teslaCard.dimensions.iconHeight + 'px';
-          icon.style.width = teslaCard.dimensions.iconHeight + 'px';
+          // icon.style.height = teslaCard.dimensions.iconHeight + 'px';
+          // icon.style.width = teslaCard.dimensions.iconHeight + 'px';
         }
       });
     

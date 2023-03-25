@@ -56,7 +56,7 @@ export class HtmlWriterForPowerCard {
             >${bubbleData.extraValue}${spaceBeforeExtraUnit}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
-        <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
+        <ha-icon class="acc_icon" icon="${bubbleData.icon}" style="--mdc-icon-size:${this.teslaCard.dimensions.iconHeight + 'px'};width:${this.teslaCard.dimensions.iconHeight + 'px'};height:${this.teslaCard.dimensions.iconHeight + 'px'}"></ha-icon>
         <div class="acc_text" style="font-size:${this.teslaCard.dimensions.fontSize + 'px'}; line-height:${this.teslaCard.dimensions.fontSize + 'px'}; margin-bottom:${this.teslaCard.dimensions.fontSize + 'px'};">
           ${bubbleData.mainValue}${spaceBeforeUnit}${bubbleData.mainUnitOfMeasurement}
         </div>
