@@ -22,7 +22,7 @@ export class HtmlWriterForPowerCard {
     this.hass = hass;
   }
 
-  public writeBubbleDiv(bubbleData: BubbleData, pxRate: number, extraStyles: string=""
+  public writeBubbleDiv(bubbleData: BubbleData, extraStyles: string=""
   ): TemplateResult {
 
     if(bubbleData.noEntitiesWithValueFound) return html``;
@@ -36,23 +36,23 @@ export class HtmlWriterForPowerCard {
     const spaceBeforeExtraUnit = this.getSpaceBeforeUnit(bubbleData.extraUnitOfMeasurement);
     const spaceBeforeUnit = this.getSpaceBeforeUnit(bubbleData.mainUnitOfMeasurement);
 
-    return html` <div class="acc_td ${bubbleData.cssSelector}" styles="${extraStyles}">
+    return html` <div class="acc_td ${bubbleData.cssSelector}" style="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + 21 * pxRate + 'px; height: ' + 21 * pxRate + 'px; padding:' + 0 * pxRate + 'px'}"
+        style="${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; padding:0px'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
           ? html` <div
               class="acc_text_extra"
-              style="font-size:${3 * pxRate + 'px'};
-                     margin-top: ${3 * pxRate + 'px'};
-                     margin-bottom: ${-0.3 * pxRate + 'px'}; "
+              style="font-size:${this.teslaCard.dimensions.fontSize + 'px'};
+                     line-height: ${this.teslaCard.dimensions.fontSize + 'px'};
+                     margin-top: ${this.teslaCard.dimensions.marginTop + 'px'}; "
             >${bubbleData.extraValue}${spaceBeforeExtraUnit}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * pxRate + 'px'}; margin-top:${-0.3 * pxRate + 'px'}; margin-bottom:${3 * pxRate + 'px'};">
+        <div class="acc_text" style="font-size:${this.teslaCard.dimensions.fontSize + 'px'}; line-height:${this.teslaCard.dimensions.fontSize + 'px'}; margin-bottom:${this.teslaCard.dimensions.fontSize + 'px'};">
           ${bubbleData.mainValue}${spaceBeforeUnit}${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
@@ -71,16 +71,16 @@ export class HtmlWriterForPowerCard {
     }
   }
 
-  public writeBatteryBubbleDiv(bubbleData:BubbleData, pxRate: number, extraStyles: string=""): TemplateResult {
+  public writeBatteryBubbleDiv(bubbleData:BubbleData, extraStyles: string=""): TemplateResult {
     if (bubbleData.extraValue !== undefined) {
       if (bubbleData.icon === 'mdi:battery-medium' || bubbleData.icon === 'mdi:battery'){
-        bubbleData.icon = this.getBatteryIcon(parseFloat(bubbleData.extraValue), bubbleData.mainValue, pxRate);
+        bubbleData.icon = this.getBatteryIcon(parseFloat(bubbleData.extraValue), bubbleData.mainValue);
       }
     }
-    return this.writeBubbleDiv(bubbleData, pxRate, extraStyles);
+    return this.writeBubbleDiv(bubbleData, extraStyles);
   }
 
-  private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number, pxRate: number) {
+  private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number) {
     let TempSocValue = batteryValue;
     if (batteryValue <= 5) TempSocValue = 0;
 
