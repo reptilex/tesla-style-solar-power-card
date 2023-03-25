@@ -86,7 +86,7 @@ export class HtmlResizeForPowerCard {
       .querySelectorAll<HTMLElement>('.acc_text_extra')
       .forEach(icontextExtra => {
         // @ts-ignore
-        icontextExtra.style['font-size'] = 3 * pxRate + 'px';
+        icontextExtra.style['font-size'] = teslaCard.dimensions.fontSize + 'px';
         icontextExtra.style.top = 1 * teslaCard.dimensions.pxRate + 'px';
         // icontextExtra.style.width = 10 * pxRate + 'px';
       });
