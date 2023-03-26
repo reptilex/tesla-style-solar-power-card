@@ -112,6 +112,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   public shouldUpdate(changedProperties: any): boolean {
+	this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.solarCardElements, this.clientWidth, this.oldWidth);
     let obj: any;
     obj = this;
     if (!this.config.energy_flow_diagramm) {
@@ -186,7 +187,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 	if(this.config.line_width)this.style.setProperty('--line-width', this.config.line_width);
 	if(this.config.card_padding)this.style.setProperty('--card-padding', this.config.card_padding);
 	if(this.config.dot_factor)this.style.setProperty('--dot-factor', this.config.dot_factor as unknown as string);
-
+	this.oldWidth = -1;
 	return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">

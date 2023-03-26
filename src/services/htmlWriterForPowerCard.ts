@@ -30,12 +30,12 @@ export class HtmlWriterForPowerCard {
       >
         ${bubbleData.extraValue !== null
           ? html` <div class="acc_text_extra">
-		  	${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
+		  	${bubbleData.extraValue}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
         <div class="acc_text">
-          ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
+          ${bubbleData.mainValue}${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
     </div>`;
