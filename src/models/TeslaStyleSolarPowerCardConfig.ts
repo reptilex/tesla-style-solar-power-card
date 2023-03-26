@@ -14,6 +14,10 @@ export interface TeslaStyleSolarPowerCardConfig extends LovelaceCardConfig {
   hide_inactive_lines?: boolean;
   threshold_in_k?: number;
   speed_factor?: number;
+  dot_factor?: number;
+  line_width?: string;
+  entity_radius?: string;
+  card_padding?: string;
   energy_flow_diagramm?: boolean;
   energy_flow_diagramm_lines_factor?: number;
   change_house_bubble_color_with_flow?: boolean;

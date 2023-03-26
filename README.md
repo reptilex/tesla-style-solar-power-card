@@ -2,14 +2,14 @@
 
 > **⚠ WARNING: BREAKING CONFIG CHANGE**
 
-> **You have to define the FLOWS AGAIN!!**  
+> **You have to define the FLOWS AGAIN!!**
 > Without defining each flow no line will show, read the usage part carefully (the bubbles can be clickable but this is optional)
 
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
 ### Table of contents
 * [Concept](#concept)
-* [HACS-Installation](#hacs-installation)  
+* [HACS-Installation](#hacs-installation)
 * [Usage](#usage)
 * [Tesla Powerwall Usage](#tesla-powerwall-usage)
 * [Contributing](#contributing)
@@ -22,7 +22,7 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 I have tried to make it as generic as possible, for now there are 6 bubbles with 4 main icons and 2 extra appliances. The Four main icon values are controlled by the sum of the flows from and to them:
 1. Grid
 2. Generation (usually solar)
-3. House 
+3. House
 4. Battery
 
 The two optional appliances can be any consumer in the house, they are attached to the house. These two are controlled directly by their consumption. Meaning no flow sum is done.
@@ -67,7 +67,7 @@ On top of the flows and clickable entity every bubble can have an extra value on
 
 I always have the battery current charge as the battery_extra_entity. In this case the battery icon will also change with the charge.
 
-# HACS-Installation 
+# HACS-Installation
 1. [install HACS](https://hacs.xyz/docs/installation/installation) if you don't have it yet
 2. When installed go to HACS->Frontend->Explore & add repositories
 3. search for "tesla style"
@@ -117,7 +117,7 @@ generation_extra_entity: sensor.percent_cloud_coverage
 grid_extra_entity: sensor.monthly_feed_in
 # optional appliances with consumption and extra values
 appliance1_consumption_entity: sensor.car_consumption
-appliance1_extra_entity: sensor.car_battery_state_of_charge 
+appliance1_extra_entity: sensor.car_battery_state_of_charge
 appliance2_consumption_entity: sensor.heating_consumption
 appliance2_extra_entity: sensor.heating_operation
 # optional 4 main bubble icons for clickable entities
@@ -159,6 +159,21 @@ hide_inactive_lines: 1
 One to add gaps for the power lines the way the energy panel from ha does it:
 ```yml
 show_gap: true
+```
+
+The width of the lines around and connecting the entities:
+```yml
+line_width: 1px
+```
+
+The radius of the border around the entities (50% being circular):
+```yml
+entity_radius: 50%
+```
+
+Scale the dots by this factor:
+```yml
+dot_factor: 8
 ```
 
 One to colour the house bubble depending on the highest flow:
@@ -204,10 +219,10 @@ template sensors if you are missing one like solar yield out of solar_consumptio
                         {% endif %}'
         device_class: power
         unit_of_measurement: W
-``` 
+```
 
-# Tesla-Powerwall-Usage 
-In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter. 
+# Tesla-Powerwall-Usage
+In order to use this card with the [Tesla Powerwall integration](https://www.home-assistant.io/integrations/powerwall/) you will need to create some additional sensors first. This card expects an entity with a positive numeric value per line shown on the screen. However the Tesla Powerwall integration creates sensors which go negative or positive depending on whether energy is being consumed from or feed into that particular meter.
 
 Fortunately this can be easily fixed with the addition of a few template sensors, the ones you would need to add are shown below. Note that these sensors assume the default names for each entity created by the Tesla Powerwall integration, if you've changed the names of your entities then you'll need to adjust the config accordingly:
 

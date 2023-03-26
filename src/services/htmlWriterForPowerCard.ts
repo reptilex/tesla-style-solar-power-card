@@ -11,39 +11,30 @@ export class HtmlWriterForPowerCard {
 
   private solarCardElements: Map<string, SensorElement>;
 
-  private pxRate: number;
-
   private hass: HomeAssistant;
 
   public constructor(teslaCard: TeslaStyleSolarPowerCard, hass: HomeAssistant) {
     this.teslaCard = teslaCard;
     this.solarCardElements = teslaCard.solarCardElements;
-    this.pxRate = teslaCard.pxRate;
     this.hass = hass;
   }
 
   public writeBubbleDiv(bubbleData: BubbleData
   ): TemplateResult {
-    
-    if(bubbleData.noEntitiesWithValueFound) return html``;
+	if(bubbleData.noEntitiesWithValueFound) return html``;
 
     return html` <div class="acc_td ${bubbleData.cssSelector}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + 9 * this.pxRate + 'px; height: ' + 9 * this.pxRate + 'px; padding:' + 5 * this.pxRate + 'px;'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
-          ? html` <div
-              class="acc_text_extra"
-              style="font-size:${3 * this.pxRate + 'px'};
-                        top: ${1 * this.pxRate + 'px'};
-                        width: ${10 * this.pxRate + 'px'};"
-            >${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
+          ? html` <div class="acc_text_extra">
+		  	${bubbleData.extraValue} ${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
-        <div class="acc_text" style="font-size:${3 * this.pxRate + 'px'}; margin-top:${-0.5 * this.pxRate + 'px'}; width: ${10 * this.pxRate + 'px'}">
+        <div class="acc_text">
           ${bubbleData.mainValue} ${bubbleData.mainUnitOfMeasurement}
         </div>
       </div>
@@ -77,30 +68,15 @@ export class HtmlWriterForPowerCard {
     return 'mdi:battery' + batteryCharging + batteryStateIconString;
   }
 
-  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string) {
+  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string, bubbleWidth: number) {
     const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
-    const height = 12;
-    let verticalPosition: string;
-    if (applianceNumber === 1) {
-      verticalPosition = 'top:' + 22.5 * this.pxRate + 'px;';
-    } else {
-      verticalPosition = 'bottom:' + 15 * this.pxRate + 'px;';
-    }
     return html` <div
-      class="acc_line acc_appliance${applianceNumber}_line"
-      style="
-        height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'}
-        width:10px};
-        right:${(9.5 * this.pxRate) + 10 + 'px'};
-        ${verticalPosition}
-        position:absolute"
-    >
+      class="acc_line acc_appliance${applianceNumber}_line">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox='${'0 0 '+ ((12*this.pxRate)-((applianceNumber-1)*5)) + ' ' +((12*this.pxRate)-((applianceNumber-1)*5))}'
+        viewBox='${'0 0 '+ bubbleWidth + ' ' + bubbleWidth }'
         preserveAspectRatio="xMinYMax slice"
-        style="height:${(height * this.pxRate)-((applianceNumber-1)*5)+'px'};width:10px}"
         class="acc_appliance${applianceNumber}_line_svg"
       >
         ${this.writeCircleAndLine('appliance' + applianceNumber + '_consumption_entity', pathDAttribute)}
@@ -112,7 +88,7 @@ export class HtmlWriterForPowerCard {
     const entity = this.solarCardElements.get(sensorName);
     if (entity == null) return html``;
     return html`<svg>
-      <circle r="4" cx="${entity.startPosition.toString()}" cy="4" fill="${entity.color}" id="${sensorName + '_circle'}"></circle>
+	  <line x1="0" y1="0" x2="0" y2="0" id="${sensorName + '_circle'}" />
       <path d="${pathDAttribute}" id="${sensorName + '_line'}"></path>
     </svg>`;
   }

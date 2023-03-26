@@ -20,7 +20,7 @@ export class SensorElement {
 
   public entity = '';
 
-  public circle?: SVGPathElement;
+  public circle?: SVGLineElement;
 
   public line?: SVGPathElement;
 

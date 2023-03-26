@@ -25,12 +25,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   @property() private config!: TeslaStyleSolarPowerCardConfig;
 
   @property({ attribute: false }) public solarCardElements: Map<string, SensorElement> = new Map();
-  
+
   @property() private oldWidth = 100;
-
-  public pxRate = 4;
-
-  private teslaCardElement?: HTMLElement;
 
   private htmlWriter: HtmlWriterForPowerCard = new HtmlWriterForPowerCard(this, this.hass);
 
@@ -43,6 +39,8 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private error: string = '';
+
+  private bubblePercentage: number = 20;
 
   public setConfig(config: LovelaceCardConfig): void {
     if (!config) {
@@ -64,8 +62,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     if (this.config.appliance1_icon == null) this.config.appliance1_icon = 'mdi:car-sports';
     if (this.config.appliance2_icon == null) this.config.appliance2_icon = 'mdi:air-filter';
     if (this.config.speed_factor == null) this.config.speed_factor = 0.04;
+    if (this.config.dot_factor == null) this.config.dot_factor = 8;
+    if (this.config.line_width == null) this.config.line_width = '1px';
+    if (this.config.entity_radius == null) this.config.entity_radius = '50%';
+    if (this.config.card_padding == null) this.config.card_padding = '16px';
 
-    this.createSolarCardElements();
+	this.createSolarCardElements();
     if (!this.config.energy_flow_diagramm) {
       const obj = this;
       setInterval(this.animateCircles, 15, obj);
@@ -170,21 +172,30 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   protected render(): TemplateResult | void {
     if (this.error !== '') return this._showError();
 
-    const newWidth = this.clientWidth <= 100 ?  250 : this.clientWidth;
+	const cardElement = <HTMLElement>this.shadowRoot?.querySelector('ha-card');
 
-    this.pxRate = newWidth / 100;
-    
+	let clientWidth = 300;
+	if(cardElement){
+		clientWidth  = cardElement.clientWidth;
+	}
+	const bubbleWidth = (this.bubblePercentage / 100) * clientWidth;
+	const width = 500;
+	const third = width / 3;
+	const half = width / 2;
 
-    let gap: number;
-    if (this.config.show_gap !== undefined && this.config.show_gap) {
-      gap = 2 * this.pxRate;
-    } else {
-      gap = 0;
-    }
+	let gap = 0;
+	if (this.config.show_gap !== undefined && this.config.show_gap) {
+	  gap = width / 30;
+	} else {
+	  gap = 0;
+	}
+	if(this.config.entity_radius)this.style.setProperty('--entity-radius', this.config.entity_radius);
+	if(this.config.line_width)this.style.setProperty('--line-width', this.config.line_width);
+	if(this.config.card_padding)this.style.setProperty('--card-padding', this.config.card_padding);
+	if(this.config.dot_factor)this.style.setProperty('--dot-factor', this.config.dot_factor as unknown as string);
+	this.style.setProperty('--bubble-size', `${bubbleWidth}px`);
 
-    const half = 22 * this.pxRate;
-    //
-    return html`
+	return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card">
           ${this.writeGenerationIconBubble()}
@@ -193,33 +204,27 @@ export class TeslaStyleSolarPowerCard extends LitElement {
               ${this.writeGridIconBubble()}
               <div
                 class="acc_line power_lines"
-                style="
-                height:${42 * this.pxRate + 'px'};
-                width:${42 * this.pxRate + 'px'};
-                top:${0 * this.pxRate + 'px'};
-                left:${28 * this.pxRate + 'px'}"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="${'0 0 ' + 42 * this.pxRate + ' ' + 42 * this.pxRate}"
-                  preserveAspectRatio="xMinYMax slice"
-                  style="height:${42 * this.pxRate + 'px'};width:${42 * this.pxRate + 'px'}"
+                  viewBox="${'0 0 ' + width + ' ' + width}"
+                  preserveAspectRatio="xMidYMid meet"
                 >
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_house_entity',
                     'M' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',0' +
                       'C' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',' +
                       (half - gap) +
                       ' ' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',' +
                       (half - gap) +
                       ' ' +
-                      half * 2 +
+                      width +
                       ',' +
                       (half - gap)
                   )}
@@ -229,29 +234,29 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       half +
                       ' ' +
                       'C' +
-                      (half - this.pxRate) +
+                      half +
                       ',' +
                       half +
                       ' ' +
-                      (half - this.pxRate) +
+                      half +
                       ',' +
                       half +
                       ' ' +
-                      (half - this.pxRate) * 2 +
+                      width +
                       ',' +
                       half
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_grid_entity',
                     'M' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',0 ' +
                       'C' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half - gap) +
                       ' ' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half - gap) +
                       ' 0,' +
@@ -263,31 +268,31 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                       (half + gap) +
                       ' ' +
                       'C' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
-                      half * 2
+                      width
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_grid_entity',
                     'M' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
-                      half * 2 +
+                      width +
                       ' ' +
                       'C' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
-                      (half - this.pxRate - gap) +
+                      (half - gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
@@ -297,36 +302,36 @@ export class TeslaStyleSolarPowerCard extends LitElement {
                   ${this.htmlWriter.writeCircleAndLine(
                     'generation_to_battery_entity',
                     'M' +
-                      (half - this.pxRate) +
-                      ',0 ' +
+                      half +
+                      ',4 ' +
                       'C' +
-                      (half - this.pxRate) +
+                      half +
                       ',0 ' +
-                      (half - this.pxRate) +
+                      half +
                       ',' +
-                      half * 2 +
+                      (width - 4) +
                       ' ' +
-                      (half - this.pxRate) +
+                      half +
                       ',' +
-                      half * 2
+                      (width - 4)
                   )}
                   ${this.htmlWriter.writeCircleAndLine(
                     'battery_to_house_entity',
                     'M' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',' +
-                      half * 2 +
+                      width +
                       ' ' +
                       'C' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
-                      (half - this.pxRate + gap) +
+                      (half + gap) +
                       ',' +
                       (half + gap) +
                       ' ' +
-                      half * 2 +
+                      width +
                       ',' +
                       (half + gap)
                   )}
@@ -334,9 +339,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
               </div>
 
               ${this.writeHouseIconBubble()} ${this.writeApplianceIconBubble(1)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M5,' + 12 * this.pxRate + ' C5,' + 12 * this.pxRate + ' 5,0 5,0')}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(1, 'M' + (third/2) + ',' + third + ' C' + (third/2) + ',' + third + ' ' + (third/2) + ',0 ' + (third/2) + ',0', third)}
               ${this.writeApplianceIconBubble(2)}
-              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M5,0 C5,0 5,' + 11 * this.pxRate + ' 5,' + 11 * this.pxRate)}
+              ${this.htmlWriter.writeAppliancePowerLineAndCircle(2, 'M' + (third/2) + ',0 C' + (third/2) + ',0 ' + (third/2) + ',' + third + ' ' + (third/2) + ',' + third, third)}
             </div>
           </div>
           <div class="acc_bottom">${this.writeBatteryIconBubble()}</div>
@@ -347,34 +352,34 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private writeGenerationIconBubble(): TemplateResult {
     const generationEntities = ['generation_to_grid_entity', 'generation_to_house_entity', 'generation_to_battery_entity'];
-    
+
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      generationEntities, 
-      'generation_entity', 
+      generationEntities,
+      'generation_entity',
       'generation_extra_entity');
 
     bubbleData.cssSelector = 'acc_top';
     bubbleData.icon = this.config.generation_icon;
 
-    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
+	return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeGridIconBubble(): TemplateResult {
     const gridEntities = ['-generation_to_grid_entity', 'grid_to_house_entity', '-battery_to_grid_entity', 'grid_to_battery_entity'];
-    
+
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      gridEntities, 
-      'grid_entity', 
+      gridEntities,
+      'grid_entity',
       'grid_extra_entity');
 
     bubbleData.cssSelector = 'acc_left';
     bubbleData.icon = this.config.grid_icon;
 
-    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
+	return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeHouseIconBubble(): TemplateResult {
-    
+
     let houseEntities:Array<string>;
     if(this.config.house_without_appliances_values){
       houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity', '-appliance1_consumption_entity','-appliance2_consumption_entity'];
@@ -384,13 +389,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
 
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      houseEntities, 
-      'house_entity', 
+      houseEntities,
+      'house_entity',
       'house_extra_entity');
 
     bubbleData.cssSelector = 'acc_right';
     bubbleData.icon = this.config.house_icon;
-
 
     return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
@@ -403,14 +407,14 @@ export class TeslaStyleSolarPowerCard extends LitElement {
       '-battery_to_grid_entity',
     ];
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      batteryEntities, 
-      'battery_entity', 
+      batteryEntities,
+      'battery_entity',
       'battery_extra_entity');
 
     bubbleData.cssSelector = 'acc_bottom';
     bubbleData.icon = this.config.battery_icon;
 
-    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
+	return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private writeApplianceIconBubble(applianceNumber: number): TemplateResult {
@@ -418,14 +422,14 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
 
     const bubbleData:BubbleData = this.calculateIconBubbleData(
-      applianceEntities, 
-      'appliance' + applianceNumber + '_consumption_entity', 
+      applianceEntities,
+      'appliance' + applianceNumber + '_consumption_entity',
       'appliance' + applianceNumber + '_extra_entity');
 
     bubbleData.cssSelector = 'acc_appliance' + applianceNumber;
     bubbleData.icon = this.config['appliance' + applianceNumber + '_icon'];
 
-    return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
+	return this.htmlWriter.writeBatteryBubbleDiv(bubbleData);
   }
 
   private calculateIconBubbleData(
@@ -433,7 +437,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     bubbleClickEntitySlot: string | null = null,
     extraEntitySlot: string | null = null,
   ): BubbleData {
-    
+
     let isSubstractionEntity = false;
     const bubbleData = new BubbleData;
     bubbleData.clickEntitySlot = bubbleClickEntitySlot;
@@ -508,21 +512,20 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   }
 
   private updateOneCircle(timestamp: number, entity: SensorElement) {
-    if (this.shadowRoot == null) return;
-    const teslaCardElement = <HTMLElement>this.shadowRoot.querySelector('#tesla-style-solar-power-card');
+    const teslaCardElement = <HTMLElement>this.shadowRoot?.querySelector('#tesla-style-solar-power-card');
     if (teslaCardElement == null) return;
     entity.line = <SVGPathElement>teslaCardElement.querySelector('#' + entity.entitySlot + '_line');
     if (entity.line === null) return;
     const lineLength = entity.line.getTotalLength();
     if (isNaN(lineLength)) return;
-    entity.circle = <SVGPathElement>teslaCardElement.querySelector('#' + entity.entitySlot + '_circle');
-    if (entity.speed === 0) {
+    entity.circle = <SVGLineElement>teslaCardElement.querySelector('#' + entity.entitySlot + '_circle');
+
+	if (entity.speed === 0) {
       entity.circle.setAttribute('visibility', 'hidden');
       if (this.config.hide_inactive_lines) entity.line.setAttribute('visibility', 'hidden');
       return;
     }
 
-    entity.circle.setAttribute('visibility', 'visible');
     if (this.config.hide_inactive_lines) {
       entity.line.setAttribute('visibility', 'visible');
     }
@@ -547,14 +550,15 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
 
     const point = entity.line.getPointAtLength(lineLength * percentageDelta);
-    entity.circle.setAttributeNS(null, 'cx', point.x.toString());
-    entity.circle.setAttributeNS(null, 'cy', point.y.toString());
+	entity.circle.setAttributeNS(null, 'x1', point.x.toString());
+	entity.circle.setAttributeNS(null, 'y1', point.y.toString());
+	entity.circle.setAttributeNS(null, 'x2', point.x.toString());
+	entity.circle.setAttributeNS(null, 'y2', point.y.toString());
     entity.prevTimestamp = timestamp;
   }
 
   private colourHouseBubbleDependingOnHighestInput() {
-    if (this.shadowRoot == null) return;
-    const teslaCardElement = <HTMLElement>this.shadowRoot.querySelector('#tesla-style-solar-power-card');
+    const teslaCardElement = <HTMLElement>this.shadowRoot?.querySelector('#tesla-style-solar-power-card');
     if (teslaCardElement == null) return;
 
     const houseEntities = ['generation_to_house_entity', 'grid_to_house_entity', 'battery_to_house_entity'];
@@ -656,7 +660,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   private _showError(): TemplateResult {
     // const errorCard = <LovelaceCard>document.createElement('hui-error-card');
     // eslint-disable-next-line no-console
-    console.log(this.error); 
+    console.log(this.error);
     return html`
       <hui-warning
         ><div>
@@ -672,34 +676,47 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   static get styles(): CSSResult {
     return css`
     #tesla-style-solar-power-card{
-      margin:auto;
-      display:table;
-      padding: 10px;
+      margin: auto;
+      padding: 0;
       position: relative;
+	  width: 100%;
+	  box-sizing: border-box;
     }
+	.type-custom-tesla-style-solar-power-card{
+		padding: var(--card-padding, 16px);
+	}
     .acc_container {
-        height: 40px;
-        width: 40px;
-        border: 1px solid black;
-        border-radius: 100px;
-        padding: 22px;
+		width: var(--bubble-size);
+		height: var(--bubble-size);
         color: var(--primary-text-color);
         border-color: var(--primary-text-color);
-        position:relative;
+		border-radius: var(--entity-radius, 50%);
+		border-width: var(--line-width, 1px);
+		border-style: solid;
+		position:relative;
         cursor:pointer;
-    }
+		background-color: var(--ha-card-background, var(--card-background-color, white));
+		z-index: 5;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-items: normal;
+		align-content: normal;
+	}
+	.acc_container>div{
+		display: block;
+	}
     .acc_icon {
-        --mdc-icon-size: 40px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .acc_text,
     .acc_text_extra {
         text-align: center;
         white-space: nowrap;
     }
-    .acc_text_extra {
-      overflow: hidden;
-      position: absolute;
-    }
+
     .acc_td {
         vertical-align: top;
     }
@@ -713,27 +730,52 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .acc_center{
       display:flex;
     }
-    .acc_center_container{
-      display:inline-block;
-      margin: 0px auto;
-      margin-bottom:-5px;
+    .acc_right,
+    .acc_left{
+		z-index:5;
     }
+	.acc_center_container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: normal;
+		align-items: normal;
+		align-content: normal;
+		width: 100%;
+	  }
 
-    .acc_right ,
-    .acc_left ,
-    .acc_line{
-      display:inline-block;
-      margin-right:-4px
-    }
-    .acc_left {
-      vertical-align: top;
-      z-index:5;
-    }
-    .acc_right {
-      z-index:5;
-      margin-right:0px;
-    }
-    #battery_to_house_entity_line,
+	  .acc_left {
+		display: block;
+		flex-grow: 0;
+		flex-shrink: 1;
+		flex-basis: auto;
+		align-self: center;
+		order: 0;
+	  }
+
+	  .power_lines {
+		display: block;
+		flex-grow: 1;
+		flex-shrink: 0;
+		flex-basis: auto;
+		align-self: auto;
+		order: 0;
+		z-index: 3;
+		line-height: 0;
+		margin: -5px;
+      }
+
+	  .acc_right {
+		display: block;
+		flex-grow: 0;
+		flex-shrink: 1;
+		flex-basis: auto;
+		align-self: center;
+		order: 0;
+	  }
+
+
+	#battery_to_house_entity_line,
     #generation_to_house_entity_line,
     #grid_to_house_entity_line,
     #generation_to_battery_entity_line,
@@ -745,22 +787,24 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     #appliance2_consumption_entity_line{
       stroke:var(--info-color);
       fill:none;
-      stroke-width:1;
+      stroke-width:var(--line-width);
+	  vector-effect: non-scaling-stroke;
     }
 
     .generation_entity {
-      border: 1px solid var(--warning-color);
+	  border-style: solid;
+	  border-color: var(--warning-color);
     }
     .generation_entity .acc_icon,
     .generation_entity{
       color: var(--warning-color);
     }
-    .house_entity{
-      border: 1px solid var(--info-color);
-    }
+	.house_entity,
+    .appliance1_consumption_entity,
     .appliance1_consumption_entity,
     .appliance2_consumption_entity {
-      border: 1px solid var(--info-color);
+	  border-style: solid;
+	  border-color: var(--info-color);
     }
     .house_entity,
     .appliance1_consumption_entity,
@@ -774,27 +818,40 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     #grid_to_battery_entity_circle,
     #grid_to_house_entity_circle,
-    #appliance1_consumption_entity_circle,
+	#appliance1_consumption_entity_circle,
     #appliance2_consumption_entity_circle{
-      fill:var(--info-color);
-    }
+		stroke: var(--info-color);
+		stroke-linecap: round;
+		stroke-width: calc(var(--line-width) * var(--dot-factor, 8));
+		vector-effect: non-scaling-stroke;
+		z-index: 4;
+	}
+
     #generation_to_house_entity_circle,
     #generation_to_grid_entity_circle,
     #generation_to_battery_entity_circle{
-      fill:var(--warning-color);
-    }
+	  stroke: var(--warning-color);
+	  stroke-linecap: round;
+	  stroke-width: calc(var(--line-width) * var(--dot-factor, 8));
+	  vector-effect: non-scaling-stroke;
+	  z-index: 4;
+	}
     #battery_to_house_entity_line,
     #battery_to_grid_entity_line{
       stroke:var(--success-color);
     }
     #battery_to_house_entity_circle,
     #battery_to_grid_entity_circle{
-      fill:var(--success-color);
+	  stroke: var(--success-color);
+	  stroke-linecap: round;
+	  stroke-width: calc(var(--line-width) * var(--dot-factor, 8));
+	  vector-effect: non-scaling-stroke;
+	  z-index: 4;
     }
     .battery_extra_entity,
     .battery_entity{
-      border: 1px solid var(--success-color);
-      color: var(--success-color);
+	  border-style: solid;
+	  border-color: var(--success-color);
     }
     .battery_extra_text{
       position:absolute;
@@ -803,14 +860,33 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     br.clear {
       clear:both;
     }
-    .power_lines svg{
-      transform: translateZ(0);
-      display:inline-block;
-    }
+	.acc_center .acc_appliance1_line,
+	.acc_center .acc_appliance2_line {
+		position: absolute;
+		right: 0;
+		padding: inherit;
+		line-height: 1;
+		width: var(--bubble-size);
+		height: var(--bubble-size);
+	}
+
+	.acc_center .acc_appliance1_line{
+		top: var(--bubble-size);
+	}
+	.acc_center .acc_appliance2_line{
+		bottom: var(--bubble-size);
+	}
     .acc_center .acc_td.acc_appliance1,
     .acc_center .acc_td.acc_appliance2 {
       position: absolute;
-      right: 10px;
+	  right: 0;
+	}
+    .acc_center .acc_td.acc_appliance1 {
+      top: 0;
+	}
+    .acc_center .acc_td.acc_appliance2 {
+      bottom: 0;
+	}
     `;
   }
 }
