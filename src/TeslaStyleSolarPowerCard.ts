@@ -193,7 +193,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 	if(this.config.line_width)this.style.setProperty('--line-width', this.config.line_width);
 	if(this.config.card_padding)this.style.setProperty('--card-padding', this.config.card_padding);
 	if(this.config.dot_factor)this.style.setProperty('--dot-factor', this.config.dot_factor as unknown as string);
+	this.style.setProperty('--mdc-icon-size', `${bubbleWidth/2}px`);
 	this.style.setProperty('--bubble-size', `${bubbleWidth}px`);
+	this.style.setProperty('--font-size', `${bubbleWidth/6}px`);
 
 	return html`
       <ha-card .header=${this.config.name} tabindex="0">
@@ -701,24 +703,26 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 		flex-direction: column;
 		flex-wrap: nowrap;
 		justify-content: center;
-		align-items: normal;
-		align-content: normal;
+		align-items: center;
+		align-content: center;
 	}
-	.acc_container>div{
+	.acc_container>div,
+	.acc_icon{
 		display: block;
-	}
+		flex-grow: 0;
+		flex-shrink: 1;
+		flex-basis: auto;
+		align-self: auto;
+		order: 0;
+ 	}
     .acc_icon {
-        margin-left: auto;
-        margin-right: auto;
     }
     .acc_text,
     .acc_text_extra {
-        text-align: center;
         white-space: nowrap;
-    }
-
-    .acc_td {
-        vertical-align: top;
+		font-size: var(--font-size, 14px);
+		line-height: 1em;
+		min-height: 1em;
     }
     .acc_center .acc_td{
       position:relative;
