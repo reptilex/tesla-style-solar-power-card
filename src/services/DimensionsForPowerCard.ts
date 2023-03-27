@@ -5,6 +5,9 @@ export class DimensionsForPowerCard {
     private _pxRate: number = 0; //default should never be seen
     private _width: number = DimensionsForPowerCard.minimumWidth;
     private _bubbleHeight: number = 0; //default should never be seen
+    private _padding: number = 0; //default should never be seen
+    private _bubbleGap: number = 0;
+    private _powerLinesHeight: number = 0;
     private teslaCard: TeslaStyleSolarPowerCard;
 
     public constructor(teslaCard: TeslaStyleSolarPowerCard) {
@@ -21,7 +24,11 @@ export class DimensionsForPowerCard {
         this._width = newWidth;
 
       this._pxRate = this._width / 100;
-      this._bubbleHeight = 21 * this.pxRate;
+      // this._bubbleHeight = 21 * this.pxRate;
+      this._padding = 3 * this.pxRate;
+      this._bubbleHeight = (this._width - (this._padding*2)) / 4;
+      this._bubbleGap = this._bubbleHeight / 2
+      this._powerLinesHeight = this._bubbleHeight * 2
 
       return this._width;
     }
@@ -48,5 +55,17 @@ export class DimensionsForPowerCard {
 
     public get width(){
       return this._width;
+    }
+
+    public get padding(){
+      return this._padding;
+    }
+
+    public get bubbleGap(){
+      return this._bubbleGap;
+    }
+
+    public get powerLinesHeight(){
+      return this._powerLinesHeight;
     }
 }

@@ -22,8 +22,7 @@ export class HtmlWriterForPowerCard {
     this.hass = hass;
   }
 
-  public writeBubbleDiv(bubbleData: BubbleData, extraStyles: string=""
-  ): TemplateResult {
+  public writeBubbleDiv(extraStyles: string="", bubbleData: BubbleData): TemplateResult {
 
     if(bubbleData.noEntitiesWithValueFound) return html``;
 
@@ -41,10 +40,12 @@ export class HtmlWriterForPowerCard {
     //resize doesn't happen and the icons end up a default size
     //style="width:${this.teslaCard.dimensions.iconHeight + 'px'};height:${this.teslaCard.dimensions.iconHeight + 'px'}"
 
+    // ${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; padding:0px'}
+
     return html` <div class="acc_td ${bubbleData.cssSelector}" style="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; padding:0px'}"
+        style="padding:0px"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
@@ -76,13 +77,13 @@ export class HtmlWriterForPowerCard {
     }
   }
 
-  public writeBatteryBubbleDiv(bubbleData:BubbleData, extraStyles: string=""): TemplateResult {
+  public writeBatteryBubbleDiv(extraStyles: string="", bubbleData:BubbleData): TemplateResult {
     if (bubbleData.extraValue !== undefined) {
       if (bubbleData.icon === 'mdi:battery-medium' || bubbleData.icon === 'mdi:battery'){
         bubbleData.icon = this.getBatteryIcon(parseFloat(bubbleData.extraValue), bubbleData.mainValue);
       }
     }
-    return this.writeBubbleDiv(bubbleData, extraStyles);
+    return this.writeBubbleDiv(extraStyles, bubbleData);
   }
 
   private getBatteryIcon(batteryValue: number, batteryChargeDischargeValue: number) {
@@ -103,28 +104,26 @@ export class HtmlWriterForPowerCard {
     return 'mdi:battery' + batteryCharging + batteryStateIconString;
   }
 
-  public writeAppliancePowerLineAndCircle(applianceNumber: number, pathDAttribute: string, accLineHeight: number, accLowerLineDiff: number, pxRate: number) {
+  public writeAppliancePowerLineAndCircle(extraStyles: string="", applianceNumber: number, pathDAttribute: string, accLineHeight: number, pxRate: number) {
     const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
 
-    let verticalLinePosition: string;
-    if (applianceNumber === 1) {
-      verticalLinePosition = 'top:' + 23.45 * pxRate + 'px;';
-    } else {
-      verticalLinePosition = 'bottom:' + 22.62 * pxRate + 'px;';
-    }
+    // let verticalLinePosition: string;
+    // if (applianceNumber === 1) {
+    //   verticalLinePosition = 'top:' + 23.45 * pxRate + 'px;';
+    // } else {
+    //   verticalLinePosition = 'bottom:' + 22.62 * pxRate + 'px;';
+    // }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
       style="
-        right:${(11.46 * pxRate) + 'px'};
-        ${verticalLinePosition}
-        position:absolute"
+        ${extraStyles}"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox='${'0 0 '+ ((accLineHeight)-((applianceNumber-1)*accLowerLineDiff)) + ' ' +((accLineHeight)-((applianceNumber-1)*accLowerLineDiff))}'
+        viewBox='${'0 0 '+ accLineHeight + ' ' + accLineHeight}'
         preserveAspectRatio="xMinYMax slice"
-        style="height:${(accLineHeight)-((applianceNumber-1)*accLowerLineDiff)+'px'};width:${(2.5 * pxRate) + 'px'}"
+        style="height:${accLineHeight+'px'};width:${(2.5 * pxRate) + 'px'}"
         class="acc_appliance${applianceNumber}_line_svg"
       >
         ${this.writeCircleAndLine('appliance' + applianceNumber + '_consumption_entity', pathDAttribute)}
