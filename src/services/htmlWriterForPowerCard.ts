@@ -36,6 +36,11 @@ export class HtmlWriterForPowerCard {
     const spaceBeforeExtraUnit = this.getSpaceBeforeUnit(bubbleData.extraUnitOfMeasurement);
     const spaceBeforeUnit = this.getSpaceBeforeUnit(bubbleData.mainUnitOfMeasurement);
 
+    //Tried sizing acc_icon because it appears that we get an html write without a resize in some situations
+    //below ha-icon in the actual page is a ha-svg element that has a bounding box that gets resized but when the page is generated sometimes the 
+    //resize doesn't happen and the icons end up a default size
+    //style="width:${this.teslaCard.dimensions.iconHeight + 'px'};height:${this.teslaCard.dimensions.iconHeight + 'px'}"
+
     return html` <div class="acc_td ${bubbleData.cssSelector}" style="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
@@ -46,12 +51,12 @@ export class HtmlWriterForPowerCard {
           ? html` <div
               class="acc_text_extra"
               style="font-size:${this.teslaCard.dimensions.fontSize + 'px'};
-                     line-height: ${this.teslaCard.dimensions.fontSize + 'px'};
-                     margin-top: ${this.teslaCard.dimensions.marginTop + 'px'}; "
+                     line-height:${this.teslaCard.dimensions.fontSize + 'px'};
+                     margin-top:${this.teslaCard.dimensions.marginTop + 'px'}; "
             >${bubbleData.extraValue}${spaceBeforeExtraUnit}${bubbleData.extraUnitOfMeasurement}
             </div>`
           : html``}
-        <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
+        <ha-icon class="acc_icon" icon="${bubbleData.icon}" style="--mdc-icon-size:${this.teslaCard.dimensions.iconHeight + 'px'};width:${this.teslaCard.dimensions.iconHeight + 'px'};height:${this.teslaCard.dimensions.iconHeight + 'px'}"></ha-icon>
         <div class="acc_text" style="font-size:${this.teslaCard.dimensions.fontSize + 'px'}; line-height:${this.teslaCard.dimensions.fontSize + 'px'}; margin-bottom:${this.teslaCard.dimensions.fontSize + 'px'};">
           ${bubbleData.mainValue}${spaceBeforeUnit}${bubbleData.mainUnitOfMeasurement}
         </div>
