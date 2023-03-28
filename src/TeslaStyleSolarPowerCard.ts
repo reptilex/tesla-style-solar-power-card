@@ -175,9 +175,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     
     this.dimensions.updateCardDimensions(this.clientWidth);
 
-    // const accLineHeight = 11.38 * .pxRate;
-    // const accLowerLineDiff = 2.2 * this.dimensions.pxRate;
-
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card" style="padding:${2 * this.dimensions.pxRate + 'px'}">
@@ -205,11 +202,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     } else {
       gap = 0;
     }
-
-    // top:${0 * this.dimensions.pxRate + 'px'};
-    // left:${28 * this.dimensions.pxRate + 'px'};
-    // margin-left:${-1.15 * this.dimensions.pxRate + 'px'};
-    // margin-right:${-1.15 * this.dimensions.pxRate + 'px'};
 
     return html`
     <div  class="acc_line power_lines"

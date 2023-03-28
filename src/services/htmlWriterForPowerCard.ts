@@ -35,19 +35,10 @@ export class HtmlWriterForPowerCard {
     const spaceBeforeExtraUnit = this.getSpaceBeforeUnit(bubbleData.extraUnitOfMeasurement);
     const spaceBeforeUnit = this.getSpaceBeforeUnit(bubbleData.mainUnitOfMeasurement);
 
-    //Tried sizing acc_icon because it appears that we get an html write without a resize in some situations
-    //below ha-icon in the actual page is a ha-svg element that has a bounding box that gets resized but when the page is generated sometimes the 
-    //resize doesn't happen and the icons end up a default size
-    //style="width:${this.teslaCard.dimensions.iconHeight + 'px'};height:${this.teslaCard.dimensions.iconHeight + 'px'}"
-
-    // ${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; padding:0px'}
-
-    
-
     return html` <div class="acc_td ${bubbleData.cssSelector}" style="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; margin: -2px'}"
+        style="${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; border-width: ' + this.teslaCard.dimensions.bubbleBorderWidth + 'px; margin: -' + this.teslaCard.dimensions.bubbleBorderWidth + 'px'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null

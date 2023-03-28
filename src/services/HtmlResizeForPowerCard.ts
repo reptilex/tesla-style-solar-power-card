@@ -44,7 +44,8 @@ export class HtmlResizeForPowerCard {
         const iconContainer = <HTMLElement>iconContainerItem[currentIndex];
         iconContainer.style.height = teslaCard.dimensions.bubbleHeight + 'px';
         iconContainer.style.width = teslaCard.dimensions.bubbleHeight + 'px';
-        iconContainer.style.margin = '-2px'; //TODO: factor out to bubble line width
+        iconContainer.style.margin = '-' + teslaCard.dimensions.bubbleBorderWidth + 'px'; //TODO: factor out to bubble line width
+        iconContainer.style.borderWidth = teslaCard.dimensions.bubbleBorderWidth + 'px'
         iconContainer.style.padding = '0px';
       });
     teslaCardElement
