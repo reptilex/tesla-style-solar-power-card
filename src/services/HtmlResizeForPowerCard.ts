@@ -44,6 +44,7 @@ export class HtmlResizeForPowerCard {
         const iconContainer = <HTMLElement>iconContainerItem[currentIndex];
         iconContainer.style.height = teslaCard.dimensions.bubbleHeight + 'px';
         iconContainer.style.width = teslaCard.dimensions.bubbleHeight + 'px';
+        iconContainer.style.margin = '-2px'; //TODO: factor out to bubble line width
         iconContainer.style.padding = '0px';
       });
     teslaCardElement
@@ -118,13 +119,13 @@ export class HtmlResizeForPowerCard {
       '#generation_to_house_entity_line',
       'd',
       'M' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',0 C' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' ' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' ' +
@@ -136,13 +137,13 @@ export class HtmlResizeForPowerCard {
       '#grid_feed_in_entity_line',
       'd',
       'M' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',0 C' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' ' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' 0,' +
@@ -188,15 +189,15 @@ export class HtmlResizeForPowerCard {
       '#battery_to_house_entity_line',
       'd',
       'M' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half * 2 +
         ' C' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' ' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half +
         ' ' +
@@ -208,15 +209,15 @@ export class HtmlResizeForPowerCard {
       '#generation_to_battery_entity_line',
       'd',
       'M' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',0 C' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',0 ' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half * 2 +
         ' ' +
-        (half-teslaCard.dimensions.pxRate) +
+        half +
         ',' +
         half * 2
     );
