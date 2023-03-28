@@ -42,10 +42,12 @@ export class HtmlWriterForPowerCard {
 
     // ${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; padding:0px'}
 
+    
+
     return html` <div class="acc_td ${bubbleData.cssSelector}" style="${extraStyles}">
       <div
         class="acc_container ${bubbleData.clickEntitySlot}"
-        style="padding:0px"
+        style="${'width:' + this.teslaCard.dimensions.bubbleHeight + 'px; height: ' + this.teslaCard.dimensions.bubbleHeight + 'px; margin: -2px'}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
         ${bubbleData.extraValue !== null
