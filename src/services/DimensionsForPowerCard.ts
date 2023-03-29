@@ -25,7 +25,6 @@ export class DimensionsForPowerCard {
         this._width = newWidth;
 
       this._pxRate = this._width / 100;
-      // this._bubbleHeight = 21 * this.pxRate;
       this._padding = 3 * this.pxRate;
       this._bubbleHeight = (this._width - (this._padding*2)) / 4;
       this._bubbleGap = this._bubbleHeight / 2
