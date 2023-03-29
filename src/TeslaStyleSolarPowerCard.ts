@@ -175,10 +175,21 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     
     this.dimensions.updateCardDimensions(this.clientWidth);
 
+    let topRowHeight = this.dimensions.bubbleHeight;
+    let bottomRowHeight = this.dimensions.bubbleHeight;
+
+    if (!(this.config.appliance1_consumption_entity || this.config.generation_to_battery_entity || this.config.generation_to_grid_entity || this.config.generation_to_house_entity)) {
+      topRowHeight = 0;
+    }
+
+    if (!(this.config.appliance2_consumption_entity || this.config.battery_to_house_entity || this.config.battery_to_house_entity || this.config.battery_to_house_entity)) {
+      bottomRowHeight = 0;
+    }
+
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
         <div id="tesla-style-solar-power-card" style="padding:${2 * this.dimensions.pxRate + 'px'}">
-          <div class="grid" style="display: grid;grid-template-columns: ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px;grid-template-rows: ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px;grid-gap: 0px;">
+          <div class="power_flow_grid" style="display: grid;grid-template-columns: ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px;grid-template-rows: ${topRowHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${bottomRowHeight}px;grid-gap: 0px;">
             ${this.writeGenerationIconBubble("grid-row: 1/2;grid-column: 3/4;")}
             ${this.writeGridIconBubble("grid-row: 3/4; grid-column: 1/2;")}  
             ${this.writePowerLines("grid-row: 2/5; grid-column: 2/5;")}

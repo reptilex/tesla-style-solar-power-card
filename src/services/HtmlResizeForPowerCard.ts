@@ -34,8 +34,21 @@ export class HtmlResizeForPowerCard {
 
     teslaCardElement.style.padding = 2 * teslaCard.dimensions.pxRate + 'px';
 
-    // changeSelectorStyle('.acc_left', 'top', 11 * teslaCard.dimensions.pxRate + 'px');
-    // changeSelectorStyle('.acc_right', 'top', 11 * teslaCard.dimensions.pxRate + 'px');
+    // grid
+    let topRowHeight = teslaCard.dimensions.bubbleHeight;
+    let bottomRowHeight = teslaCard.dimensions.bubbleHeight;
+
+    if (!(teslaCard.config.appliance1_consumption_entity || teslaCard.config.generation_to_battery_entity || teslaCard.config.generation_to_grid_entity || teslaCard.config.generation_to_house_entity)) {
+      topRowHeight = 0;
+    }
+
+    if (!(teslaCard.config.appliance2_consumption_entity || teslaCard.config.battery_to_house_entity || teslaCard.config.battery_to_house_entity || teslaCard.config.battery_to_house_entity)) {
+      bottomRowHeight = 0;
+    }
+
+
+    changeSelectorStyle('.power_flow_grid', 'grid-template-rows', topRowHeight + 'px ' + teslaCard.dimensions.bubbleGap + 'px ' + teslaCard.dimensions.bubbleHeight + 'px ' + teslaCard.dimensions.bubbleGap + 'px ' + bottomRowHeight + 'px');
+    changeSelectorStyle('.power_flow_grid', 'grid-template-columns', teslaCard.dimensions.bubbleHeight + 'px ' + teslaCard.dimensions.bubbleGap + 'px ' + teslaCard.dimensions.bubbleHeight + 'px ' + teslaCard.dimensions.bubbleGap + 'px ' + teslaCard.dimensions.bubbleHeight + 'px;');
 
     // icons
     teslaCardElement
