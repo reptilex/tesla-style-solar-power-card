@@ -28,11 +28,11 @@ export class HtmlWriterForPowerCard {
         class="acc_container ${bubbleData.clickEntitySlot}"
         @click="${() => this._handleClick(bubbleData.clickEntityHassState)}"
       >
-        ${bubbleData.extraValue !== null
+        ${bubbleData.extraValue !== undefined
           ? html` <div class="acc_text_extra">
 		  	${bubbleData.extraValue}${bubbleData.extraUnitOfMeasurement}
             </div>`
-          : html``}
+          : html`<div class="acc_text_extra">&nbsp;</div>`}
         <ha-icon class="acc_icon" icon="${bubbleData.icon}"></ha-icon>
         <div class="acc_text">
           ${bubbleData.mainValue}${bubbleData.mainUnitOfMeasurement}

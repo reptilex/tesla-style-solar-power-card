@@ -19,7 +19,6 @@ export class HtmlResizeForPowerCard {
 	const bubbleWidth = (teslaCard.bubblePercentage / 100) * cardElement.clientWidth;
 	teslaCard.style.setProperty('--mdc-icon-size', `${bubbleWidth/2}px`);
 	teslaCard.style.setProperty('--bubble-size', `${bubbleWidth}px`);
-	teslaCard.style.setProperty('--font-size', `${bubbleWidth/6}px`);
 
 	return newWidth;
   }

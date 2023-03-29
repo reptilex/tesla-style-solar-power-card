@@ -712,7 +712,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .acc_text,
     .acc_text_extra {
         white-space: nowrap;
-		font-size: var(--font-size, 14px);
+		font-size: calc(var(--bubble-size)/7);
 		line-height: 1em;
 		min-height: 1em;
     }
@@ -848,10 +848,12 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     .battery_entity{
 	  border-style: solid;
 	  border-color: var(--success-color);
+	  color: var(--success-color);
     }
     .battery_extra_text{
       position:absolute;
       top:8px;
+	  color: var(--success-color);
     }
     br.clear {
       clear:both;
