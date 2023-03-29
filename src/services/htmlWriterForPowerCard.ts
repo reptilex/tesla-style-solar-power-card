@@ -101,12 +101,6 @@ export class HtmlWriterForPowerCard {
     const divEntity = this.solarCardElements.get('appliance' + applianceNumber + '_consumption_entity');
     if (divEntity == null) return html``;
 
-    // let verticalLinePosition: string;
-    // if (applianceNumber === 1) {
-    //   verticalLinePosition = 'top:' + 23.45 * pxRate + 'px;';
-    // } else {
-    //   verticalLinePosition = 'bottom:' + 22.62 * pxRate + 'px;';
-    // }
     return html` <div
       class="acc_line acc_appliance${applianceNumber}_line"
       style="

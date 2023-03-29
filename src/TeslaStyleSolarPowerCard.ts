@@ -103,7 +103,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
   async firstUpdated(): Promise<void> {
     // Give the browser a chance to paint
     await new Promise(r => setTimeout(r, 0));
-    this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.solarCardElements, this.clientWidth, this.oldWidth);
+    this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.clientWidth, this.oldWidth);
   }
 
   public connectedCallback(): void {
@@ -188,7 +188,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
     return html`
       <ha-card .header=${this.config.name} tabindex="0">
-        <div id="tesla-style-solar-power-card" style="padding:${2 * this.dimensions.pxRate + 'px'}">
+        <div id="tesla-style-solar-power-card" style="padding:${this.dimensions.padding + 'px'}">
           <div class="power_flow_grid" style="display: grid;grid-template-columns: ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px;grid-template-rows: ${topRowHeight}px ${this.dimensions.bubbleGap}px ${this.dimensions.bubbleHeight}px ${this.dimensions.bubbleGap}px ${bottomRowHeight}px;grid-gap: 0px;">
             ${this.writeGenerationIconBubble("grid-row: 1/2;grid-column: 3/4;")}
             ${this.writeGridIconBubble("grid-row: 3/4; grid-column: 1/2;")}  
@@ -196,9 +196,9 @@ export class TeslaStyleSolarPowerCard extends LitElement {
             ${this.writeHouseIconBubble("grid-row: 3/4; grid-column: 5/6;")}
             ${this.writeBatteryIconBubble("grid-row: 5/6; grid-column: 3/4;")}
             ${this.writeApplianceIconBubble("grid-row: 1/2; grid-column: 5/6;", 1)}
-            ${this.htmlWriter.writeAppliancePowerLineAndCircle("grid-row: 2/3; grid-column: 5/6;", 1, 'M5,' + this.dimensions.bubbleGap + ' C5,' + this.dimensions.bubbleGap + ' 5,0 5,0', this.dimensions.bubbleGap, this.dimensions.pxRate)}
+            ${this.htmlWriter.writeAppliancePowerLineAndCircle("grid-row: 2/3; grid-column: 5/6;", 1, 'M5,' + this.dimensions.accLineLength + ' C5,' + this.dimensions.accLineLength + ' 5,0 5,0', this.dimensions.accLineLength, this.dimensions.pxRate)}
             ${this.writeApplianceIconBubble("grid-row: 5/6;grid-column: 5/6;", 2)}
-            ${this.htmlWriter.writeAppliancePowerLineAndCircle("grid-row: 4/5; grid-column: 5/6;", 2, 'M5,0 C5,0 5,' + this.dimensions.bubbleGap + ' 5,' + this.dimensions.bubbleGap, this.dimensions.bubbleGap, this.dimensions.pxRate)}
+            ${this.htmlWriter.writeAppliancePowerLineAndCircle("grid-row: 4/5; grid-column: 5/6;", 2, 'M5,0 C5,0 5,' + this.dimensions.accLineLength + ' 5,' + this.dimensions.accLineLength, this.dimensions.accLineLength, this.dimensions.pxRate)}
           </div>
         </div>
       </ha-card>
@@ -207,6 +207,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private writePowerLines(extraStyles: string): TemplateResult {
     const half = this.dimensions.powerLinesHeight / 2;
+    
     let gap: number;
     if (this.config.show_gap !== undefined && this.config.show_gap) {
       gap = 2 * this.dimensions.pxRate;
@@ -319,17 +320,18 @@ export class TeslaStyleSolarPowerCard extends LitElement {
         'generation_to_battery_entity',
         'M' +
           half +
-          ',0 ' +
-          'C' +
+          ',' + 
+          this.dimensions.straightLineOrigin +
+          ' C' +
           half +
-          ',0 ' +
+          ',' + this.dimensions.straightLineOrigin + ' ' +
           half +
           ',' +
-          half * 2 +
+          this.dimensions.straightLineLength +
           ' ' +
           half +
           ',' +
-          half * 2
+          this.dimensions.straightLineLength
       )}
       ${this.htmlWriter.writeCircleAndLine(
         'battery_to_house_entity',
@@ -402,7 +404,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     bubbleData.cssSelector = 'acc_right';
     bubbleData.icon = this.config.house_icon;
 
-
     return this.htmlWriter.writeBatteryBubbleDiv(extraStyles, bubbleData);
   }
 
@@ -435,14 +436,6 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
     bubbleData.cssSelector = 'acc_appliance' + applianceNumber;
     bubbleData.icon = this.config['appliance' + applianceNumber + '_icon'];
-
-    // extraStyles += 'right:' + (this.dimensions.pxRate * 2) + 'px';
-
-    // if (applianceNumber == 1) {
-    //   extraStyles += ';top: ' + (this.dimensions.pxRate * 2) + 'px';
-    // } else {
-    //   extraStyles += ';bottom: ' + (this.dimensions.pxRate * 2) + 'px';
-    // }
 
     return this.htmlWriter.writeBatteryBubbleDiv(extraStyles, bubbleData);
   }
@@ -692,7 +685,7 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
   private redraw(ev: UIEvent) {
     if (this.hass && this.config && ev.type === 'resize') {
-      this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.solarCardElements, this.clientWidth, this.oldWidth);
+      this.oldWidth = HtmlResizeForPowerCard.changeStylesDependingOnWidth(this, this.clientWidth, this.oldWidth);
     }
   }
 
