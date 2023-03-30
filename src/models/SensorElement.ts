@@ -54,32 +54,37 @@ export class SensorElement {
 
     const valueFromState = parseFloat(entityState);
 
-    switch (unitOfMeasurement.toLowerCase()) {
-      case 'w':
-      case 'kw':
-        this.value = valueFromState;
-        if (unitOfMeasurement === 'kW') {
-          this.value *= 1000;
-        }
-        this.unitOfMeasurement = 'W';
-        this.value = Math.round(this.value);
-        break;
-      case 'wh':
-      case 'kwh':
-        this.value = valueFromState;
-        if (unitOfMeasurement === 'kWh') {
-          this.value *= 1000;
-        }
-        this.unitOfMeasurement = 'Wh';
-        this.value = Math.round(this.value);
-        break;
-      case '%':
-        this.value = valueFromState;
-        this.unitOfMeasurement = unitOfMeasurement;
-        break;
-      default:
-        this.value = entityState;
-        this.unitOfMeasurement = unitOfMeasurement;
+    if (unitOfMeasurement) {
+      switch (unitOfMeasurement.toLowerCase()) {
+        case 'w':
+        case 'kw':
+          this.value = valueFromState;
+          if (unitOfMeasurement === 'kW') {
+            this.value *= 1000;
+          }
+          this.unitOfMeasurement = 'W';
+          this.value = Math.round(this.value);
+          break;
+        case 'wh':
+        case 'kwh':
+          this.value = valueFromState;
+          if (unitOfMeasurement === 'kWh') {
+            this.value *= 1000;
+          }
+          this.unitOfMeasurement = 'Wh';
+          this.value = Math.round(this.value);
+          break;
+        case '%':
+          this.value = valueFromState;
+          this.unitOfMeasurement = unitOfMeasurement;
+          break;
+        default:
+          this.value = entityState;
+          this.unitOfMeasurement = unitOfMeasurement;
+      }
+    } else {
+      this.value = entityState;
+      this.unitOfMeasurement = unitOfMeasurement;  
     }
   }
 

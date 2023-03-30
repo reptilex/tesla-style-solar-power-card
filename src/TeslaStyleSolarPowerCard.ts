@@ -474,15 +474,17 @@ export class TeslaStyleSolarPowerCard extends LitElement {
 
       if (typeof extraEntity?.value !== 'undefined') {
         if (typeof extraEntity?.unitOfMeasurement !== 'undefined') {
-          if (extraEntity.unitOfMeasurement.toLowerCase() == "wh") {
-            let extraValue: number = parseInt(extraEntity.value)
-            if (!Number.isNaN(extraValue)) {
-              if (this.showKW(extraValue)) {
-                extraValue = this.roundValue(extraValue / 1000)
+          if (extraEntity?.unitOfMeasurement) {
+            if (extraEntity.unitOfMeasurement.toLowerCase() == "wh") {
+              let extraValue: number = parseInt(extraEntity.value)
+              if (!Number.isNaN(extraValue)) {
+                if (this.showKW(extraValue)) {
+                  extraValue = this.roundValue(extraValue / 1000)
 
-                bubbleData.extraValue = extraValue.toString();
+                  bubbleData.extraValue = extraValue.toString();
 
-                bubbleData.extraUnitOfMeasurement = 'k' + bubbleData.extraUnitOfMeasurement;      
+                  bubbleData.extraUnitOfMeasurement = 'k' + bubbleData.extraUnitOfMeasurement;      
+                }
               }
             }
           }
