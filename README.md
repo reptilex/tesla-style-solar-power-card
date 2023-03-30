@@ -14,6 +14,11 @@ To install (at your own risk) follow 'Original Repo Instructions' below this sec
 * Clear mobile app cache or, for web browsers clear cache, do a deep refresh or use a new private window
 * I've found that restarting HA is not necessary unless the above steps are not enough (but I do have HA server side caching for static content knobled).
 
+New optional options for yaml:
+  show_space_before_all_units, set to true or false, default is false, overrides show_space_before_power_units
+  show_space_before_power_units, set to true or false, default is false
+  minimum_width, default is 280
+
 # Original Repo Instructions
 
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
