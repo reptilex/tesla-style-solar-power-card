@@ -62,7 +62,7 @@ export class HtmlWriterForPowerCard {
     if (this.teslaCard.config.show_space_before_all_units) {
       return " ";
     } else if (this.teslaCard.config.show_space_before_power_units) {
-      if (unitOfMeasurement?.toLocaleLowerCase().startsWith('kw') || unitOfMeasurement?.toLocaleLowerCase().startsWith('w')) {
+      if (unitOfMeasurement && (unitOfMeasurement?.toLocaleLowerCase().startsWith('kw') || unitOfMeasurement?.toLocaleLowerCase().startsWith('w'))) {
         return " ";
       }
     } else {
