@@ -727,10 +727,10 @@ export class TeslaStyleSolarPowerCard extends LitElement {
     }
     .acc_left {
       vertical-align: top;
-      z-index:5;
+      z-index:1;
     }
     .acc_right {
-      z-index:5;
+      z-index:1;
       margin-right:0px;
     }
     #battery_to_house_entity_line,
