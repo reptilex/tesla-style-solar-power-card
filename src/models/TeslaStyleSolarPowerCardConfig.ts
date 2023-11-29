@@ -57,4 +57,8 @@ export interface TeslaStyleSolarPowerCardConfig extends LovelaceCardConfig {
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
   double_tap_action?: ActionConfig;
+
+  show_space_before_all_units?: boolean;
+  show_space_before_power_units?: boolean;
+  minimum_width?: number;
 }

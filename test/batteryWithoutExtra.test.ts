@@ -73,7 +73,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     if (houseEntity === null || houseEntity === undefined)
       assert.fail('No house_entity element found');
     expect(houseEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '1.3 kW'
+      '1.3kW'
     );
     expect(
       houseEntity?.querySelector('.acc_icon')?.getAttribute('icon')?.toString()
@@ -85,7 +85,7 @@ describe('TeslaStyleSolarPowerCard battery tests', () => {
     if (batteryEntity === null || batteryEntity === undefined)
       assert.fail('No battery_entity element found');
     expect(batteryEntity?.querySelector('.acc_text')?.innerHTML.replace(/<!--[^(-->)]+-->/g, '')).contains(
-      '1.3 kW'
+      '1.3kW'
     );
     expect(
       batteryEntity

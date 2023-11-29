@@ -1,9 +1,25 @@
 # tesla-style-solar-power-card
 
-> **⚠ WARNING: BREAKING CONFIG CHANGE**
+This is a fork of the excellent work by reptilex (see 'forked from')
 
-> **You have to define the FLOWS AGAIN!!**  
-> Without defining each flow no line will show, read the usage part carefully (the bubbles can be clickable but this is optional)
+Improvements in this fork are for general layout and styling to fit extra entity text on different screen sizes and DPIs.  Wh/kWh switching and rounding have being applied to extra entity text in the same way that they were already present for the main entity text.
+
+![improved look](https://github.com/matban666/tesla-style-solar-power-card/blob/master/tesla-style-solar-power-card-improvements.png)
+
+To install (at your own risk) follow 'Original Repo Instructions' below this section or this excellent youtube tutorial https://www.youtube.com/watch?v=KYQbDjNGTsE&t=2s then:
+* Locate your existing tesla-style-solar-power-card.js in <HA_LOCATION>/config/www/community/tesla-style-solar-power-card
+* Backup the existing tesla-style-solar-power-card.js
+* Copy in tesla-style-solar-power-card.js from the root of this repo.
+* If there is a tesla-style-solar-power-card.gz then rename it (add a suffix for example) this forces ha to serve js file
+* Clear mobile app cache or, for web browsers clear cache, do a deep refresh or use a new private window
+* I've found that restarting HA is not necessary unless the above steps are not enough (but I do have HA server side caching for static content knobled).
+
+New optional options for yaml:
+  show_space_before_all_units, set to true or false, default is false, overrides show_space_before_power_units
+  show_space_before_power_units, set to true or false, default is false
+  minimum_width, default is 280
+
+# Original Repo Instructions
 
 This is a [home-assistant](home-assistant.io) card for solar installations. It provides a tesla style graphic to see the flows of energy ((k)W).
 
@@ -16,7 +32,6 @@ This is a [home-assistant](home-assistant.io) card for solar installations. It p
 
 
 ![tesla-style-card-animated-gif](https://github.com/reptilex/tesla-style-solar-power-card/blob/master/tesla-style-card-animation.gif)
-
 
 ## Concept
 I have tried to make it as generic as possible, for now there are 6 bubbles with 4 main icons and 2 extra appliances. The Four main icon values are controlled by the sum of the flows from and to them:
