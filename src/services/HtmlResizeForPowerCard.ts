@@ -15,6 +15,7 @@ export class HtmlResizeForPowerCard {
     const teslaCardElement = <HTMLElement>(
       teslaCard.shadowRoot.querySelector('#tesla-style-solar-power-card')
     );
+
     if (teslaCardElement == null) return oldWidth;
 
     if(newWidth < 200) newWidth = 250;
@@ -92,6 +93,7 @@ export class HtmlResizeForPowerCard {
         '0 0 ' + 42 * pxRate + ' ' + 42 * pxRate
       );
     const half = 22 * pxRate;
+
     changeSelectorStyle(
       '#generation_to_house_entity_line',
       'd',
